@@ -1,0 +1,25 @@
+# Vim
+*.swp
+*.swo
+*.swn
+.cproject
+.project
+.settings
+.tags
+
+# kdev
+*.kdev4
+*.kdev*
+
+# Visual studio code
+.vscode
+
+# PID files
+*.pid
+
+*.cwe
+*.spk
+#
+# python
+*.pyc
+__pycache__
