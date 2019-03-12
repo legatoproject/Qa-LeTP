@@ -1,0 +1,4 @@
+This is a sample text for testing purpose.
+
+
+It has to be present in the /dir directory of the target

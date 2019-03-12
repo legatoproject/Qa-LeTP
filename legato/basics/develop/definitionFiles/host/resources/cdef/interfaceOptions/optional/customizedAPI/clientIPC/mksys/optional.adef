@@ -1,0 +1,9 @@
+executables:
+{
+    client = (optionalComponent)
+}
+
+extern:
+{
+    foo = client.optionalComponent.foo
+}

@@ -1,0 +1,16 @@
+start: manual
+
+executables:
+{
+    MemLockSizeTest = ( MemLockSizeTest )
+}
+
+processes:
+{
+    run:
+    {
+        ( MemLockSizeTest )
+    }
+
+    maxLockedMemoryBytes: TEMPLATE_VALUE_1
+}

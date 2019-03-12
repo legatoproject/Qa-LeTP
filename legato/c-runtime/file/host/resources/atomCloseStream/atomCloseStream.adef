@@ -1,0 +1,15 @@
+executables:
+{
+    atomCloseStreamExe = (Component)
+}
+
+processes:
+{
+    run:
+    {
+        atomCloseStreamProc = (atomCloseStreamExe)
+    }
+}
+
+sandboxed:false
+start:manual

@@ -1,0 +1,4 @@
+executables:
+{
+    client = (optionalAndTypesOnlyComponent)
+}

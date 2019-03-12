@@ -1,0 +1,18 @@
+sources:
+{
+    helloWorld.c
+}
+bundles:
+{
+    dir:
+    {
+        $BUILDDIR/src /usr/share/
+    }
+
+    file:
+    {
+        $BUILDDIR/src/interfaces.h   /usr/share/test_CDEF_29_interfaces.h
+    }
+}
+
+

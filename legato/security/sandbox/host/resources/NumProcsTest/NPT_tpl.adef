@@ -1,0 +1,15 @@
+start: manual
+
+executables:
+{
+    NumProcsTest = ( NumProcsTest )
+}
+
+maxThreads: TEMPLATE_VALUE_1
+processes:
+{
+    run:
+    {
+        ( NumProcsTest )
+    }
+}

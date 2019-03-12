@@ -1,0 +1,8 @@
+#include "$LEGATO_ROOT/default.sdef"
+
+kernelModules:
+{
+    $CURDIR/L_MDEF_0006/L_MDEF_0006_0.mdef
+    $CURDIR/L_MDEF_0006/L_MDEF_0006_1.mdef
+    $CURDIR/L_MDEF_0006/L_MDEF_0006_2.mdef
+}

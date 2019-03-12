@@ -1,0 +1,15 @@
+executables:
+{
+    atomOpenExe = (Component)
+}
+
+processes:
+{
+    run:
+    {
+        atomOpenProc = (atomOpenExe)
+    }
+}
+
+sandboxed:false
+start:manual

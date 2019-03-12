@@ -1,0 +1,12 @@
+sources:
+{
+    appA.c
+}
+
+requires:
+{
+    api:
+    {
+        le_secStore.api
+    }
+}

@@ -1,0 +1,17 @@
+executables:
+{
+    boop = ( server )
+}
+
+processes:
+{
+    run:
+    {
+        ( boop )
+    }
+}
+
+extern:
+{
+    service = boop.server.service
+}

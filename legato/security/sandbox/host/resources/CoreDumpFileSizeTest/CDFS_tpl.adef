@@ -1,0 +1,16 @@
+start: manual
+
+executables:
+{
+    CoreDumpFileSizeTest = ( CoreDumpFileSizeTest )
+}
+
+processes:
+{
+    run:
+    {
+        ( CoreDumpFileSizeTest )
+    }
+
+    maxCoreDumpFileBytes: TEMPLATE_VALUE_1
+}

@@ -1,0 +1,12 @@
+sources:
+{
+    override.c
+}
+
+requires:
+{
+    component:
+    {
+        libGeneratorCompC
+    }
+}

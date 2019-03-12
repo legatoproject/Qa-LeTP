@@ -1,0 +1,12 @@
+sources:
+{
+    override.cpp
+}
+
+requires:
+{
+    component:
+    {
+        libGeneratorCompCxx
+    }
+}

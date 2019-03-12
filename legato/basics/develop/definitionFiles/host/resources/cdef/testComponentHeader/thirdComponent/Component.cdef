@@ -1,0 +1,12 @@
+sources:
+{
+    thirdComponent.c
+}
+
+requires:
+{
+    component:
+    {
+    	${CURDIR}/../secondComponent
+    }
+}

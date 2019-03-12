@@ -1,0 +1,9 @@
+sources:
+{
+    source.cpp
+}
+
+cxxflags:
+{
+    -DCPPTESTFLAG=1
+}

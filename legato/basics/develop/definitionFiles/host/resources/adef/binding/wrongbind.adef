@@ -1,0 +1,28 @@
+executables:
+{
+    user1 = ( client )
+    user2 = ( client )
+    boop = ( server )
+}
+
+processes:
+{
+    run:
+    {
+        ( user1 "USER1" )
+    }
+    run:
+    {
+        ( user2 "USER2" )
+    }
+    run:
+    {
+        ( boop )
+    }
+}
+
+bindings:
+{
+    user1.client.service -> boop.server.service
+    user2.client.service -> hello.abc.service // intentionally wrong
+}

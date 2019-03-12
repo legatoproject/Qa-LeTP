@@ -1,0 +1,12 @@
+provides:
+{
+    api:
+    {
+        service = test.api
+    }
+}
+
+sources:
+{
+    server.c
+}

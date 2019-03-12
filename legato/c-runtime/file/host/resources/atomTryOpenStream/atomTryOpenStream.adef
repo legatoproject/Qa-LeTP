@@ -1,0 +1,15 @@
+executables:
+{
+    atomTryOpenStreamExe = (Component)
+}
+
+processes:
+{
+    run:
+    {
+        atomTryOpenStreamProc = (atomTryOpenStreamExe)
+    }
+}
+
+sandboxed:false
+start:manual

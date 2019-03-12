@@ -1,0 +1,23 @@
+executables:
+{
+    helloWorldExternal = ( helloComponent )
+}
+
+processes:
+{
+    envVars:
+    {
+        LE_LOG_LEVEL = DEBUG
+    }
+
+    run:
+    {
+        ( helloWorldExternal )
+    }
+}
+start: manual
+
+components:
+{
+    ${CURDIR}/ExternalComponent
+}

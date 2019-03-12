@@ -1,0 +1,15 @@
+bundles:
+{
+    file:
+    {
+        "text"  "/home/documents/"
+        "html/index.html" "/var/www/"
+        "another file" "/usr/share/stuff/"
+        'file name with spaces' "/usr/share/stuff/"
+    }
+
+    dir:
+    {
+        "includes" "/home"
+    }
+}

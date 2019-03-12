@@ -1,0 +1,15 @@
+executables:
+{
+    atomDeleteExe = (Component)
+}
+
+processes:
+{
+    run:
+    {
+        atomDeleteProc = (atomDeleteExe)
+    }
+}
+
+sandboxed:false
+start:manual

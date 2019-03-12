@@ -1,0 +1,22 @@
+bundles:
+{
+    file:
+    {
+        $LEGATO_BUILD/external/foo /usr/share/foo
+    }
+}
+
+externalBuild:
+{
+    "mkdir -p ${LEGATO_BUILD}/external && cd ${LEGATO_BUILD}/external && touch foo '$${LEGATO_'"
+    "${CC} $${CFLAGS} -c -Wall -Werror -fpic $CURDIR/foo.c -o $CURDIR/foo.o"
+    "${LD} $${LDFLAGS} -shared -o $CURDIR/libfoo.so $CURDIR/foo.o"
+}
+
+provides:
+{
+    lib:
+    {
+        $CURDIR/libfoo.so
+    }
+}

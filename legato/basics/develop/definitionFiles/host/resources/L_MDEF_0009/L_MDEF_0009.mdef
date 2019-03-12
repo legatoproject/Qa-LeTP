@@ -1,0 +1,18 @@
+//-------------------------------------------------------------------------------------------------
+// Sample definition file for kernel module.
+//
+// Copyright (C) Sierra Wireless Inc.
+//-------------------------------------------------------------------------------------------------
+load: auto
+
+params:
+{
+    param1 = "L_MDEF_0009"
+    param2 = "Build module from 2 sources"
+}
+
+sources:
+{
+    example1.c
+    example2.c
+}

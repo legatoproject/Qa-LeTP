@@ -1,0 +1,23 @@
+executables:
+{
+    user1 = ( client )
+    user2 = ( client )
+}
+
+processes:
+{
+    run:
+    {
+        ( user1 "USER1" )
+    }
+    run:
+    {
+        ( user2 "USER2" )
+    }
+}
+
+bindings:
+{
+    user1.client.service -> server.service
+    user2.client.service -> server.service
+}

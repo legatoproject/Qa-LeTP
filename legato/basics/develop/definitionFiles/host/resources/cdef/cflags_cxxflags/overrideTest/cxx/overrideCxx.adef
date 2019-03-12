@@ -1,0 +1,12 @@
+executables:
+{
+    overrideCxx = (overrideCompCxx)
+}
+
+processes:
+{
+    run:
+    {
+        (overrideCxx)
+    }
+}

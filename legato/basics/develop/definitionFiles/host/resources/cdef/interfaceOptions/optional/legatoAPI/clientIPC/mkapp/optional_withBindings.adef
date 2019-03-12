@@ -1,0 +1,9 @@
+executables:
+{
+    client = (optionalComponent)
+}
+
+bindings:
+{
+    client.optionalComponent.le_sim -> modemService.le_sim
+}

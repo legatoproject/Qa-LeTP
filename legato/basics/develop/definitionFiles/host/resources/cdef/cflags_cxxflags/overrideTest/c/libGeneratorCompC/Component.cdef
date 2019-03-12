@@ -1,0 +1,9 @@
+sources:
+{
+    libGenerator.c
+}
+
+cflags:
+{
+    -fvisibility=default
+}

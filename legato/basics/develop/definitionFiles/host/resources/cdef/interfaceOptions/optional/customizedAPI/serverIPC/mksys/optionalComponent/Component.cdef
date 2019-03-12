@@ -1,0 +1,12 @@
+provides:
+{
+    api:
+    {
+        foo = foo.api [optional]
+    }
+}
+
+sources:
+{
+    server.c
+}

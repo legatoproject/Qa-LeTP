@@ -1,0 +1,12 @@
+requires:
+{
+    api:
+    {
+        service = test.api
+    }
+}
+
+sources:
+{
+    user.c
+}

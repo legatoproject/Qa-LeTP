@@ -1,0 +1,18 @@
+executables:
+{
+    helloWorld = ( helloComponent )
+}
+
+processes:
+{
+    envVars:
+    {
+        LE_LOG_LEVEL = DEBUG
+    }
+
+    run:
+    {
+        ( helloWorld )
+    }
+}
+start: manual

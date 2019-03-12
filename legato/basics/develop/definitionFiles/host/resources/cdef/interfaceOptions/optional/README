@@ -1,0 +1,31 @@
+The test coverage of optional client-side IPC is divided into two seperate generic categories: legatoAPI and customizedAPI. Specifically, the legatoAPI uses the modem service, le_sim API (arbitrary picked) provided by the legato framwork. Also, the direcotry structure between the legatoAPI and customizedAPI are the same.
+
+Visualization of the directory structure:
+
+legatoAPI
+    |
+    |
+    |clientIPC
+        |
+        |
+        |mkapp
+            |
+            |app files
+        |
+        |
+        |mksys
+            |
+            |system files
+    |
+    |
+    |serverIPC
+        |
+        |
+        |mkapp
+            |
+            |app files
+        |
+        |
+        |mksys
+            |
+            |system files

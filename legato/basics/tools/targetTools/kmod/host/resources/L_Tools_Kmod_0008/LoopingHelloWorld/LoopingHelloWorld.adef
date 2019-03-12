@@ -1,0 +1,27 @@
+start: auto
+
+executables:
+{
+    LoopingHelloWorld = ( helloComponent )
+}
+
+processes:
+{
+    envVars:
+    {
+        LE_LOG_LEVEL = DEBUG
+    }
+
+    run:
+    {
+        ( LoopingHelloWorld )
+    }
+}
+
+requires:
+{
+    kernelModules:
+    {
+		$CURDIR/../L_Tools_Kmod_0008.mdef
+    }
+}

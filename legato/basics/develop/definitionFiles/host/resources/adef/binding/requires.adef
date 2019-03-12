@@ -1,0 +1,28 @@
+executables:
+{
+    user1 =  ( client )
+    user2 = ( client )
+    boop = ( server )
+}
+
+processes:
+{
+    run:
+    {
+        ( user1 "USER1" )
+    }
+    run:
+    {
+        ( user2 "USER2" )
+    }
+    run:
+    {
+        ( boop )
+    }
+}
+
+extern:
+{
+        user1 = user1.client.service
+        user2 = user2.client.service
+}

@@ -1,0 +1,4 @@
+FUNCTION Print
+(
+    string msg[100] IN
+);

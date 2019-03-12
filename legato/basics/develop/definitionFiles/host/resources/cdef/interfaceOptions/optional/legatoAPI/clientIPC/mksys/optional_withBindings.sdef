@@ -1,0 +1,9 @@
+apps:
+{
+    optional
+}
+
+bindings:
+{
+    optional.le_sim -> <root>.le_sim
+}

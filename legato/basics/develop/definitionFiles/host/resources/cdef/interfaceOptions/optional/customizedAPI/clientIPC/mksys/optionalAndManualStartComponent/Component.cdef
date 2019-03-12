@@ -1,0 +1,12 @@
+sources:
+{
+    client.c
+}
+
+requires:
+{
+    api:
+    {
+        foo = foo.api [optional] [manual-start]
+    }
+}

@@ -1,0 +1,12 @@
+bundles:
+{
+    file:
+    {
+        "content"   "/home/"
+    }
+}
+
+sources:
+{
+    source.c
+}

@@ -1,0 +1,10 @@
+apps:
+{
+    optional
+    server
+}
+
+bindings:
+{
+    optional.foo -> server.foo
+}

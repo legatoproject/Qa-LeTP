@@ -1,0 +1,17 @@
+externalBuild:
+{
+    "mkdir -p ${BUILDDIR}/external && cd ${BUILDDIR}/external && touch test_cdef30.txt  ."
+    "echo $BUILDDIR >${CURDIR}/builddir_path.txt"
+}
+bundles:
+{
+    dir:
+    {
+        $CURDIR/   /usr/share/
+    }
+
+    file:
+    {
+        test__hello.txt   test__hello.txt
+    }
+}

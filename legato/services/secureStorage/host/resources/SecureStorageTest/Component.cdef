@@ -1,0 +1,12 @@
+sources:
+{
+    SecureStorageTest.c
+}
+
+requires:
+{
+    api:
+    {
+        le_secStore.api
+    }
+}

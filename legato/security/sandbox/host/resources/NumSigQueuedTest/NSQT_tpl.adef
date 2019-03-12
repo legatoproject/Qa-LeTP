@@ -1,0 +1,15 @@
+start: manual
+
+executables:
+{
+    NumSigQueuedTest = ( NumSigQueuedTest )
+}
+
+maxQueuedSignals: TEMPLATE_VALUE_1
+processes:
+{
+    run:
+    {
+        ( NumSigQueuedTest )
+    }
+}

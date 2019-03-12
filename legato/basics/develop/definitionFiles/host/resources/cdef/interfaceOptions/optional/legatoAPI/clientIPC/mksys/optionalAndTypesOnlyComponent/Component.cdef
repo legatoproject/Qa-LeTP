@@ -1,0 +1,12 @@
+sources:
+{
+    client.c
+}
+
+requires:
+{
+    api:
+    {
+        modemServices/le_sim.api [optional] [types-only]
+    }
+}

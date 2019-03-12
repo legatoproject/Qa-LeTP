@@ -1,0 +1,17 @@
+start: manual
+
+executables:
+{
+    sbBasicTest = ( sbBasicTest )
+}
+
+processes:
+{
+    run:
+    {
+        // Normally should be executed with 'app runProc' using:
+        // app runProc assetPush --exe=sbBasicTest -- x
+        // where x is the test case number.
+        // ( sbBasicTest )
+    }
+}

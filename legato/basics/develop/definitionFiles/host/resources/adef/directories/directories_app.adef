@@ -1,0 +1,16 @@
+start: manual
+
+bundles:
+{
+    file:
+    {
+        "text" "/home/documents/"
+        "html/index.html" "/var/www/"
+    }
+
+    dir:
+    {
+        "includes" "/home"
+        "includes_2" "/home"
+    }
+}

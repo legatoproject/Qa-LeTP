@@ -1,0 +1,13 @@
+requires:
+{
+    api:
+    {
+        le_updateCtrl.api
+    }
+}
+
+
+sources:
+{
+    otherTestUpdateCtrl.c
+}

@@ -1,0 +1,16 @@
+start: manual
+
+executables:
+{
+    FileSizeTest = ( FileSizeTest )
+}
+
+processes:
+{
+    run:
+    {
+        ( FileSizeTest )
+    }
+
+    maxFileBytes: TEMPLATE_VALUE_1
+}

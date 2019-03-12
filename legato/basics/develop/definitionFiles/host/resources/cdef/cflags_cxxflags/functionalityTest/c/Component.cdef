@@ -1,0 +1,9 @@
+sources:
+{
+    source.c
+}
+
+cflags:
+{
+    -DCTESTFLAG=1
+}

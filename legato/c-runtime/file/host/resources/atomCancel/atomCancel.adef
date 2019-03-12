@@ -1,0 +1,15 @@
+executables:
+{
+    atomCancelExe = (Component)
+}
+
+processes:
+{
+    run:
+    {
+        atomCancelProc = (atomCancelExe)
+    }
+}
+
+sandboxed:false
+start:manual

@@ -1,0 +1,14 @@
+executables:
+{
+    c = (c)
+    cpp = (cplusplus)
+}
+
+processes:
+{
+    run:
+    {
+        (c)
+        (cpp)
+    }
+}

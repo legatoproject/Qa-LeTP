@@ -1,0 +1,23 @@
+start: manual
+
+executables:
+{
+    SecureStorageTest = (SecureStorageTest)
+}
+
+maxSecureStorageBytes: 8192
+
+processes:
+{
+    run:
+    {
+        // The params passed in won't matter because they will be overwritten by
+        // "config set" in a script
+        (SecureStorageTest longitemname 1)
+    }
+}
+
+bindings:
+{
+    SecureStorageTest.SecureStorageTest.le_secStore -> secStore.le_secStore
+}

@@ -1,0 +1,20 @@
+[
+    {
+        "name": "$LETP_TEST_SET/legato/security/sandbox/host/test_limitation.py::L_SandBox_0007"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/security/sandbox/host/test_limitation.py::L_SandBox_0009"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/security/sandbox/host/test_limitation.py::L_SandBox_0010"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/security/sandbox/host/test_limitation.py::L_SandBox_0011"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/security/sandbox/host/test_limitation.py::L_SandBox_0012"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/security/sandbox/host/test_limitation.py::L_SandBox_0018"
+    }
+]

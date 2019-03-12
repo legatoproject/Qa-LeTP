@@ -1,0 +1,26 @@
+[
+    {
+        "name": "$LETP_TEST_SET/legato/basics/sampleApps/host/test_sampleApps_fileInfo.py::L_SampleApps_FileInfo_0001"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/basics/sampleApps/host/test_sampleApps_gpio.py::L_SampleApps_Gpio_0001"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/basics/sampleApps/host/test_sampleApps_helloIpc.py::L_SampleApps_HelloIpc_0001"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/basics/sampleApps/host/test_sampleApps_helloWorld.py::L_SampleApps_HelloWorld_0002"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/basics/sampleApps/host/test_sampleApps_karaoke.py::L_SampleApps_Karaoke_0001"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/basics/sampleApps/host/test_sampleApps_shellPiping.py::L_SampleApps_ShellPiping_0001"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/basics/sampleApps/host/test_sampleApps_sms.py::L_SampleApps_Sms_0001"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/basics/sampleApps/host/test_sampleApps_dataHub.py::L_SampleApps_DataHub_0001"
+    }
+]

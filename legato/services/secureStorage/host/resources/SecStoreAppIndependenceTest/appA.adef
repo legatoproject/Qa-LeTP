@@ -1,0 +1,11 @@
+start: manual
+
+executables:
+{
+    appA = (appAComponent)
+}
+
+bindings:
+{
+    appA.appAComponent.le_secStore -> secStore.le_secStore
+}

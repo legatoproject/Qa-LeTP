@@ -1,0 +1,4 @@
+sources:
+{
+    atomCancelStream.c
+}

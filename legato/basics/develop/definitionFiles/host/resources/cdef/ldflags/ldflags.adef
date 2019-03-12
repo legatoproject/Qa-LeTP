@@ -1,0 +1,12 @@
+executables:
+{
+    ldflags = ( ldflagsComponent )
+}
+
+processes:
+{
+    run:
+    {
+        ( ldflags )
+    }
+}

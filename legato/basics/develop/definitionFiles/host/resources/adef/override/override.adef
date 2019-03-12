@@ -1,0 +1,14 @@
+start: manual
+
+executables:
+{
+    override = ( component )
+}
+
+bundles:
+{
+    file:
+    {
+        "content"   "/home/"
+    }
+}

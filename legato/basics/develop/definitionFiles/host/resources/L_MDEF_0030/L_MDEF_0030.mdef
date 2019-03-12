@@ -1,0 +1,17 @@
+//-------------------------------------------------------------------------------------------------
+// Sample definition file for kernel module.
+//
+// Copyright (C) Sierra Wireless Inc.
+//-------------------------------------------------------------------------------------------------
+load: auto
+
+params:
+{
+    param1 = "Legato"
+    param2 = "loadable kernel module"
+}
+
+preBuilt:
+{
+	missingModule.ko
+}

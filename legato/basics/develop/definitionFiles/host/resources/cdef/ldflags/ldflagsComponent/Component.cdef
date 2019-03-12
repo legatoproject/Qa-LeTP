@@ -1,0 +1,18 @@
+sources:
+{
+    ldflags.c
+}
+
+bundles:
+{
+    file:
+    {
+        ../testLib/libtestLib.so /lib/
+    }
+}
+
+ldflags:
+{
+    -LtestLib
+    -ltestLib
+}

@@ -1,0 +1,17 @@
+sources:
+{
+    bundles.c
+}
+
+bundles:
+{
+    file:
+    {
+        [r] testFile1.txt /bin/
+    }
+
+    dir:
+    {
+        [r] testFolder /bin/
+    }
+}

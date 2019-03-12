@@ -1,0 +1,15 @@
+executables:
+{
+    atomCloseExe = (Component)
+}
+
+processes:
+{
+    run:
+    {
+        atomCloseProc = (atomCloseExe)
+    }
+}
+
+sandboxed:false
+start:manual

@@ -1,0 +1,28 @@
+//-------------------------------------------------------------------------------------------------
+// Sample definition file for kernel module.
+//
+// Copyright (C) Sierra Wireless Inc.
+//-------------------------------------------------------------------------------------------------
+
+load: manual
+
+sources:
+{
+    example.c
+}
+
+params:
+{
+    param1 = "Legato"
+    param2 = "loadable kernel module"
+}
+
+requires:
+{
+    kernelModules:
+    {
+		$CURDIR/L_Tools_Kmod_0020_1.mdef
+		$CURDIR/L_Tools_Kmod_0020_2.mdef
+		$CURDIR/L_Tools_Kmod_0020_3.mdef
+    }
+}

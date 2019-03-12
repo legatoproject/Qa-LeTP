@@ -1,0 +1,15 @@
+executables:
+{
+    atomCreateExe = (Component)
+}
+
+processes:
+{
+    run:
+    {
+        atomCreateProc = (atomCreateExe)
+    }
+}
+
+sandboxed:false
+start:manual

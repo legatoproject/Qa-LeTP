@@ -1,0 +1,22 @@
+executables:
+{
+    testUpdateCtrl = (testUpdateCtrlComp)
+    otherTestUpdateCtrl = (otherTestUpdateCtrlComp)
+}
+
+processes:
+{
+    run:
+    {
+        (testUpdateCtrl --functionName --testCaseNum)
+        (otherTestUpdateCtrl --functionName --testCaseNum)
+    }
+}
+
+bindings:
+{
+    testUpdateCtrl.testUpdateCtrlComp.le_updateCtrl -> <root>.le_updateCtrl
+    otherTestUpdateCtrl.otherTestUpdateCtrlComp.le_updateCtrl -> <root>.le_updateCtrl
+}
+
+start: manual

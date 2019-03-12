@@ -1,0 +1,37 @@
+//-------------------------------------------------------------------------------------------------
+// Sample definition file for kernel module.
+//
+// Copyright (C) Sierra Wireless Inc.
+//-------------------------------------------------------------------------------------------------
+load: auto
+
+sources:
+{
+    example.c
+}
+
+params:
+{
+    param1 = "Legato"
+    param2 = "loadable kernel module"
+}
+
+bundles:
+{
+    file:
+    {
+        /ErrorInPath/text.txt /text.txt
+    }
+
+    dir:
+    {
+        /ErrorInPath/dir/  /dir
+    }
+}
+
+scripts:
+{
+    install:  $CURDIR/scripts/install.sh
+    remove:   $CURDIR/scripts/remove.sh
+}
+

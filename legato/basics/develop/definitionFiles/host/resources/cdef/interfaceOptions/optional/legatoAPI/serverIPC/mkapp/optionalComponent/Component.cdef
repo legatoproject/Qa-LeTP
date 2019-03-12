@@ -1,0 +1,12 @@
+provides:
+{
+    api:
+    {
+        foo = modemServices/le_sim.api [optional]
+    }
+}
+
+sources:
+{
+    server.c
+}

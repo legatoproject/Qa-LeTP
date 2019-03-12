@@ -1,0 +1,9 @@
+sources:
+{
+    libGenerator.cpp
+}
+
+cxxflags:
+{
+    -fvisibility=default
+}

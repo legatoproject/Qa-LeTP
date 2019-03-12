@@ -1,0 +1,4 @@
+#!/bin/sh
+
+unzip - -d /home/SecurityUnpack &> /home/SecurityUnpack/dump
+cat /home/SecurityUnpack/decrypted.update

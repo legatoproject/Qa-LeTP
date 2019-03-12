@@ -1,0 +1,12 @@
+sources:
+{
+    secondComponent.c
+}
+
+requires:
+{
+    component:
+    {
+        ${CURDIR}/../firstComponent [provide-header]
+    }
+}

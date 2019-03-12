@@ -1,0 +1,16 @@
+start: manual
+
+executables:
+{
+    FdTest = ( FdTest )
+}
+
+processes:
+{
+    run:
+    {
+        ( FdTest )
+    }
+
+    maxFileDescriptors: TEMPLATE_VALUE_1
+}

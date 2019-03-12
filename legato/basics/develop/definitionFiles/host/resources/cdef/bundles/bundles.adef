@@ -1,0 +1,12 @@
+executables:
+{
+    bundles = ( bundlesComponent )
+}
+
+processes:
+{
+    run:
+    {
+        ( bundles )
+    }
+}

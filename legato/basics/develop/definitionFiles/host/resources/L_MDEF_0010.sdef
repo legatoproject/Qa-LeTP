@@ -1,0 +1,3 @@
+#include "$LEGATO_ROOT/default.sdef"
+
+kernelModules:{}

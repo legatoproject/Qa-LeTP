@@ -1,0 +1,14 @@
+#include "$LEGATO_ROOT/default.sdef"
+
+moduleSearch:
+{
+	$CURDIR/L_MDEF_0046/A/
+	$CURDIR/L_MDEF_0046/B/
+}
+
+
+kernelModules:
+{
+    L_MDEF_0046_0.mdef
+    L_MDEF_0046_1.mdef
+}

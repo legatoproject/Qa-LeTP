@@ -1,0 +1,9 @@
+executables:
+{
+    server = (serverComponent)
+}
+
+extern:
+{
+    foo = server.serverComponent.foo
+}

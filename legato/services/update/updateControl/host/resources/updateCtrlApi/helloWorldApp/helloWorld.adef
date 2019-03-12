@@ -1,0 +1,14 @@
+executables:
+{
+    helloWorld = (helloWorldComp)
+}
+
+processes:
+{
+    run:
+    {
+        (helloWorld)
+    }
+}
+
+start: manual

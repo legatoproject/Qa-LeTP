@@ -1,0 +1,28 @@
+sandboxed: false
+
+executables:
+{
+    flashApp = ( flashAppComp )
+}
+
+processes:
+{
+    envVars:
+    {
+        LE_LOG_LEVEL = DEBUG
+    }
+
+    run:
+    {
+        (flashApp)
+    }
+
+    maxFileBytes: 200000K
+}
+
+start: manual
+
+bindings:
+{
+    flashApp.flashAppComp.le_flash -> fwupdateService.le_flash
+}
