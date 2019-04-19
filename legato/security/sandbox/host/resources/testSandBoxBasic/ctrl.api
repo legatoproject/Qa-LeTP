@@ -1,0 +1,27 @@
+FUNCTION GetCurrentDirectory
+(
+   string option1 [50] IN,
+   int32 option2 IN
+);
+
+FUNCTION ChangeDirectory
+(
+   string option1 [50] IN,
+   int32 option2 IN
+);
+
+FUNCTION CreateDirectory
+(
+   string option1 [50] IN,
+   string option2 [50] IN
+);
+
+FUNCTION GetProcesses
+(
+
+);
+
+FUNCTION KillProcesses
+(
+   int32 option1 IN
+);

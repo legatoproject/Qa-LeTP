@@ -1,0 +1,12 @@
+sources:
+{
+    main.c
+}
+
+provides:
+{
+    api:
+    {
+        ctrl.api
+    }
+}

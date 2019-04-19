@@ -90,17 +90,17 @@ def installapp_cleanup(target, legato, request, tmpdir, read_config):
         # Clear sms on the target
         target.run("cm sms clear", timeout=30, check=False)
 
-        # Get Sim's phone number
-        phone_num_rsp = target.run("cm sim number", withexitstatus=1)
-        match_obj = re.search(r'.*Phone Number: .* (.*)\r\n',
-                              phone_num_rsp[1], re.M)
-        if match_obj:
-            phone_num = match_obj.group(1)
-
-        # If the phone number is not set on the SIM
         # Read the phone number in sim.xml
+        phone_num = read_config.findtext("sim/tel")
+
+        # If the phone number is not set in xml
         if phone_num == "":
-            phone_num = read_config.findtext("sim/tel")
+            # Get Sim's phone number
+            phone_num_rsp = target.run("cm sim number", withexitstatus=1)
+            match_obj = re.search(r'.*Phone Number: .* (.*)\r\n',
+                                  phone_num_rsp[1], re.M)
+            if match_obj:
+                phone_num = match_obj.group(1)
 
         assert phone_num != "", "[FAILED] Please set the tel in sim.xml"
         swilog.info("Phone number: %s" % phone_num)

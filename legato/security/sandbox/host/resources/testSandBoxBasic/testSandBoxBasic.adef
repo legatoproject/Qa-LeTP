@@ -1,0 +1,30 @@
+requires:
+{
+    configTree:
+    {
+        [w] testSandBoxBasic       // I need write access to my configuration data.
+    }
+}
+
+executables:
+{
+    testSandBoxBasic = ( Component )
+    test_ctrl = ( ctrlComponent )
+}
+
+processes:
+{
+    envVars:
+    {
+        LE_LOG_LEVEL = DEBUG
+    }
+    run:
+    {
+        ( testSandBoxBasic )
+    }
+}
+
+bindings:
+{
+    test_ctrl.ctrlComponent.ctrl -> testSandBoxBasic.Component.ctrl
+}
