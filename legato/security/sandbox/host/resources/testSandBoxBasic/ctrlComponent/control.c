@@ -9,6 +9,7 @@ COMPONENT_INIT
     char srcStr[50];
     int nbArg = le_arg_NumArgs();
     long cycles;
+    int pid;
 
     if (nbArg >= 1)
     {
@@ -20,7 +21,7 @@ COMPONENT_INIT
             {
                 strcpy(srcStr, le_arg_GetArg(2));
             }
-        }        
+        }
     }
     else
     {
@@ -49,8 +50,27 @@ COMPONENT_INIT
     }
     else if (strcmp(option, "killpid") == 0)
     {
-        int pid = strtol(le_arg_GetArg(1), NULL, 0);
-        ctrl_KillProcesses(pid);
+        // In case of killing a loop of process without current PIDs
+        if (strcmp(destStr, "loop") == 0)
+        {
+            pid = ctrl_GetProcesses();
+            pid_t current_pid = getpid();
+            int loop = strtol(le_arg_GetArg(2), NULL, 0);
+
+            for (int i=1;i<=loop;i++)
+            {
+                if ((i != pid) && (i != current_pid))
+                {
+                    ctrl_KillProcesses(i);
+                }
+            }
+        }
+        // In case of killing a specific PID
+        else
+        {
+            pid = strtol(le_arg_GetArg(1), NULL, 0);
+            ctrl_KillProcesses(pid);
+        }
     }
     else
     {

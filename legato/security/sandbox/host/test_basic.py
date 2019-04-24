@@ -24,7 +24,7 @@ LEGATO_CONFIG_TREE_DIR = "/legato/systems/current/config"
 # ==================================================================================================
 # Functions
 # ==================================================================================================
-def sandbox_basic(target, act_name, param2="", param3=""):
+def sandbox_basic(target, act_name, param2="", param3="", timeout=30):
     """
     This function run the test app with options
 
@@ -39,7 +39,7 @@ def sandbox_basic(target, act_name, param2="", param3=""):
     proc_name = "test_ctrl"
     cmd = "app runProc %s --exe=%s -- %s %s %s" % \
           (APP_NAME, proc_name, act_name, param2, param3)
-    exit, rsp = target.run(cmd, withexitstatus=1)
+    exit, rsp = target.run(cmd, timeout=timeout, withexitstatus=1)
     assert exit == 0, "[FAILED] Run proc failed."
 
 
@@ -267,11 +267,9 @@ def L_SandBox_0004(target, legato, logread, app_leg):
     assert logread.expect([pexpect.TIMEOUT, kill_parent_msg], 5) == 1, "[FAILED] \
 Find out: %s" % kill_parent_msg
 
-    # Attempting to kill PID up to 100000, exccept for current PID
-    a_pid = 1
-    for a_pid in range(1, 100001):
-        if a_pid != int(cur_pid):
-            sandbox_basic(target, act_name, a_pid)
-            kill_a_pid_msg = ">> trying to kill pid \\[%s\\], error " % a_pid
-            assert logread.expect([pexpect.TIMEOUT, kill_a_pid_msg], 5) == 1, "[FAILED] \
+    # Attempting to kill PID up to 100000, except for current PID
+    sandbox_basic(target, act_name, "loop", "100000", timeout=60)
+    kill_a_pid_msg = ">> trying to kill pid \\[100000\\], error "
+
+    assert logread.expect([pexpect.TIMEOUT, kill_a_pid_msg], 60) == 1, "[FAILED] \
 Find out: %s" % kill_a_pid_msg

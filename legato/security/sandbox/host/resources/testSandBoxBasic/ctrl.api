@@ -16,7 +16,7 @@ FUNCTION CreateDirectory
    string option2 [50] IN
 );
 
-FUNCTION GetProcesses
+FUNCTION int32 GetProcesses
 (
 
 );

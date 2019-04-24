@@ -56,7 +56,7 @@ void ctrl_CreateDirectory(char* destStr, char* srcStr)
     }
 }
 
-void ctrl_GetProcesses()
+int ctrl_GetProcesses()
 {
     pid_t pid, ppid;
 
@@ -65,6 +65,7 @@ void ctrl_GetProcesses()
 
     LE_INFO("Current PID: [%d]", pid);
     LE_INFO("Parent PID: [%d]", ppid);
+    return pid;
 }
 
 void ctrl_KillProcesses(int pid)
