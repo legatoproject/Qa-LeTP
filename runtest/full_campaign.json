@@ -1,8 +1,5 @@
 [
     {
-        "name": "$LETP_TEST_SET/legato/basics/develop/definitionFiles/runtest/def_files.json"
-    },
-    {
         "name": "$LETP_TEST_SET/legato/c-runtime/file/runtest/file.json"
     },
     {
@@ -18,10 +15,13 @@
         "name": "$LETP_TEST_SET/legato/services/update/updateControl/runtest/updateControl.json"
     },
     {
+        "name": "$LETP_TEST_SET/legato/services/secureStorage/runtest/secureStorage.json"
+    },
+    {
         "name": "$LETP_TEST_SET/legato/basics/tools/targetTools/kmod/runtest/kmod.json"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/secureStorage/runtest/secureStorage.json"
+        "name": "$LETP_TEST_SET/legato/basics/develop/definitionFiles/runtest/def_files.json"
     }
 ]
 
