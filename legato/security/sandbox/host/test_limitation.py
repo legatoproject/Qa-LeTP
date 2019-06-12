@@ -145,7 +145,7 @@ def sanbox_verification(val_under_test, expected_val, temp_output_file, test_tit
     # TODO: use SED to get actual value, and trim leading/trailing spaces
     cmd = "grep '%s' '%s'" % (current_limit_leading_str, temp_output_file)
     swilog.info("Grep command: %s" % cmd)
-    rsp_grep = pexpect.run(cmd)
+    rsp_grep = pexpect.run(cmd, encoding="utf-8")
     swilog.info(rsp_grep)
 
     # Search value in grep response.
@@ -186,9 +186,9 @@ def sanbox_verification(val_under_test, expected_val, temp_output_file, test_tit
                         % (expected_val, actual_value))
             exit_code = 1
 
-    rsp, exit = pexpect.run("grep '%s' '%s'" % (runtime_verification_str,
-                                                temp_output_file),
-                            withexitstatus=1)
+    rsp, exit = pexpect.run(
+        "grep '%s' '%s'" % (runtime_verification_str, temp_output_file),
+        withexitstatus=1, encoding="utf-8")
     swilog.info(rsp)
     swilog.info(exit)
 
@@ -230,7 +230,8 @@ def sandbox(request, target, legato, read_config, tmpdir,
     ' % (tpl_val, app_path, template_name, app_path, app_name)
     rsp = os.system(cmd)
     swilog.info(rsp)
-    rsp = pexpect.run("cat %s/%s.adef" % (app_path, app_name))
+    rsp = pexpect.run(
+        "cat %s/%s.adef" % (app_path, app_name), encoding="utf-8")
     swilog.info(rsp)
     make_should_fail = False
 
@@ -303,7 +304,7 @@ def init_sandbox(request, target, legato):
 
     if legato.is_app_exist(app_name):
         legato.clean(app_name)
-    pexpect.run("rm %s/%s.adef" % (app_path, app_name))
+    pexpect.run("rm %s/%s.adef" % (app_path, app_name), encoding="utf-8")
 
 
 # ==================================================================================================
