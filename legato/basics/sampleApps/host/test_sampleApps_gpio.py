@@ -102,6 +102,9 @@ def init_gpio(target):
 
     """
 
+    if target.target_name.startswith("ar"):
+        pytest.skip("AR devices are not CF3, skipping.")
+
     # Check if gpio 21 is available to linux
     gpio_num_21 = 21
     restore_val_21 = read_wiocfg(target, gpio_num_21)
