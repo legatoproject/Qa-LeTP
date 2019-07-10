@@ -182,7 +182,7 @@ def wait_for_cm_info(target):
     while timer >= 0:
         try:
             target.sendline('/legato/systems/current/bin/cm info')
-            target.expect('Device:')
+            target.expect('Device:', 3)
             timer = -1
         except pexpect.TIMEOUT:
             swilog.debug("Unable to install system for now")
