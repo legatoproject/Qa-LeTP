@@ -99,7 +99,7 @@ DEFAULT_VALUE_STR_TBL = {
 # ==================================================================================================
 # Functions
 # ==================================================================================================
-def sanbox_verification(val_under_test, expected_val, temp_output_file, test_title):
+def sandbox_verification(val_under_test, expected_val, temp_output_file, test_title):
     """
     Verification sanbox limitation test.
 
@@ -149,7 +149,7 @@ def sanbox_verification(val_under_test, expected_val, temp_output_file, test_tit
     swilog.info(rsp_grep)
 
     # Search value in grep response.
-    match_obj = re.search("(.*)%s (.*)" % current_limit_leading_str,
+    match_obj = re.search("(.*)%s (\d+)" % current_limit_leading_str,
                           rsp_grep, re.M)
     actual_value = ""
     if match_obj:
@@ -177,7 +177,16 @@ def sanbox_verification(val_under_test, expected_val, temp_output_file, test_tit
                                        actual_value))
             exit_code = 1
     else:
-        if int(actual_value) == int(expected_val):
+        if expected_val.startswith(">="):
+            min_val = int(expected_val[2:])
+            if int(actual_value) >= min_val:
+                swilog.info("PASSED limit is successfully set to at least value <%s>"
+                            "with actual value of <%s>" % (min_val, expected_val))
+            else:
+                swilog.info("[FAILED] limit is not successfully set to the at least"
+                            "value of <%s>. Actual Value is: <%s>."
+                            % (min_val, actual_value))
+        elif int(actual_value) == int(expected_val):
             swilog.info("PASSED limit is successfully set to the expected "
                         "value of <%s>" % expected_val)
         else:
@@ -262,7 +271,7 @@ def sandbox(request, target, legato, read_config, tmpdir,
         with open(temp_output_file, "w") as f:
             f.write(logread.replace("\r", ""))
 
-        exit = sanbox_verification(tpl_val, expect_tst,
+        exit = sandbox_verification(tpl_val, expect_tst,
                                    temp_output_file, test_title)
 
         # Test is passed if verification OK
@@ -394,7 +403,7 @@ def L_SandBox_0009(request, target, legato, read_config, tmpdir,
                      ("-2", "invalid", ""),
                      ("asdf", "invalid", ""),
                      ("1000", "1000", ""),
-                     ("100000", "100000", ""),
+                     ("100000", ">=1000", ""),
                      ("-1000000", "invalid", ""),
 ])
 def L_SandBox_0010(request, target, legato, read_config, tmpdir,
