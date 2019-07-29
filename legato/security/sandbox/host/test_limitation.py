@@ -492,7 +492,7 @@ def L_SandBox_0011(request, target, legato, read_config, tmpdir,
     ("asdf", "invalid", ""),
     ("4096", "4096", ""),
     ("8192", "8192", ""),
-    ("8192000", "8192000", ""),
+    ("8192000", ">=65536", ""),
     ("8192k", "invalid", ""),
     ("8192K", "8388608",
      "Ignored because it is trying to lock a size larger than\
