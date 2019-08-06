@@ -59,7 +59,7 @@ def L_AtomicFile_Stream_0008(target, legato, app_leg, init_atomicFile):
     legato.clear_target_log()
     rsp = legato.runProc(test_app_name, test_app_proc_name,
                          test_file_path, test_description)
-
+    time.sleep(5)
     cmd = target_log_cmd
     rsp = target.run(cmd)
     assert "PASSED" in rsp or "FAILED" in rsp, "[FAILED] unable to get the "\
