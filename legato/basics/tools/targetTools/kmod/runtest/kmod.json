@@ -40,5 +40,8 @@
     },
     {
         "name": "$LETP_TEST_SET/legato/basics/tools/targetTools/kmod/host/test_KMod.py::L_Tools_Kmod_0020"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/basics/tools/targetTools/kmod/host/test_KMod.py::L_Tools_Kmod_0021"
     }
 ]

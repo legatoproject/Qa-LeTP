@@ -1115,3 +1115,104 @@ def L_Tools_Kmod_0020(target,
     # End of script: Build the default package to reinitialise the target
     # And clean the LEGATO_ROOT directory
     assert test_passed, display_errors()
+
+
+def L_Tools_Kmod_0021(target,
+                      legato,
+                      check_environment,
+                      environment_setting,
+                      create_temp_workspace):
+    """
+    Verify that kmod command unable to load and unload the kernel module
+    in used by app with manual start
+    (every module are loaded manually)
+        1. Create an update package (load: manual)
+        2. Make sure kernel module has been loaded and app is not running
+        3. Start app
+        4. Unload the kernel module
+        5. Load the module
+        6. Stop the app
+        7. Unload the module
+        8. Load the module
+        9. Compile the default package and update the target with it
+
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        check_environment: fixture to check the environment
+        environment_setting: fixture to setting the environment
+        create_temp_workspace: fixture to create a temporary folder
+
+    """
+
+    test_name = "L_Tools_Kmod_0021"
+    test_passed = True
+
+    # Compile and update target
+    swilog.step("Step 1: Compiling...")
+    install_system(target, legato, create_temp_workspace, test_name)
+
+    # Verify kernel module has been loaded and app is not running
+    swilog.step("Step 2: Verify mod has been loaded...")
+    if not check_presence(target, legato, test_name):
+        test_passed = False
+        swilog.error("Step 2: Kernel module has not been properly loaded")
+
+    # Get App status
+    rsp = legato.get_app_status("helloWorld")
+    assert "stopped" in rsp
+    swilog.info("App helloWorld is stopped")
+
+    # Start the app
+    swilog.step("Step 3: Start app helloWorld")
+    legato.start("helloWorld")
+    # Unload the kernel module using "kmod unload L_Tools_Kmod_0021.ko
+    swilog.step("Step 4: Unloading...")
+    (returned_value, returned_index) = check_unloading(target,
+                                                       test_name,
+                                                       RESULT_OK)
+
+    if check_presence(target, legato, test_name):
+        test_passed = False
+        swilog.error("Step 4:"
+                     "Kernel module %s should have been unloaded" % test_name)
+
+    # Load the kernel module
+    swilog.step("Step 5: Loading...")
+    (returned_value, returned_index) = check_loading(target,
+                                                     test_name,
+                                                     RESULT_OK)
+    if not returned_value:
+        test_passed = False
+        swilog.error("Step 5: Kernel module has not been properly loaded")
+
+    # Stop the app
+    swilog.step("Step 6: Stop app helloWorld")
+    legato.stop("helloWorld")
+    rsp = legato.get_app_status("helloWorld")
+    assert "stopped" in rsp
+    swilog.info("App helloWorld is stopped")
+
+    # Unload the kernel module
+    swilog.step("Step 7: Unloading...")
+    (returned_value, returned_index) = check_unloading(target,
+                                                       test_name,
+                                                       RESULT_OK)
+
+    if check_presence(target, legato, test_name):
+        test_passed = False
+        swilog.error("Step7:"
+                     "Kernel module %s should have been unloaded" % test_name)
+
+    # Load the kernel module
+    swilog.step("Step 8: Loading...")
+    (returned_value, returned_index) = check_loading(target,
+                                                     test_name,
+                                                     RESULT_OK)
+    if not returned_value:
+        test_passed = False
+        swilog.error("Step 8: Kernel module has not been properly loaded")
+
+    # End of script: Build the default package to reinitialise the target
+    # And clean the LEGATO_ROOT directory
+    assert test_passed, display_errors()

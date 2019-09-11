@@ -1,0 +1,11 @@
+sources:
+{
+	L_Tools_Kmod_0021.c
+}
+params:
+{
+    param1 = "Legato"
+    param2 = "loadable kernel module"
+}
+
+load: auto
