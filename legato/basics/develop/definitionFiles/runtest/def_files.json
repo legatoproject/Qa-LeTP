@@ -138,9 +138,6 @@
         "name": "$LETP_TEST_SET/legato/basics/develop/definitionFiles/host/test_mdef.py::L_MDEF_0021"
     },
     {
-        "name": "$LETP_TEST_SET/legato/basics/develop/definitionFiles/host/test_mdef.py::L_MDEF_0022"
-    },
-    {
         "name": "$LETP_TEST_SET/legato/basics/develop/definitionFiles/host/test_mdef.py::L_MDEF_0023"
     },
     {
@@ -196,9 +193,6 @@
     },
     {
         "name": "$LETP_TEST_SET/legato/basics/develop/definitionFiles/host/test_mdef.py::L_MDEF_0054"
-    },
-    {
-        "name": "$LETP_TEST_SET/legato/basics/develop/definitionFiles/host/test_mdef.py::L_MDEF_0055"
     },
     {
         "name": "$LETP_TEST_SET/legato/basics/develop/definitionFiles/host/test_mdef.py::L_MDEF_0056"
