@@ -1,32 +1,33 @@
-""" @package atomicFileStreamOpenModule atomicFile Stream open test
+"""@package atomicFileStreamOpenModule atomicFile Stream open test.
 
-    Set of functions to test the le_atomFile_OpenStream
+Set of functions to test the le_atomFile_OpenStream
 """
-import pytest
 import os
 import time
 import files
 import swilog
+import pytest
 
-__copyright__ = 'Copyright (C) Sierra Wireless Inc.'
-# ==================================================================================================
+
+__copyright__ = "Copyright (C) Sierra Wireless Inc."
+# ======================================================================================
 # Constants and Globals
-# ==================================================================================================
-TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                              'resources')
-TEST_TOOLS = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                          'tools')
+# ======================================================================================
+TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)), "resources")
+TEST_TOOLS = os.path.join(os.path.abspath(os.path.dirname(__file__)), "tools")
 APP_NAME = "atomOpenStream"
-APP_PATH = os.path.join(os.path.join(TEST_RESOURCES, "atomOpenStream"),
-                        "atomOpenStream.adef")
+APP_PATH = os.path.join(
+    os.path.join(TEST_RESOURCES, "atomOpenStream"), "atomOpenStream.adef"
+)
 
 
-# ==================================================================================================
+# ======================================================================================
 # Test functions
-# ==================================================================================================
-def L_AtomicFile_Stream_0001(target, legato, app_leg, init_atomicFile):
-    """
-    Purpose: Verify that resultPtr of le_atomFile_OpenStream returns
+# ======================================================================================
+@pytest.mark.usefixtures("app_leg")
+def L_AtomicFile_Stream_0001(target, legato, init_atomicFile):
+    """Purpose: Verify that resultPtr of le_atomFile_OpenStream returns.
+
     LE_NOT_FOUND when tries to open a non-existed file
 
     Initial condition:
@@ -45,9 +46,7 @@ def L_AtomicFile_Stream_0001(target, legato, app_leg, init_atomicFile):
         legato: fixture to call useful functions regarding legato
         app_leg: fixture regarding to build, install and remove app
         init_atomicFile: fixture to initialize and clean up environment
-
     """
-
     test_app_name = "atomOpenStream"
     test_app_proc_name = "atomOpenStreamProc"
     target_log_cmd = "/sbin/logread"
@@ -55,22 +54,27 @@ def L_AtomicFile_Stream_0001(target, legato, app_leg, init_atomicFile):
     test_description = "notFound"
 
     legato.clear_target_log()
-    rsp = legato.runProc(test_app_name, test_app_proc_name,
-                         test_file_path, test_description)
+    rsp = legato.runProc(
+        test_app_name, test_app_proc_name, test_file_path, test_description
+    )
 
     time.sleep(5)
     cmd = target_log_cmd
     rsp = target.run(cmd)
     swilog.info(rsp)
-    assert "PASSED" in rsp or "FAILED" in rsp, "[FAILED] unable to get the "\
-                                               "test app's output message "\
-                                               "form the target's syslog"
+    assert "PASSED" in rsp or "FAILED" in rsp, (
+        "[FAILED] unable to get the "
+        "test app's output message "
+        "form the target's syslog"
+    )
 
 
-def L_AtomicFile_Stream_0002(target, legato, app_leg, init_atomicFile):
-    """
-    Purpose: Verify that resultPtr of le_atomFile_OpenStream returns LE_FAULT
+@pytest.mark.usefixtures("app_leg")
+def L_AtomicFile_Stream_0002(target, legato, init_atomicFile):
+    """Purpose: Verify that resultPtr of le_atomFile_OpenStream returns LE_FAULT.
+
     there was == 0: an error (accesses to a non-existed dir)
+
     Initial condition:
         1. Test app is unsandboxed
     Verification:
@@ -87,32 +91,36 @@ def L_AtomicFile_Stream_0002(target, legato, app_leg, init_atomicFile):
         legato: fixture to call useful functions regarding legato
         app_leg: fixture regarding to build, install and remove app
         init_atomicFile: fixture to initialize and clean up environment
-
     """
-
     test_app_name = "atomOpenStream"
     test_app_proc_name = "atomOpenStreamProc"
     target_log_cmd = "/sbin/logread"
     test_file_path = "/abc/def/abc.txt"
     test_description = "fault"
+    swilog.debug(init_atomicFile)
 
     legato.clear_target_log()
-    rsp = legato.runProc(test_app_name, test_app_proc_name,
-                         test_file_path, test_description)
+    rsp = legato.runProc(
+        test_app_name, test_app_proc_name, test_file_path, test_description
+    )
     time.sleep(5)
     cmd = target_log_cmd
     rsp = target.run(cmd)
     swilog.info(rsp)
-    assert "PASSED" in rsp or "FAILED" in rsp, "[FAILED] unable to get" \
-                                               " the test app's output "\
-                                               "message form the "\
-                                               "target's syslog"
+    assert "PASSED" in rsp or "FAILED" in rsp, (
+        "[FAILED] unable to get"
+        " the test app's output "
+        "message form the "
+        "target's syslog"
+    )
 
 
-def L_AtomicFile_Stream_0003(target, legato, app_leg, init_atomicFile):
-    """
-    Purpose: Verify that le_atomFile_OpenStream returns the buffered file
+@pytest.mark.usefixtures("app_leg")
+def L_AtomicFile_Stream_0003(target, legato, init_atomicFile):
+    """Purpose: Verify that le_atomFile_OpenStream returns the buffered file.
+
     stream handle to the file  successfully == 0
+
     Initial condition:
         1. Test app is unsandboxed
     Verification:
@@ -129,9 +137,7 @@ def L_AtomicFile_Stream_0003(target, legato, app_leg, init_atomicFile):
         legato: fixture to call useful functions regarding legato
         app_leg: fixture regarding to build, install and remove app
         init_atomicFile: fixture to initialize and clean up environment
-
     """
-
     test_app_name = "atomOpenStream"
     test_app_proc_name = "atomOpenStreamProc"
     hw_file_path = os.path.join(TEST_TOOLS, "testFile.txt")
@@ -141,12 +147,15 @@ def L_AtomicFile_Stream_0003(target, legato, app_leg, init_atomicFile):
 
     files.scp([hw_file_path], test_file_path, target.target_ip)
     legato.clear_target_log()
-    rsp = legato.runProc(test_app_name, test_app_proc_name,
-                         test_file_path, test_description)
+    rsp = legato.runProc(
+        test_app_name, test_app_proc_name, test_file_path, test_description
+    )
     time.sleep(5)
     cmd = target_log_cmd
     rsp = target.run(cmd)
     swilog.info(rsp)
-    assert "PASSED" in rsp or "FAILED" in rsp, "[FAILED] unable to get the" \
-                                               " test app's output message "\
-                                               "form the target's syslog"
+    assert "PASSED" in rsp or "FAILED" in rsp, (
+        "[FAILED] unable to get the"
+        " test app's output message "
+        "form the target's syslog"
+    )

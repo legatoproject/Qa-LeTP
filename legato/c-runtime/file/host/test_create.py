@@ -1,33 +1,34 @@
-""" @package atomicFileOperationCreateModule atomicFile operation create test
+"""@package atomicFileOperationCreateModule atomicFile operation create test.
 
-    Set of functions to test the le_atomFile_Createy
+Set of functions to test the le_atomFile_Createy
 """
 import os
+import time
 import files
 import swilog
-import time
+import pytest
 
-__copyright__ = 'Copyright (C) Sierra Wireless Inc.'
-# ==================================================================================================
+
+__copyright__ = "Copyright (C) Sierra Wireless Inc."
+# ======================================================================================
 # Constants and Globals
-# ==================================================================================================
-TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                              'resources')
-TEST_TOOLS = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                          'tools')
+# ======================================================================================
+TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)), "resources")
+TEST_TOOLS = os.path.join(os.path.abspath(os.path.dirname(__file__)), "tools")
 APP_NAME = "atomCreate"
-APP_PATH = os.path.join(os.path.join(TEST_RESOURCES, "atomCreate"),
-                        "atomCreate.adef")
+APP_PATH = os.path.join(os.path.join(TEST_RESOURCES, "atomCreate"), "atomCreate.adef")
 
 
-# ==================================================================================================
+# ======================================================================================
 # Test functions
-# ==================================================================================================
-def L_AtomicFile_Operation_0008(target, legato, app_leg, init_atomicFile):
-    """
-    Purpose: Verify that le_atomFile_Create returns LE_DUPLICATE
-            if the target file already existed and
-            LE_FLOCK_FAIL_IF_EXIST is specified in createMode
+# ======================================================================================
+@pytest.mark.usefixtures("app_leg")
+def L_AtomicFile_Operation_0008(target, legato, init_atomicFile):
+    """Purpose: Verify that le_atomFile_Create returns LE_DUPLICATE.
+
+    if the target file already existed and
+    LE_FLOCK_FAIL_IF_EXIST is specified in createMode
+
     Initial condition:
         1. Test app is unsandboxed
     Verification:
@@ -45,9 +46,7 @@ def L_AtomicFile_Operation_0008(target, legato, app_leg, init_atomicFile):
         legato: fixture to call useful functions regarding legato
         app_leg: fixture regarding to build, install and remove app
         init_atomicFile: fixture to initialize and clean up environment
-
     """
-
     test_app_name = "atomCreate"
     test_app_proc_name = "atomCreateProc"
     hw_file_path = os.path.join(TEST_TOOLS, "testFile.txt")
@@ -59,24 +58,29 @@ def L_AtomicFile_Operation_0008(target, legato, app_leg, init_atomicFile):
 
     legato.clear_target_log()
 
-    rsp = legato.runProc(test_app_name, test_app_proc_name,
-                         test_file_path, test_description)
+    rsp = legato.runProc(
+        test_app_name, test_app_proc_name, test_file_path, test_description
+    )
 
     time.sleep(5)
     cmd = target_log_cmd
     rsp = target.run(cmd)
     swilog.info(rsp)
-    assert "PASSED" in rsp or "FAILED" in rsp, "[FAILED] unable to get the "\
-                                               "test app's output message "\
-                                               "form the target's syslog"
+    assert "PASSED" in rsp or "FAILED" in rsp, (
+        "[FAILED] unable to get the "
+        "test app's output message "
+        "form the target's syslog"
+    )
     assert "PASSED" in rsp, "test returned [FAILED]"
 
 
-def L_AtomicFile_Operation_0010(target, legato, app_leg, init_atomicFile):
-    """
-    Purpose: Verify that le_atomFile_Create can create and
-            open file with specified file permission if the
-            target file wasn't existed before
+@pytest.mark.usefixtures("app_leg")
+def L_AtomicFile_Operation_0010(target, legato, init_atomicFile):
+    """Purpose: Verify that le_atomFile_Create can create and.
+
+    open file with specified file permission if the
+    target file wasn't existed before
+
     Initial condition:
         1. Test app is unsandboxed
     Verification:
@@ -94,9 +98,7 @@ def L_AtomicFile_Operation_0010(target, legato, app_leg, init_atomicFile):
         legato: fixture to call useful functions regarding legato
         app_leg: fixture regarding to build, install and remove app
         init_atomicFile: fixture to initialize and clean up environment
-
     """
-
     test_app_name = "atomCreate"
     test_app_proc_name = "atomCreateProc"
     target_log_cmd = "/sbin/logread"
@@ -104,23 +106,27 @@ def L_AtomicFile_Operation_0010(target, legato, app_leg, init_atomicFile):
     test_description = "fd"
 
     legato.clear_target_log()
-    rsp = legato.runProc(test_app_name, test_app_proc_name,
-                         test_file_path, test_description)
+    rsp = legato.runProc(
+        test_app_name, test_app_proc_name, test_file_path, test_description
+    )
     time.sleep(5)
     cmd = target_log_cmd
     rsp = target.run(cmd)
     swilog.info(rsp)
-    assert "PASSED" in rsp or "FAILED" in rsp, "[FAILED] unable to get the "\
-                                               "test app's output message "\
-                                               "form the target's syslog"
+    assert "PASSED" in rsp or "FAILED" in rsp, (
+        "[FAILED] unable to get the "
+        "test app's output message "
+        "form the target's syslog"
+    )
     assert "PASSED" in rsp, "test returned [FAILED]"
 
 
-def L_AtomicFile_Operation_0018(target, legato, app_leg, init_atomicFile):
-    """
-    Purpose: Verify the atomicity of le_atomFile_Create is guaranteed
-            once the process acquires the file lock if the target file
-            wasn't existed
+@pytest.mark.usefixtures("app_leg")
+def L_AtomicFile_Operation_0018(target, legato, init_atomicFile):
+    """Purpose: Verify the atomicity of le_atomFile_Create is guaranteed.
+
+    once the process acquires the file lock if the target file wasn't existed
+
     Initial condition:
         1. Test app is unsandboxed
     Verification:
@@ -133,7 +139,7 @@ def L_AtomicFile_Operation_0018(target, legato, app_leg, init_atomicFile):
             the file lock
             3. The data written by the first process are not preserved
             after the interruption of the second process's write operation
-   This script will
+    This script will
         1. Transfer a file to the target
         2. Make and install the test app
         3. Run the test app
@@ -150,14 +156,13 @@ def L_AtomicFile_Operation_0018(target, legato, app_leg, init_atomicFile):
         legato: fixture to call useful functions regarding legato
         app_leg: fixture regarding to build, install and remove app
         init_atomicFile: fixture to initialize and clean up environment
-
     """
-
     test_app_name = "atomCreate"
     test_app_proc_name = "atomCreateProc"
     target_app_cmd = "/legato/systems/current/bin/app"
     test_file_path = "/home/root/testFile.txt"
     test_description = "atomicMultiAccess"
+    swilog.debug(init_atomicFile)
 
     # Wait for the occurrence of the specified message in the target's log
     # Pre:
@@ -165,18 +170,15 @@ def L_AtomicFile_Operation_0018(target, legato, app_leg, init_atomicFile):
     # Post: return 0 when the message has been found; 1 otherwise
 
     legato.clear_target_log()
-    rsp = legato.runProc(test_app_name, test_app_proc_name,
-                         test_file_path, test_description)
-    assert legato.wait_for_log_msg("first process is holding a file lock",
-                                   20) is True
-    assert legato.wait_for_log_msg("second process is holding a file lock",
-                                   20) is False
+    rsp = legato.runProc(
+        test_app_name, test_app_proc_name, test_file_path, test_description
+    )
+    assert legato.wait_for_log_msg("first process is holding a file lock", 20) is True
+    assert legato.wait_for_log_msg("second process is holding a file lock", 20) is False
     # Process of the test app held the file lock"
 
-    assert legato.wait_for_log_msg("first process\'s file lock is released",
-                                   45) is True
-    assert legato.wait_for_log_msg("second process is holding a file lock",
-                                   20) is True
+    assert legato.wait_for_log_msg("first process's file lock is released", 45) is True
+    assert legato.wait_for_log_msg("second process is holding a file lock", 20) is True
     # Previous file lock was released"
 
     expected_log = "second process writes string 123 to the file"
@@ -184,10 +186,12 @@ def L_AtomicFile_Operation_0018(target, legato, app_leg, init_atomicFile):
 
     rsp = target.run(" %s stop %s" % (target_app_cmd, test_app_name))
 
-    exit, rsp = target.run("cat %s" % (test_file_path), withexitstatus=1)
+    rsp = target.run("cat %s" % (test_file_path))
     swilog.info(rsp)
-    assert "string 123" not in rsp, "[FAILED] the atomicity of "\
-                                    "le_atomFile_Create isn't guaranteed "\
-                                    "once the process acquires the file "\
-                                    "lock if the target file "\
-                                    "was already existed"
+    assert "string 123" not in rsp, (
+        "[FAILED] the atomicity of "
+        "le_atomFile_Create isn't guaranteed "
+        "once the process acquires the file "
+        "lock if the target file "
+        "was already existed"
+    )

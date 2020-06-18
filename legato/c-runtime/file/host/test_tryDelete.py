@@ -1,31 +1,34 @@
-""" @package atomicFileTryDeleteModule atomicFile operation try delete test
+"""@package atomicFileTryDeleteModule atomicFile operation try delete test.
 
-    Set of functions to test the le_atomFile_TryDelete
+Set of functions to test the le_atomFile_TryDelete
 """
 import os
 import files
 import swilog
+import pytest
 
-__copyright__ = 'Copyright (C) Sierra Wireless Inc.'
-# ==================================================================================================
+
+__copyright__ = "Copyright (C) Sierra Wireless Inc."
+# ======================================================================================
 # Constants and Globals
-# ==================================================================================================
-TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                              'resources')
-TEST_TOOLS = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                          'tools')
+# ======================================================================================
+TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)), "resources")
+TEST_TOOLS = os.path.join(os.path.abspath(os.path.dirname(__file__)), "tools")
 APP_NAME = "atomTryDelete"
-APP_PATH = os.path.join(os.path.join(TEST_RESOURCES, "atomTryDelete"),
-                        "atomTryDelete.adef")
+APP_PATH = os.path.join(
+    os.path.join(TEST_RESOURCES, "atomTryDelete"), "atomTryDelete.adef"
+)
 
 
-# ==================================================================================================
+# ======================================================================================
 # Test functions
-# ==================================================================================================
-def L_AtomicFile_Operation_0037(target, legato, app_leg, init_atomicFile):
-    """
-    Purpose: Verify that le_atomFile_TryDelete returns LE_NOT_FOUND
+# ======================================================================================
+@pytest.mark.usefixtures("app_leg")
+def L_AtomicFile_Operation_0037(legato, init_atomicFile):
+    """Purpose: Verify that le_atomFile_TryDelete returns LE_NOT_FOUND.
+
     file doesn't exists == 0
+
     Initial condition:
         1. Test app is unsandboxed
     Verification:
@@ -42,9 +45,7 @@ def L_AtomicFile_Operation_0037(target, legato, app_leg, init_atomicFile):
         legato: fixture to call useful functions regarding legato
         app_leg: fixture regarding to build, install and remove app
         init_atomicFile: fixture to initialize and clean up environment
-
     """
-
     test_app_name = "atomTryDelete"
     test_app_proc_name = "atomTryDeleteProc"
     target_log_cmd = "/sbin/logread"
@@ -52,21 +53,23 @@ def L_AtomicFile_Operation_0037(target, legato, app_leg, init_atomicFile):
     test_description = "notFound"
 
     legato.clear_target_log()
-    legato.runProc(test_app_name, test_app_proc_name,
-                   test_file_path, test_description)
+    legato.runProc(test_app_name, test_app_proc_name, test_file_path, test_description)
 
     cmd = r"%s | grep \"\[PASSED\]\|\[FAILED\]\"" % target_log_cmd
     if legato.ssh_to_target(cmd) != 0:
-        assert 0, "[FAILED] unable to get the test app's output"\
-                  " message form the target's syslog"
+        assert 0, (
+            "[FAILED] unable to get the test app's output"
+            " message form the target's syslog"
+        )
 
     if legato.ssh_to_target(r"%s | grep \"\[PASSED\]\"" % target_log_cmd) != 0:
         assert 0, "test returned [FAILED]"
 
 
-def L_AtomicFile_Operation_0038(target, legato, app_leg, init_atomicFile):
-    """
-    Purpose: Verify that le_atomFile_TryDelete returns LE_FAULT
+@pytest.mark.usefixtures("app_leg")
+def L_AtomicFile_Operation_0038(legato, init_atomicFile):
+    """Purpose: Verify that le_atomFile_TryDelete returns LE_FAULT.
+
     there was an error (accesses to a non-existed dir == 0
     Initial condition:
         1. Test app is unsandboxed
@@ -84,31 +87,32 @@ def L_AtomicFile_Operation_0038(target, legato, app_leg, init_atomicFile):
         legato: fixture to call useful functions regarding legato
         app_leg: fixture regarding to build, install and remove app
         init_atomicFile: fixture to initialize and clean up environment
-
     """
-
     test_app_name = "atomTryDelete"
     test_app_proc_name = "atomTryDeleteProc"
     target_log_cmd = "/sbin/logread"
     test_file_path = "/abc/def/abc.txt"
     test_description = "fault"
+    swilog.debug(init_atomicFile)
 
     legato.clear_target_log()
-    legato.runProc(test_app_name, test_app_proc_name,
-                   test_file_path, test_description)
+    legato.runProc(test_app_name, test_app_proc_name, test_file_path, test_description)
 
     cmd = r"%s | grep \"\[PASSED\]\|\[FAILED\]\"" % target_log_cmd
     if legato.ssh_to_target(cmd) != 0:
-        assert 0, "[FAILED] unable to get the test app's"\
-                  " output message form the target's syslog"
+        assert 0, (
+            "[FAILED] unable to get the test app's"
+            " output message form the target's syslog"
+        )
 
     if legato.ssh_to_target(r"%s | grep \"\[PASSED\]\"" % target_log_cmd) != 0:
         assert 0, "test returned [FAILED]"
 
 
-def L_AtomicFile_Operation_0039(target, legato, app_leg, init_atomicFile):
-    """
-    Purpose: Verify that le_atomFile_TryDelete returns LE_OK successful == 0
+@pytest.mark.usefixtures("app_leg")
+def L_AtomicFile_Operation_0039(target, legato, init_atomicFile):
+    """Purpose: Verify that le_atomFile_TryDelete returns LE_OK successful == 0.
+
     Initial condition:
         1. Test app is unsandboxed
     Verification:
@@ -127,9 +131,7 @@ def L_AtomicFile_Operation_0039(target, legato, app_leg, init_atomicFile):
         legato: fixture to call useful functions regarding legato
         app_leg: fixture regarding to build, install and remove app
         init_atomicFile: fixture to initialize and clean up environment
-
     """
-
     test_app_name = "atomTryDelete"
     test_app_proc_name = "atomTryDeleteProc"
     hw_file_path = os.path.join(TEST_TOOLS, "testFile.txt")
@@ -139,28 +141,33 @@ def L_AtomicFile_Operation_0039(target, legato, app_leg, init_atomicFile):
 
     files.scp([hw_file_path], test_file_path, target.target_ip)
     legato.clear_target_log()
-    legato.runProc(test_app_name, test_app_proc_name,
-                   test_file_path, test_description)
+    legato.runProc(test_app_name, test_app_proc_name, test_file_path, test_description)
 
     cmd = r"%s | grep \"\[PASSED\]\|\[FAILED\]\"" % target_log_cmd
     if legato.ssh_to_target(cmd) != 0:
-        assert 0, "[FAILED] unable to get the test app's"\
-                  " output message form the target's syslog"
+        assert 0, (
+            "[FAILED] unable to get the test app's"
+            " output message form the target's syslog"
+        )
 
     if legato.ssh_to_target(r"%s | grep \"\[PASSED\]\"" % target_log_cmd) != 0:
         assert 0, "test returned [FAILED]"
 
     if target.run(" [ -e %s ]" % (test_file_path), withexitstatus=1)[0] != 0:
-        swilog.info("[PASSED] le_atomFile_TryDelete successfully"
-                    " removed the target file")
+        swilog.info(
+            "[PASSED] le_atomFile_TryDelete successfully" " removed the target file"
+        )
     else:
-        assert 0, "[FAILED] le_atomFile_TryDelete wasn't"\
-                  " successfully removed the target file"
+        assert 0, (
+            "[FAILED] le_atomFile_TryDelete wasn't"
+            " successfully removed the target file"
+        )
 
 
-def L_AtomicFile_Operation_0040(target, legato, app_leg, init_atomicFile):
-    """
-    Purpose: Verify that le_atomFile_TryDelete returns LE_WOULD_BLOCK
+@pytest.mark.usefixtures("app_leg")
+def L_AtomicFile_Operation_0040(target, legato, init_atomicFile):
+    """Purpose: Verify that le_atomFile_TryDelete returns LE_WOULD_BLOCK.
+
     file is already locked == 0
     Initial condition:
         1. Test app is unsandboxed
@@ -180,9 +187,7 @@ def L_AtomicFile_Operation_0040(target, legato, app_leg, init_atomicFile):
         legato: fixture to call useful functions regarding legato
         app_leg: fixture regarding to build, install and remove app
         init_atomicFile: fixture to initialize and clean up environment
-
     """
-
     test_app_name = "atomTryDelete"
     test_app_proc_name = "atomTryDeleteProc"
     hw_file_path = os.path.join(TEST_TOOLS, "testFile.txt")
@@ -192,20 +197,25 @@ def L_AtomicFile_Operation_0040(target, legato, app_leg, init_atomicFile):
 
     files.scp([hw_file_path], test_file_path, target.target_ip)
     legato.clear_target_log()
-    legato.runProc(test_app_name, test_app_proc_name,
-                   test_file_path, test_description)
+    legato.runProc(test_app_name, test_app_proc_name, test_file_path, test_description)
 
     cmd = r"%s | grep \"\[PASSED\]\|\[FAILED\]\"" % target_log_cmd
     if legato.ssh_to_target(cmd) != 0:
-        assert 0, "[FAILED] unable to get the test app's"\
-                  " output message form the target's syslog"
+        assert 0, (
+            "[FAILED] unable to get the test app's"
+            " output message form the target's syslog"
+        )
 
     if legato.ssh_to_target(r"%s | grep \"\[PASSED\]\"" % target_log_cmd) != 0:
         assert 0, "test returned [FAILED]"
 
     if target.run(" [ -e %s ]" % (test_file_path), withexitstatus=1)[0] == 0:
-        swilog.info("[PASSED] le_atomFile_TryDelete won't delete"
-                    " the file which it has an associated file lock")
+        swilog.info(
+            "[PASSED] le_atomFile_TryDelete won't delete"
+            " the file which it has an associated file lock"
+        )
     else:
-        assert 0, "[FAILED] le_atomFile_TryDelete deleted the "\
-                  "file which it has an associated file lock"
+        assert 0, (
+            "[FAILED] le_atomFile_TryDelete deleted the "
+            "file which it has an associated file lock"
+        )
