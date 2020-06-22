@@ -1,6 +1,6 @@
-""" @package updateControlModule The update control API test
+"""@package updateControlModule The update control API test.
 
-    Set of functions to test the le_updateCtrl_Defer
+Set of functions to test the le_updateCtrl_Defer
 """
 import os
 import time
@@ -8,14 +8,13 @@ import swilog
 import pexpect
 import pytest
 
-__copyright__ = 'Copyright (C) Sierra Wireless Inc.'
-# ==================================================================================================
+__copyright__ = "Copyright (C) Sierra Wireless Inc."
+# ======================================================================================
 # Constants and Globals
-# ==================================================================================================
+# ======================================================================================
 # Determine the resources folder (legato apps)
 LEGATO_ROOT = os.environ["LEGATO_ROOT"]
-TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                              'resources')
+TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)), "resources")
 APP_PATH_00 = os.path.join(TEST_RESOURCES, "updateCtrlApi")
 
 APP_NAME_01 = "testUpdateCtrl"
@@ -25,20 +24,18 @@ APP_NAME_02 = "helloWorld"
 APP_PATH_02 = os.path.join(APP_PATH_00, "helloWorldApp")
 
 
-# ==================================================================================================
+# ======================================================================================
 # Local fixtures
-# ==================================================================================================
+# ======================================================================================
 @pytest.fixture()
-def init_UpdateCrtl(legato, clean_test):
-    """
-    Clean up environment & build app
+@pytest.mark.usefixtures("clean_test")
+def init_UpdateCrtl(legato):
+    """Clean up environment & build app.
 
     Args:
         legato: fixture to call useful functions regarding legato
         clean_test: fixture to clean up environment
-
     """
-
     if legato.get_current_system_index() != 0:
         legato.restore_golden_legato()
     # Make install application
@@ -46,12 +43,13 @@ def init_UpdateCrtl(legato, clean_test):
     swilog.info("[PASSED] Make and install the test app successfully.")
 
 
-# ==================================================================================================
+# ======================================================================================
 # Test Functions
-# ==================================================================================================
-def L_UpdateCtrl_Defer_0001(target, legato, init_UpdateCrtl):
-    """
-    Verify that le_updateCtrl_Defer() prevents all updates
+# ======================================================================================
+@pytest.mark.usefixtures("init_UpdateCrtl")
+def L_UpdateCtrl_Defer_0001(target):
+    """Verify that le_updateCtrl_Defer() prevents all updates.
+
     (remove an app)
 
     Initial Condition:
@@ -75,41 +73,44 @@ def L_UpdateCtrl_Defer_0001(target, legato, init_UpdateCrtl):
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         init_UpdateCrtl: fixture to clean up environment and build app
-
     """
-
     swilog.step("Test L_UpdateCtrl_Defer_0001")
 
     # Set the parameters of the testUpdateCtrl app to
     # "defer" "1" to run this test case
-    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01,
-                                                             APP_NAME_01))
-    target.run("config set apps/%s/procs/%s/args/2 1" % (APP_NAME_01,
-                                                         APP_NAME_01))
+    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01, APP_NAME_01))
+    target.run("config set apps/%s/procs/%s/args/2 1" % (APP_NAME_01, APP_NAME_01))
 
     # Run the testUpdateCtrl app that will invoke le_updateCtrl_Defer()
-    exit, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=1)
-    assert exit == 0, "[FAILED] App could not be started."
+    status, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=True)
+    swilog.debug(rsp)
+    assert status == 0, "[FAILED] App could not be started."
 
     # Try to do a update in the target device by removing
     # the testUpdateCtrl app while the
     # Current system should hold a defer lock
     # If the removal was successful then, the system update is proceed
-    exit, rsp = target.run("app remove %s" % APP_NAME_01, withexitstatus=1)
-    assert exit == 1, "[FAILED] Defer() allows update to happen when \
+    status, rsp = target.run("app remove %s" % APP_NAME_01, withexitstatus=True)
+    swilog.debug(rsp)
+    assert (
+        status == 1
+    ), "[FAILED] Defer() allows update to happen when \
 attempting to remove an app."
 
     # If the system update was successful,
     # the update was allowed and mark this TC failed
-    swilog.info("[PASSED] Defer() doesn't allow update to"
-                " happen when attempting to remove an app")
+    swilog.info(
+        "[PASSED] Defer() doesn't allow update to"
+        " happen when attempting to remove an app"
+    )
 
     swilog.info("[PASSED] Test L_UpdateCtrl_Defer_0001")
 
 
-def L_UpdateCtrl_Defer_0002(target, legato, init_UpdateCrtl):
-    """
-    Verify that le_updateCtrl_Defer() prevents all updates
+@pytest.mark.usefixtures("init_UpdateCrtl")
+def L_UpdateCtrl_Defer_0002(target, legato):
+    """Verify that le_updateCtrl_Defer() prevents all updates.
+
     (install an app)
 
     Initial Condition:
@@ -133,21 +134,18 @@ def L_UpdateCtrl_Defer_0002(target, legato, init_UpdateCrtl):
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         init_UpdateCrtl: fixture to clean up environment and build app
-
     """
-
     swilog.step("Test L_UpdateCtrl_Defer_0002")
 
     # Set the parameter of the testUpdateCtrl app to
     # "defer" "2" to run this test case
-    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01,
-                                                             APP_NAME_01))
-    target.run("config set apps/%s/procs/%s/args/2 2" % (APP_NAME_01,
-                                                         APP_NAME_01))
+    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01, APP_NAME_01))
+    target.run("config set apps/%s/procs/%s/args/2 2" % (APP_NAME_01, APP_NAME_01))
 
     # Run the testUpdateCtrl app that will invoke le_updateCtrl_Defer()
-    exit, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=1)
-    assert exit == 0, "[FAILED] App could not be started."
+    status, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=True)
+    swilog.debug(rsp)
+    assert status == 0, "[FAILED] App could not be started."
 
     # Perform an update to the system by installing the new helloWorld app
     # If the installation was successful then,
@@ -157,15 +155,18 @@ def L_UpdateCtrl_Defer_0002(target, legato, init_UpdateCrtl):
 
     # If the system update was successful,
     # the update was allowed and mark this TC failed
-    swilog.info("[PASSED] Defer() doesn't allow update to \
-                happen when attempting to install an app")
+    swilog.info(
+        "[PASSED] Defer() doesn't allow update to \
+                happen when attempting to install an app"
+    )
 
     swilog.info("[PASSED] Test L_UpdateCtrl_Defer_0002")
 
 
-def L_UpdateCtrl_Defer_0003(target, legato, init_UpdateCrtl):
-    """
-    Verify that le_updateCtrl_Defer() prevents all updates
+@pytest.mark.usefixtures("init_UpdateCrtl")
+def L_UpdateCtrl_Defer_0003(target, legato):
+    """Verify that le_updateCtrl_Defer() prevents all updates.
+
     (install a system)
 
     Initial Condition:
@@ -183,20 +184,16 @@ def L_UpdateCtrl_Defer_0003(target, legato, init_UpdateCrtl):
     the current system status can be verified by
     the command line "legato status")
 
-     Args:
+    Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         init_UpdateCrtl: fixture to clean up environment and build app
-
     """
-
     swilog.step("Test L_UpdateCtrl_Defer_0003")
 
     # Set the parameter of the testUpdateCtrl app to "defer" "3"
-    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01,
-                                                             APP_NAME_01))
-    target.run("config set apps/%s/procs/%s/args/2 3" % (APP_NAME_01,
-                                                         APP_NAME_01))
+    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01, APP_NAME_01))
+    target.run("config set apps/%s/procs/%s/args/2 3" % (APP_NAME_01, APP_NAME_01))
 
     # Change the probation period to 1s to
     # turn the current system into a "good" system status because
@@ -208,29 +205,36 @@ def L_UpdateCtrl_Defer_0003(target, legato, init_UpdateCrtl):
     # Wait for 4s allow the probation period to pass
     time.sleep(4)
     # Run the testUpdateCtrl app that will invoke le_updateCtrl_Defer()
-    exit, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=1)
-    assert exit == 0, "[FAILED] App could not be started."
+    status, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=True)
+    swilog.debug(rsp)
+    assert status == 0, "[FAILED] App could not be started."
 
     # Try to do an update in the target device by installing
     # a new Legato system
     # If the installation was successful then,
     # the system update attempt is proceed
     cmd = "instlegato %s/build/" % (LEGATO_ROOT)
-    rsp, exit = pexpect.run(cmd, withexitstatus=1)
-    assert exit != 0, "[FAILED] Defer() allows update to \
+    rsp, status = pexpect.run(cmd, withexitstatus=True)
+    swilog.debug(rsp)
+    assert (
+        status != 0
+    ), "[FAILED] Defer() allows update to \
                        happen when attempting to install a new system"
     # If the system update was successful
     # (which updates are allowed and le_updateCtrl_Defer()
     # Doesn't satisfy its functionality), mark this test case is failed
-    swilog.info("[PASSED] Defer() doesn't allow update to happen when"
-                " attempting to install a new system")
+    swilog.info(
+        "[PASSED] Defer() doesn't allow update to happen when"
+        " attempting to install a new system"
+    )
 
     swilog.info("[PASSED] Test L_UpdateCtrl_Defer_0003")
 
 
-def L_UpdateCtrl_Defer_0004(target, legato, init_UpdateCrtl):
-    """
-    Verify that the deferral will be released after the client
+@pytest.mark.usefixtures("init_UpdateCrtl")
+def L_UpdateCtrl_Defer_0004(target, legato):
+    """Verify that the deferral will be released after the client.
+
     (process) who called le_updateCtrl_Defer() is dead
 
     Testing Procedures:
@@ -244,20 +248,17 @@ def L_UpdateCtrl_Defer_0004(target, legato, init_UpdateCrtl):
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         init_UpdateCrtl: fixture to clean up environment and build app
-
     """
-
     swilog.step("Test L_UpdateCtrl_Defer_0004")
 
     # Set the parameter of the testUpdateCtrl app to
     # "defer" "4" to run this test case
-    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01,
-                                                             APP_NAME_01))
-    target.run("config set apps/%s/procs/%s/args/2 4" % (APP_NAME_01,
-                                                         APP_NAME_01))
+    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01, APP_NAME_01))
+    target.run("config set apps/%s/procs/%s/args/2 4" % (APP_NAME_01, APP_NAME_01))
     # Run the testUpdateCtrl app that will invoke le_updateCtrl_Defer()
-    exit, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=1)
-    assert exit == 0, "[FAILED] App could not be started."
+    status, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=True)
+    swilog.debug(rsp)
+    assert status == 0, "[FAILED] App could not be started."
 
     # Check whether defer lock is released so that
     # any system update is allowed by installing
@@ -268,15 +269,17 @@ def L_UpdateCtrl_Defer_0004(target, legato, init_UpdateCrtl):
     # If the target device is not shutting down then,
     # killing the process who holds the defer lock
     # won't cause reboot. Marked this test case failed
-    swilog.info("[PASSED] defer lock was released after"
-                " a process which called Defer() is dead")
+    swilog.info(
+        "[PASSED] defer lock was released after"
+        " a process which called Defer() is dead"
+    )
 
     swilog.info("[PASSED] Test L_UpdateCtrl_Defer_0004")
 
 
-def L_UpdateCtrl_Defer_0005(target, legato, clean_test):
-    """
-    Verify that le_updateCtrl_Defer() prevents rollbacks
+@pytest.mark.usefixtures("clean_test")
+def L_UpdateCtrl_Defer_0005(target, legato):
+    """Verify that le_updateCtrl_Defer() prevents rollbacks.
 
     Initial Conditions:
         1. Current system index is "N"
@@ -292,13 +295,11 @@ def L_UpdateCtrl_Defer_0005(target, legato, clean_test):
         the current system status can be verified by
         the command line "legato status")
 
-     Args:
+    Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         clean_test: fixture to clean up environment
-
     """
-
     swilog.step("Test L_UpdateCtrl_Defer_0005")
     old_sys_index = 0
     new_sys_index = 0
@@ -324,19 +325,17 @@ def L_UpdateCtrl_Defer_0005(target, legato, clean_test):
 
     # Set the parameter of the testUpdateCtrl app to
     # "defer" "5" to run this test case
-    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01,
-                                                             APP_NAME_01))
-    target.run("config set apps/%s/procs/%s/args/2 5" % (APP_NAME_01,
-                                                         APP_NAME_01))
+    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01, APP_NAME_01))
+    target.run("config set apps/%s/procs/%s/args/2 5" % (APP_NAME_01, APP_NAME_01))
 
     # Store the system index before the deferral of
     # the system roll-back for verification
     old_sys_index = legato.get_current_system_index()
 
-    target.run("app start %s" % APP_NAME_01, withexitstatus=1)
+    target.run("app start %s" % APP_NAME_01, withexitstatus=True)
 
     # ==========================================================
-    # TODO whether the reboot is necessary before the roll-back
+    # whether the reboot is necessary before the roll-back
     # if this test case is failed then, the system
     # may perform roll-back so, target device will reboot
     # ticket: LE-5080
@@ -370,9 +369,12 @@ def L_UpdateCtrl_Defer_0005(target, legato, clean_test):
     #   5)Previous 'good' system doesn't has the testUpdateCtrl app installed
     # If any of the previous behaviours was inspected, roll-back was not held
     # mark this test case failed
-    if (old_sys_index != new_sys_index) or \
-       (legato.is_app_exist(APP_NAME_01) is False) or \
-       (is_target_reboot is True) or (system_status is "good"):
+    if (
+        (old_sys_index is not new_sys_index)
+        or not (legato.is_app_exist(APP_NAME_01))
+        or (is_target_reboot)
+        or (system_status == "good")
+    ):
         swilog.error("[FAILED] defer() doesn't prevent the system roll-back")
     else:
         swilog.info("[PASSED] defer() does prevent the system roll-back")
@@ -380,9 +382,10 @@ def L_UpdateCtrl_Defer_0005(target, legato, clean_test):
     swilog.info("[PASSED] Test L_UpdateCtrl_Defer_0005")
 
 
-def L_UpdateCtrl_Defer_0006(target, legato, init_UpdateCrtl):
-    """
-    Verify that the deferral will be released after
+@pytest.mark.usefixtures("init_UpdateCrtl")
+def L_UpdateCtrl_Defer_0006(target, legato):
+    """Verify that the deferral will be released after.
+
     stopping the client (process) who called le_updateCtrl_Defer()
 
     Testing Procedures:
@@ -397,26 +400,24 @@ def L_UpdateCtrl_Defer_0006(target, legato, init_UpdateCrtl):
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         init_UpdateCrtl: fixture to clean up environment and build app
-
     """
-
     swilog.step("Test L_UpdateCtrl_Defer_0006")
     # Begin of the this TC
 
     # Set the parameter of the testUpdateCtrl app to
     # "defer" "4" to run this test case
-    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01,
-                                                             APP_NAME_01))
-    target.run("config set apps/%s/procs/%s/args/2 6" % (APP_NAME_01,
-                                                         APP_NAME_01))
+    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01, APP_NAME_01))
+    target.run("config set apps/%s/procs/%s/args/2 6" % (APP_NAME_01, APP_NAME_01))
 
     # Run the testUpdateCtrl app that will invoke le_updateCtrl_Defer()
-    exit, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=1)
-    assert exit == 0, "[FAILED] App could not be started."
+    status, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=True)
+    swilog.debug(rsp)
+    assert status == 0, "[FAILED] App could not be started."
 
     # Stop the testUPdateCtrl app which is holding a defer lock
-    exit, rsp = target.run("app stop %s" % APP_NAME_01, withexitstatus=1)
-    assert exit == 0, "[FAILED] App could not be stopped."
+    status, rsp = target.run("app stop %s" % APP_NAME_01, withexitstatus=True)
+    swilog.debug(rsp)
+    assert status == 0, "[FAILED] App could not be stopped."
 
     # Check whether defer lock is released so that
     #    any system update is allowed by installing
@@ -427,7 +428,9 @@ def L_UpdateCtrl_Defer_0006(target, legato, init_UpdateCrtl):
     # If the target device is not shutting down then,
     # killing the process who holds the defer lock
     # Won't cause reboot. Marked this test case failed
-    swilog.info("[PASSED] defer lock was released after a"
-                " process which called Defer() is stopped")
+    swilog.info(
+        "[PASSED] defer lock was released after a"
+        " process which called Defer() is stopped"
+    )
 
     swilog.info("[PASSED] Test L_UpdateCtrl_Defer_0006")

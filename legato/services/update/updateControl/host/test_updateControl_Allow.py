@@ -1,19 +1,18 @@
-""" @package updateControlModule The update control API test
+"""@package updateControlModule The update control API test.
 
-    Set of functions to test the le_updateCtrl_Allow
+Set of functions to test the le_updateCtrl_Allow
 """
 import os
 import time
 import swilog
 import pytest
 
-__copyright__ = 'Copyright (C) Sierra Wireless Inc.'
-# ==================================================================================================
+__copyright__ = "Copyright (C) Sierra Wireless Inc."
+# ======================================================================================
 # Constants and Globals
-# ==================================================================================================
+# ======================================================================================
 # Determine the resources folder (legato apps)
-TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                              'resources')
+TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)), "resources")
 APP_PATH_00 = os.path.join(TEST_RESOURCES, "updateCtrlApi")
 
 APP_NAME_01 = "testUpdateCtrl"
@@ -23,20 +22,18 @@ APP_NAME_02 = "helloWorld"
 APP_PATH_02 = os.path.join(APP_PATH_00, "helloWorldApp")
 
 
-# ==================================================================================================
+# ======================================================================================
 # Local fixtures
-# ==================================================================================================
+# ======================================================================================
 @pytest.fixture()
-def init_UpdateCrtl(legato, clean_test):
-    """
-    Clean up environment and build app
+@pytest.mark.usefixtures("clean_test")
+def init_UpdateCrtl(legato):
+    """Clean up environment and build app.
 
     Args:
         legato: fixture to call useful functions regarding legato
         clean_test: fixture to clean up environment
-
     """
-
     if legato.get_current_system_index() != 0:
         legato.restore_golden_legato()
     # Make install application
@@ -44,12 +41,13 @@ def init_UpdateCrtl(legato, clean_test):
     swilog.info("[PASSED] Make and install the test app successfully.")
 
 
-# ==================================================================================================
+# ======================================================================================
 # Test Functions
-# ==================================================================================================
-def L_UpdateCtrl_Allow_0001(target, legato, init_UpdateCrtl):
-    """
-    Verify that le_updateCtrl_Allow() will not allow updates to
+# ======================================================================================
+@pytest.mark.usefixtures("init_UpdateCrtl")
+def L_UpdateCtrl_Allow_0001(target, legato):
+    """Verify that le_updateCtrl_Allow() will not allow updates to.
+
     go ahead until no clients are deferring updates in a single process
 
     Initial Conditions:
@@ -69,20 +67,17 @@ def L_UpdateCtrl_Allow_0001(target, legato, init_UpdateCrtl):
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         init_UpdateCrtl: fixture to clean up environment and build app
-
     """
-
     swilog.step("Test L_UpdateCtrl_Allow_0001")
 
     # Set the parameter of the testUpdateCtrl app to
     # "allow" "1" to run this test case
-    target.run("config set apps/%s/procs/%s/args/1 allow" % (APP_NAME_01,
-                                                             APP_NAME_01))
-    target.run("config set apps/%s/procs/%s/args/2 1" % (APP_NAME_01,
-                                                         APP_NAME_01))
+    target.run("config set apps/%s/procs/%s/args/1 allow" % (APP_NAME_01, APP_NAME_01))
+    target.run("config set apps/%s/procs/%s/args/2 1" % (APP_NAME_01, APP_NAME_01))
 
-    exit, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=1)
-    assert exit == 0, "[FAILED] App could not be started."
+    status, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=True)
+    swilog.debug(rsp)
+    assert status == 0, "[FAILED] App could not be started."
 
     # Perform the first system update attempt to
     # the system by installing the new helloWorld app
@@ -106,15 +101,18 @@ def L_UpdateCtrl_Allow_0001(target, legato, init_UpdateCrtl):
     # Therefore, if the first system update attempt is successful or the
     # second system update attempt is not then,
     # This test case is marked as failed
-    swilog.info("[PASSED] the matching number of Allow() and Defer()"
-                " calls in one process releases the defer lock")
+    swilog.info(
+        "[PASSED] the matching number of Allow() and Defer()"
+        " calls in one process releases the defer lock"
+    )
 
     swilog.info("[PASSED] Test L_UpdateCtrl_Allow_0001")
 
 
-def L_UpdateCtrl_Allow_0002(target, legato, init_UpdateCrtl):
-    """
-    Verify that le_updateCtrl_Allow() will not allow updates to
+@pytest.mark.usefixtures("init_UpdateCrtl")
+def L_UpdateCtrl_Allow_0002(target, legato):
+    """Verify that le_updateCtrl_Allow() will not allow updates to.
+
     go ahead until no clients are deferring updates in multiple processes
 
     Initial Conditions:
@@ -136,31 +134,29 @@ def L_UpdateCtrl_Allow_0002(target, legato, init_UpdateCrtl):
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         init_UpdateCrtl: fixture to clean up environment and build app
-
     """
-
     swilog.step("Test L_UpdateCtrl_Allow_0002")
 
     # Set the parameter of the testUpdateCtrl process to
     # "allow" "2" to run this test case
 
-    target.run("config set apps/%s/procs/testUpdateCtrl"
-               "/args/1 allow" % APP_NAME_01)
-    target.run("config set apps/%s/procs/testUpdateCtrl"
-               "/args/2 2" % APP_NAME_01)
+    target.run("config set apps/%s/procs/testUpdateCtrl" "/args/1 allow" % APP_NAME_01)
+    target.run("config set apps/%s/procs/testUpdateCtrl" "/args/2 2" % APP_NAME_01)
 
     # Set the parameter of the otherTestUpdateCtrl process to
     # "allow" "2" to run this test case
-    target.run("config set apps/%s/procs/"
-               "otherTestUpdateCtrl/args/1 allow" % APP_NAME_01)
+    target.run(
+        "config set apps/%s/procs/" "otherTestUpdateCtrl/args/1 allow" % APP_NAME_01
+    )
 
-    target.run("config set apps/%s/procs/"
-               "otherTestUpdateCtrl/args/1 allow" % APP_NAME_01)
-    target.run("config set apps/%s/procs/otherTestUpdateCtrl"
-               "/args/2 2" % APP_NAME_01)
+    target.run(
+        "config set apps/%s/procs/" "otherTestUpdateCtrl/args/1 allow" % APP_NAME_01
+    )
+    target.run("config set apps/%s/procs/otherTestUpdateCtrl" "/args/2 2" % APP_NAME_01)
 
-    exit, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=1)
-    assert exit == 0, "[FAILED] App could not be started."
+    status, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=True)
+    swilog.debug(rsp)
+    assert status == 0, "[FAILED] App could not be started."
 
     # Perform the first system update attempt to
     # the system by installing the new helloWorld app
@@ -187,15 +183,17 @@ def L_UpdateCtrl_Allow_0002(target, legato, init_UpdateCrtl):
     # if the first system update attempt is successful or the
     # second system update attempt is not then,
     # This test case is marked as failed
-    swilog.info("[PASSED] the matching number of Allow() and Defer()"
-                " calls in multiple processes releases the defer lock")
+    swilog.info(
+        "[PASSED] the matching number of Allow() and Defer()"
+        " calls in multiple processes releases the defer lock"
+    )
 
     swilog.info("[PASSED] Test L_UpdateCtrl_Allow_0002")
 
 
-def L_UpdateCtrl_Allow_0003(target, legato, clean_test):
-    """
-    Verify that rollback will be called when defers are lifted
+@pytest.mark.usefixtures("clean_test")
+def L_UpdateCtrl_Allow_0003(target, legato):
+    """Verify that rollback will be called when defers are lifted.
 
     Initial Conditions:
         1. le_updateCtrl_Defer() is verified
@@ -213,9 +211,7 @@ def L_UpdateCtrl_Allow_0003(target, legato, clean_test):
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         clean_test: fixture to clean up environment
-
     """
-
     swilog.step("Test L_UpdateCtrl_Allow_0003")
     old_sys_index = 0
     new_sys_index = 0
@@ -245,18 +241,16 @@ def L_UpdateCtrl_Allow_0003(target, legato, clean_test):
 
     # Set the parameter of the testUpdateCtrl app to
     # "allow" "3" to run this test case
-    target.run("config set apps/%s/procs/%s/args/1 allow" % (APP_NAME_01,
-                                                             APP_NAME_01))
-    target.run("config set apps/%s/procs/%s/args/2 3" % (APP_NAME_01,
-                                                         APP_NAME_01))
+    target.run("config set apps/%s/procs/%s/args/1 allow" % (APP_NAME_01, APP_NAME_01))
+    target.run("config set apps/%s/procs/%s/args/2 3" % (APP_NAME_01, APP_NAME_01))
 
-    target.run("app start %s" % APP_NAME_01, withexitstatus=1)
+    target.run("app start %s" % APP_NAME_01, withexitstatus=True)
 
     # Store the current system status when the system rollback has began
     old_system_status = legato.get_current_system_status()
 
     # ==========================================================
-    # TODO whether the reboot is necessary before the roll-back
+    # whether the reboot is necessary before the roll-back
     # if this test case is failed then, the system
     # may perform roll-back so, target device will reboot
     # ticket: LE-5080
@@ -285,15 +279,17 @@ def L_UpdateCtrl_Allow_0003(target, legato, clean_test):
     # If any of the previous behaviours wasn't inspected,
     # roll-back wasn't proceed when the defer lock is released and
     # mark this test case failed
-    if (old_sys_index != new_sys_index) or \
-       legato.is_app_exist(target, APP_NAME_01) or \
-       is_target_reboot is False or (old_system_status != "bad") or \
-       (new_system_status) != "good":
-        swilog.error("[FAILED] rollback is not successful"
-                     " when defers are lifted")
+    if (
+        (old_sys_index != new_sys_index)
+        or legato.is_app_exist(target, APP_NAME_01)
+        or is_target_reboot is False
+        or (old_system_status != "bad")
+        or (new_system_status) != "good"
+    ):
+        swilog.error("[FAILED] rollback is not successful" " when defers are lifted")
     else:
         swilog.info("[PASSED] rollback is successful when defers are lifted")
         is_tc_passed = True
 
-    assert is_tc_passed is True, "[FAILED] L_UpdateCtrl_Allow_0003"
+    assert is_tc_passed, "[FAILED] L_UpdateCtrl_Allow_0003"
     swilog.info("[PASSED] Test L_UpdateCtrl_Allow_0003")
