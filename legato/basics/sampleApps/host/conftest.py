@@ -1,20 +1,20 @@
-"""
-    Fixtures for sampleApps
-"""
-import pytest
-import os
-import pexpect
-import swilog
-import time
-import re
+"""Fixtures for sampleApps."""
 
-__copyright__ = 'Copyright (C) Sierra Wireless Inc.'
+import os
+import re
+import time
+import swilog
+import pytest
+import pexpect
+
+__copyright__ = "Copyright (C) Sierra Wireless Inc."
 
 
 @pytest.fixture
 def installapp_cleanup(target, legato, request, tmpdir, read_config):
-    """
-    Fixture to initialize (make, install application...) and cleanup the test
+    """Fixture to initialize (make, install application...).
+
+    And cleanup the test.
 
     Args:
         target: fixture to communicate with the target
@@ -22,10 +22,9 @@ def installapp_cleanup(target, legato, request, tmpdir, read_config):
         request: objiect to access the data
         tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
-
+        read_config: fixture to get value from .xml file
     """
-
-    target_type = target.target_name
+    app_name = ["dataHub", "actuator", "sensor", "printServer", "printClient", ""]
     test_name = request.node.name.split("[")[0]
     os.chdir(str(tmpdir))
     legato.clear_target_log()
@@ -35,55 +34,56 @@ def installapp_cleanup(target, legato, request, tmpdir, read_config):
         legato.restore_golden_legato()
 
     if test_name == "L_SampleApps_DataHub_0001":
-        data_hub_app = "dataHub"
-        actuator_app = "actuator"
-        sensor_app = "sensor"
 
-        legato.make_install(data_hub_app,
-                            app_path=app_path,
-                            option=("-i %s/" % app_path))
-        legato.make_install(actuator_app,
-                            app_path="%s/test/" % app_path,
-                            option=("-i %s/" % app_path))
-        legato.make_install(sensor_app, app_path="%s/test/" % app_path,
-                            option=("-i %s/ -i %s/components/periodicSensor/ "
-                                    "-c %s/components/"
-                                    % (app_path, app_path, app_path)))
+        legato.make_install(
+            app_name[0], app_path=app_path, option=("-i %s/" % app_path)
+        )
+        legato.make_install(
+            app_name[1], app_path="%s/test/" % app_path, option=("-i %s/" % app_path)
+        )
+        legato.make_install(
+            app_name[2],
+            app_path="%s/test/" % app_path,
+            option=(
+                "-i %s/ -i %s/components/periodicSensor/ "
+                "-c %s/components/" % (app_path, app_path, app_path)
+            ),
+        )
 
-        # check apps are installed
-        assert legato.is_app_exist(data_hub_app)
-        assert legato.is_app_exist(actuator_app)
-        assert legato.is_app_exist(sensor_app)
+        # Check apps are installed
+        assert legato.is_app_exist(app_name[0])
+        assert legato.is_app_exist(app_name[1])
+        assert legato.is_app_exist(app_name[2])
 
         time.sleep(5)
-        legato.restart(actuator_app)
-        legato.restart(sensor_app)
+        legato.restart(app_name[1])
+        legato.restart(app_name[2])
     elif test_name == "L_SampleApps_HelloIpc_0001":
-        app_name1 = "printServer"
-        app_name2 = "printClient"
-        legato.make_install(app_name1, app_path)
-        legato.make_install(app_name2, app_path)
+        legato.make_install(app_name[3], app_path)
+        legato.make_install(app_name[4], app_path)
 
     else:
-        app_name = getattr(request.module, "APP_NAME_%s" % test_name)
+        app_name[5] = getattr(request.module, "APP_NAME_%s" % test_name)
 
-        if test_name in ("L_SampleApps_HttpGet_0001",
-                         "L_SampleApps_Karaoke_0001"):
-            legato.make_install(app_name,
-                                app_path=app_path,
-                                option=("-i %s/" % app_path))
+        if test_name in ("L_SampleApps_HttpGet_0001", "L_SampleApps_Karaoke_0001"):
+            legato.make_install(
+                app_name[5], app_path=app_path, option=("-i %s/" % app_path)
+            )
 
-        elif test_name in ("L_SampleApps_HttpServer_0001"):
-            cmd = "mkapp %s -t %s" \
-                  % (os.path.join(app_path, app_name) + ".adef", target_type)
+        elif test_name == ("L_SampleApps_HttpServer_0001"):
+            cmd = "mkapp %s -t %s" % (
+                os.path.join(app_path, app_name[5]) + ".adef",
+                target.target_name,
+            )
             swilog.info(cmd)
 
             # Need a long time to make app
-            rsp, exit = pexpect.run(cmd, timeout=200, withexitstatus=1)
-            assert exit == 0, "[FAILED] Make app failed."
-            legato.install(app_name)
+            rsp, exit_status = pexpect.run(cmd, timeout=200, withexitstatus=True)
+            swilog.debug(rsp)
+            assert exit_status == 0, "[FAILED] Make app failed."
+            legato.install(app_name[5])
         else:
-            legato.make_install(app_name, app_path)
+            legato.make_install(app_name[5], app_path)
 
     phone_num = ""
     if test_name in ("L_SampleApps_Sms_0001", "L_SampleApps_ModemDemo_0001"):
@@ -96,9 +96,10 @@ def installapp_cleanup(target, legato, request, tmpdir, read_config):
         # If the phone number is not set in xml
         if phone_num == "":
             # Get Sim's phone number
-            phone_num_rsp = target.run("cm sim number", withexitstatus=1)
-            match_obj = re.search(r'.*Phone Number: .* (.*)\r\n',
-                                  phone_num_rsp[1], re.M)
+            phone_num_rsp = target.run("cm sim number", withexitstatus=True)
+            match_obj = re.search(
+                r".*Phone Number: .* (.*)\r\n", phone_num_rsp[1], re.M
+            )
             if match_obj:
                 phone_num = match_obj.group(1)
 
@@ -115,8 +116,7 @@ def installapp_cleanup(target, legato, request, tmpdir, read_config):
 
 @pytest.fixture()
 def installsys_cleanup(target, legato, request, tmpdir):
-    """
-    Fixture to initialize (make, install system...) and cleanup the test
+    """Fixture to initialize (make, install system...) and cleanup the test.
 
     Args:
         target: fixture to communicate with the target
@@ -124,9 +124,7 @@ def installsys_cleanup(target, legato, request, tmpdir):
         request: objiect to access the data
         tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
-
     """
-
     test_name = request.node.name.split("[")[0]
 
     sys_name = getattr(request.module, "SYS_NAME_%s" % test_name)
@@ -136,16 +134,17 @@ def installsys_cleanup(target, legato, request, tmpdir):
 
     if test_name == "L_SampleApps_Mqtt_0001":
         ret = os.system("/bin/ps -A |/bin/grep -w mosquitto")
-        fail_mesg = "[FAILED] Please install mosquitto "\
-                    "and mosquitto-clients before test"
+        fail_mesg = (
+            "[FAILED] Please install mosquitto " "and mosquitto-clients before test"
+        )
         assert ret == 0, fail_mesg
 
         # Check mosquitto_pub is available
         ret = os.popen("/usr/bin/which mosquitto_pub").readlines()
         fail_mesg = "[FAILED] Please install mosquitto_pub before test"
-        assert ("/usr/bin/mosquitto_pub" in ret[0]) is True, fail_mesg
+        assert "/usr/bin/mosquitto_pub" in ret[0], fail_mesg
 
-    # build and instal system
+    # Build and instal system
     legato.make_install_sys(sys_name, sys_path=sys_path)
     # wait for system ready
     time.sleep(30)
@@ -160,18 +159,15 @@ def installsys_cleanup(target, legato, request, tmpdir):
 
 @pytest.fixture()
 def open_port(target):
-    """
-    Open the ports 8080 and 8443 for the HTTP server test
+    """Open the ports 8080 and 8443 for the HTTP server test.
 
     Args:
         target: fixture to communicate with the target
-
     """
-
     target.open_port(8080, "tcp")
     target.open_port(8443, "tcp")
 
-    # TODO this step should be removed
+    # NEED TO: this step should be removed
     # But opening only the ports does not seem to work. To investigate
     # Open all the ports
     target.run("iptables -I INPUT -j ACCEPT")
