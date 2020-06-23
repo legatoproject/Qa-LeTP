@@ -1,39 +1,37 @@
-""" @package kernelModule Kernel Module Definition Files test
+"""@package kernelModule Kernel Module Definition Files test.
 
-    Set of functions to test the Legato kernel module definition files
+Set of functions to test the Legato kernel module definition files.
 """
+# pylint: disable=too-many-lines
 import os
 import time
 import shutil
+import fnmatch
 import pexpect
 import pytest
-import fnmatch
 import swilog
 
-__copyright__ = 'Copyright (C) Sierra Wireless Inc.'
-# =================================================================================================
+__copyright__ = "Copyright (C) Sierra Wireless Inc."
+# ====================================================================================
 # Constants and Globals
-# =================================================================================================
+# ====================================================================================
 # Determine the resources folder (legato apps)
-TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                              "resources")
+TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)), "resources")
 ASCENDING_ORDER = 1
 DESCENDING_ORDER = -1
 
 is_first_execution = True
-TARGET_BUNDLE_PATH = '/legato/systems/current/modules/files/'
+TARGET_BUNDLE_PATH = "/legato/systems/current/modules/files/"
 
 test_temp_dir = ""
 campaign_temp_dir = ""
 
 
-# =================================================================================================
+# ====================================================================================
 # Functions
-# =================================================================================================
+# ====================================================================================
 def initialize(target, legato, logread, tmpdir):
-    """
-    This functions checks every environement variable are defined
-    Define them otherwise.
+    """Check every environement variable are defined Define them otherwise.
 
     Args:
         target: fixture to communicate with the target
@@ -41,9 +39,7 @@ def initialize(target, legato, logread, tmpdir):
         logread: fixture to check log on the target
         tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
-
     """
-
     global is_first_execution
     global test_temp_dir
     global campaign_temp_dir
@@ -66,8 +62,8 @@ def initialize(target, legato, logread, tmpdir):
             )
 
         # Create all temporary directories needed
-        os.environ['TEMP_DIR'] = str(tmpdir)
-        os.environ['TEST_RESOURCES'] = TEST_RESOURCES
+        os.environ["TEMP_DIR"] = str(tmpdir)
+        os.environ["TEST_RESOURCES"] = TEST_RESOURCES
 
         test_temp_dir = tmpdir.mkdir("test")
         campaign_temp_dir = tmpdir.mkdir("campaign")
@@ -75,7 +71,7 @@ def initialize(target, legato, logread, tmpdir):
         # Build default legato and save package
         swilog.info("Build default legato and save package...")
         os.chdir(str(campaign_temp_dir))
-        legato.make_sys('default', os.environ.get("LEGATO_ROOT"), quiet=True)
+        legato.make_sys("default", os.environ.get("LEGATO_ROOT"), quiet=True)
 
         # Build prebuilt module and save them
         swilog.info("Build prebuilt module and save them...")
@@ -91,30 +87,28 @@ def initialize(target, legato, logread, tmpdir):
     logread.log_off()
 
 
-def finalize(target, legato):
-    """
-    This script will compile the default sdef and update the target with it
-    It will reinitialise the modules on the target
+def finalize(legato):
+    """Compile the default sdef and update the target with it.
+
+    It will reinitialise the modules on the target.
 
     Args:
-        target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
-
     """
-
     # Clean target by restore golden legato
     legato.restore_golden_legato()
 
     # Wait for the unloading to be performed
     # Then verify every modules have been unloaded
-    failed_msg = "Some modules have not been unloaded properly "\
-                 "after default legato installation."
+    failed_msg = (
+        "Some modules have not been unloaded properly "
+        "after default legato installation."
+    )
     assert not check_presence(legato, "L_MDEF_"), failed_msg
 
 
 def check_presence(legato, module_name):
-    """
-    This functions checks whether a module is loaded or not
+    """Check whether a module is loaded or not.
 
     Args:
         legato: fixture to call useful functions regarding legato
@@ -123,27 +117,22 @@ def check_presence(legato, module_name):
     Returns:
         True: module is loaded successfully
         False: module is not loaded properly
-
     """
-
     swilog.info("Check presence.")
-    exit_code = legato.ssh_to_target('/sbin/lsmod | grep -F "%s "'
-                                     % module_name)
+    exit_code = legato.ssh_to_target('/sbin/lsmod | grep -F "%s "' % module_name)
     # To improve
     if exit_code == 0:
         return True
     else:
         time.sleep(20)
         swilog.info("Try to check presence again...")
-        exit_code = legato.ssh_to_target('/sbin/lsmod | grep -F "%s "'
-                                         % module_name)
+        exit_code = legato.ssh_to_target('/sbin/lsmod | grep -F "%s "' % module_name)
         swilog.info(exit_code)
-        return True if exit_code == 0 else False
+        return bool(exit_code == 0)
 
 
 def check_file_presence(legato, folder_path, file_name):
-    """
-    This functions checks whether a file exist or not
+    """Check whether a file exist or not.
 
     Args:
         legato: fixture to call useful functions regarding legato
@@ -153,18 +142,15 @@ def check_file_presence(legato, folder_path, file_name):
     Returns:
         True: file exists
         False: file does not exist
-
     """
-
-    exit_code = legato.ssh_to_target('ls "%s" | grep -F "%s"'
-                                     % (folder_path, file_name))
-    return True if exit_code == 0 else False
+    exit_code = legato.ssh_to_target(
+        'ls "%s" | grep -F "%s"' % (folder_path, file_name)
+    )
+    return bool(exit_code == 0)
 
 
 def find_all_occurences_in_logread(legato, search_pattern):
-    """
-    This functions retrieves all entries in logread containing
-    the search pattern
+    """Retrieve all entries in logread containing the search pattern.
 
     Args:
         legato: fixture to call useful functions regarding legato
@@ -173,14 +159,13 @@ def find_all_occurences_in_logread(legato, search_pattern):
     Returns:
         result: all entries in logread containing
         the search pattern
-
     """
-
     result = []
 
     # Retrieve content of logread an split by lines
-    full_log = (legato.ssh_to_target("/sbin/logread | cut -d '|' -f 3-",
-                                     True)).split('\n')
+    full_log = (legato.ssh_to_target("/sbin/logread | cut -d '|' -f 3-", True)).split(
+        "\n"
+    )
 
     # Search all lines
     for line in full_log:
@@ -190,14 +175,11 @@ def find_all_occurences_in_logread(legato, search_pattern):
 
 
 def display_errors():
-    """
-    Function to get the errors list
+    """Get the errors list.
 
     Returns:
         output: string of all errors in the test.
-
     """
-
     output = "\n"
     for err in swilog.get_error_list():
         output += err + "\n"
@@ -205,9 +187,9 @@ def display_errors():
 
 
 def check_order(logread, order, ordered_list):
-    """
-    Check order of appearance for strings contained in ordered_list
-    following order
+    """Check order of appearance for strings contained.
+
+    in ordered_list following order.
 
     Args:
         logread: fixture to check log on the target
@@ -221,15 +203,13 @@ def check_order(logread, order, ordered_list):
             test_result: the result of checking
                          True or False
             observed_list: the list after checked
-
     """
-
     list_checked = ordered_list
     test_result = True
     observed_list = ""
 
     # Process check
-    if order != DESCENDING_ORDER and order != ASCENDING_ORDER:
+    if order is not DESCENDING_ORDER and order is not ASCENDING_ORDER:
         swilog.error("CheckOrder: Value of order parameter is out of bound")
         assert False, "Error in check_order Function"
     if order == DESCENDING_ORDER:
@@ -246,15 +226,16 @@ def check_order(logread, order, ordered_list):
             swilog.error("check_order: Logread stopped unexpectedly")
             test_result = False
         except pexpect.TIMEOUT:
-            swilog.error("check_order: None of the expected output "
-                         "has been found. Expect timed out")
+            swilog.error(
+                "check_order: None of the expected output "
+                "has been found. Expect timed out"
+            )
             test_result = False
     return test_result, observed_list
 
 
 def check_loading_order(logread, order, ordered_list):
-    """
-    Transform a list of module name into loading message in logread
+    """Transform a list of module name into loading message in logread.
 
     Args:
         logread: fixture to check log on the target
@@ -266,9 +247,7 @@ def check_loading_order(logread, order, ordered_list):
     Returns:
         The result of check_order function. It is a tuple
         (test_result, observed_list)
-
     """
-
     list_checked = []
     for element in ordered_list:
         list_checked.append("New kernel module '%s.ko'" % element)
@@ -276,8 +255,7 @@ def check_loading_order(logread, order, ordered_list):
 
 
 def check_unloading_order(logread, order, ordered_list):
-    """
-    Transform a list of module name into unloading message in logread
+    """Transform a list of module name into unloading message in logread.
 
     Args:
         logread: fixture to check log on the target
@@ -289,9 +267,7 @@ def check_unloading_order(logread, order, ordered_list):
     Returns:
         The result of check_order function. It is a tuple
         (test_result, observed_list)
-
     """
-
     list_checked = []
     for e in ordered_list:
         list_checked.append("Removed kernel module '%s.ko'" % e)
@@ -299,21 +275,19 @@ def check_unloading_order(logread, order, ordered_list):
 
 
 def install_system(legato, test_name):
-    """
-    This script will compile the provided sdef and update the target with it
-    Function called in each test.
-    It's not part of kmod setup because it needs parameters to work.
+    """Compile the provided sdef and update the target with it.
+
+    Function called in each test. It's not part of kmod setup because it needs
+    parameters to work.
 
     Args:
         legato: fixture to call useful functions regarding legato
         test_name: test case name
-
     """
-
     # Sdef file
     sdef_file = test_name + ".sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
     swilog.info("Compile and update target...")
@@ -325,20 +299,17 @@ def install_system(legato, test_name):
 
 
 def prebuild_system(legato):
-    """
-    This script will compile the provided sdef
-    This script could be part of initialize
-    but it will make test execution longer
+    """Compile the provided sdef This script could be part of initialize.
+
+    But it will make test execution longer.
 
     Args:
         legato: fixture to call useful functions regarding legato
-
     """
-
     # Sdef file
     sdef_file = "L_MDEF_preBuild.sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and store only the .ko files
     swilog.info("Compile and store only the .ko files...")
@@ -347,19 +318,20 @@ def prebuild_system(legato):
 
     matches = []
     for root, dirnames, filenames in os.walk(os.getcwd()):
-        for filename in fnmatch.filter(filenames, '*.ko'):
+        for filename in fnmatch.filter(filenames, "*.ko"):
+            swilog.info(dirnames)
             matches.append(os.path.join(root, filename))
-            shutil.copyfile(os.path.join(root, filename),
-                            os.path.join(os.getcwd(), filename))
+            shutil.copyfile(
+                os.path.join(root, filename), os.path.join(os.getcwd(), filename)
+            )
 
 
-# =================================================================================================
+# ====================================================================================
 # Local fixtures
-# =================================================================================================
-@pytest.fixture
+# ====================================================================================
+@pytest.fixture(autouse=True)
 def mdef_setup(target, legato, logread, tmpdir):
-    """
-    Initialize and cleanup the test
+    """Init and cleanup the test.
 
     Args:
         target: fixture to communicate with the target
@@ -367,20 +339,18 @@ def mdef_setup(target, legato, logread, tmpdir):
         logread: fixture to check log on the target
         tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
-
     """
-
     initialize(target, legato, logread, tmpdir)
     yield
-    finalize(target, legato)
+    finalize(legato)
 
 
-# =================================================================================================
+# ====================================================================================
 # Test functions
-# =================================================================================================
-def L_MDEF_0001(legato, mdef_setup):
-    """
-    Verify that mdef can be use to include kernel module to be built
+# ====================================================================================
+def L_MDEF_0001(legato):
+    """Verify that mdef can be use to include kernel module to be built.
+
     This script will
         1. Create an update package (load: auto)
         2. Verify loading of the module
@@ -390,10 +360,7 @@ def L_MDEF_0001(legato, mdef_setup):
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0001"
@@ -408,11 +375,11 @@ def L_MDEF_0001(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
         else:
-            swilog.step("Step 2: Kernel module %s has been "
-                        "properly loaded" % module)
+            swilog.step("Step 2: Kernel module %s has been properly loaded" % module)
 
     # Stop legato
     swilog.step("Step 3: Stopping legato...")
@@ -423,8 +390,9 @@ def L_MDEF_0001(legato, mdef_setup):
     for module in list_modules:
         if check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 4: Kernel module %s has not been "
-                         "properly unloaded" % module)
+            swilog.error(
+                "Step 4: Kernel module %s has not been properly unloaded" % module
+            )
 
     # Start legato
     swilog.step("Step 5: Starting legato...")
@@ -435,16 +403,17 @@ def L_MDEF_0001(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 6: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 6: Kernel module %s has not been properly loaded" % module
+            )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0002(legato, mdef_setup):
-    """
-    Verify that mdef can be use to include prebuilt kernel module
+def L_MDEF_0002(legato):
+    """Verify that mdef can be use to include prebuilt kernel module.
+
     This script will
         1. Create an update package (load: auto)
         2. Verify loading of the module
@@ -454,10 +423,7 @@ def L_MDEF_0002(legato, mdef_setup):
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0002"
@@ -472,8 +438,9 @@ def L_MDEF_0002(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     # Stop legato
     swilog.step("Step 3: Stopping legato...")
@@ -484,8 +451,9 @@ def L_MDEF_0002(legato, mdef_setup):
     for module in list_modules:
         if check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 4: Kernel module %s has not been "
-                         "properly unloaded" % module)
+            swilog.error(
+                "Step 4: Kernel module %s has not been properly unloaded" % module
+            )
 
     # Start legato
     swilog.step("Step 5: Starting legato...")
@@ -496,17 +464,19 @@ def L_MDEF_0002(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 6: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 6: Kernel module %s has not been properly loaded" % module
+            )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0003(legato, mdef_setup):
-    """
-    Check Mdef error case and system including prebuilt and to be built
-    kernel module.
+def L_MDEF_0003(legato):
+    """Check Mdef error case and system including prebuilt.
+
+    And to be built kernel module.
+
     This script will
         1. Create an update package (load: auto) with both sources and
         prebuilt section in mdef file
@@ -515,28 +485,26 @@ def L_MDEF_0003(legato, mdef_setup):
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Sdef file
     sdef_file = "L_MDEF_0003.sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path,
-                                     source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
     err_msg = "error: Use either 'sources' or 'preBuilt' section."
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0005(legato, logread, mdef_setup):
-    """
-    Verify that mdef including kernel module built from source are able to
-    create multiple level dependencies.
+def L_MDEF_0005(legato, logread):
+    """Verify that mdef including kernel module built from source.
+
+    are able to create multiple level dependencies.
+
     This script will
         1. Create an update package (load: auto)
         2. Verify modules are loaded
@@ -549,10 +517,7 @@ def L_MDEF_0005(legato, logread, mdef_setup):
     Args:
         legato: fixture to call useful functions regarding legato
         logread: fixture to check log on the target
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0005"
@@ -569,17 +534,18 @@ def L_MDEF_0005(legato, logread, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     # Verify loading order
-    (result, message) = check_loading_order(logread,
-                                            ASCENDING_ORDER,
-                                            list_modules)
+    (result, message) = check_loading_order(logread, ASCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 2: Kernel module aren't loaded "
-                     "in the expected order. Observed: %s" % message)
+        swilog.error(
+            "Step 2: Kernel module aren't loaded "
+            "in the expected order. Observed: %s" % message
+        )
 
     # Stop legato
     swilog.step("Step 3: Stopping legato...")
@@ -590,17 +556,18 @@ def L_MDEF_0005(legato, logread, mdef_setup):
     for module in list_modules:
         if check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 4: Kernel module %s has not been "
-                         "properly unloaded" % module)
+            swilog.error(
+                "Step 4: Kernel module %s has not been properly unloaded" % module
+            )
 
     # Verify unloading order
-    (result, message) = check_unloading_order(logread,
-                                              DESCENDING_ORDER,
-                                              list_modules)
+    (result, message) = check_unloading_order(logread, DESCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 4: Kernel module aren't unloaded "
-                     "in the expected order. Observed: %s" % message)
+        swilog.error(
+            "Step 4: Kernel module aren't unloaded "
+            "in the expected order. Observed: %s" % message
+        )
 
     # Start legato
     swilog.step("Step 5: Starting legato...")
@@ -611,26 +578,28 @@ def L_MDEF_0005(legato, logread, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 6: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 6: Kernel module %s has not been properly loaded" % module
+            )
 
     # Verify loading order
-    (result, message) = check_loading_order(logread,
-                                            ASCENDING_ORDER,
-                                            list_modules)
+    (result, message) = check_loading_order(logread, ASCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 6: Kernel module aren't loaded "
-                     "in the expected order. Observed: %s" % message)
+        swilog.error(
+            "Step 6: Kernel module aren't loaded "
+            "in the expected order. Observed: %s" % message
+        )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0006(legato, logread, mdef_setup):
-    """
-    Verify that mdef including prebuilt kernel module are able to create
-    multiple level dependencies
+def L_MDEF_0006(legato, logread):
+    """Verify that mdef including prebuilt kernel module.
+
+    are able to create multiple level dependencies.
+
     This script will
         1. Create an update package (load: auto)
         2. Verify modules are loaded
@@ -643,19 +612,14 @@ def L_MDEF_0006(legato, logread, mdef_setup):
     Args:
         legato: fixture to call useful functions regarding legato
         logread: fixture to check log on the target
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0006"
     test_passed = True
 
     # Warning: Has to be in the expected loading order
-    list_modules = ["L_MDEF_prebuilt_2",
-                    "L_MDEF_prebuilt_1",
-                    "L_MDEF_prebuilt_0"]
+    list_modules = ["L_MDEF_prebuilt_2", "L_MDEF_prebuilt_1", "L_MDEF_prebuilt_0"]
 
     # Compile and update target
     install_system(legato, test_name)
@@ -665,17 +629,18 @@ def L_MDEF_0006(legato, logread, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     # Verify loading order
-    (result, message) = check_loading_order(logread,
-                                            ASCENDING_ORDER,
-                                            list_modules)
+    (result, message) = check_loading_order(logread, ASCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 2: Kernel module aren't loaded in "
-                     "the expected order. Observed: %s" % message)
+        swilog.error(
+            "Step 2: Kernel module aren't loaded in "
+            "the expected order. Observed: %s" % message
+        )
 
     # Stop legato
     swilog.step("Step 3: Stopping legato...")
@@ -686,17 +651,18 @@ def L_MDEF_0006(legato, logread, mdef_setup):
     for module in list_modules:
         if check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 4: Kernel module %s has not been "
-                         "properly unloaded" % module)
+            swilog.error(
+                "Step 4: Kernel module %s has not been properly unloaded" % module
+            )
 
     # Verify unloading order
-    (result, message) = check_unloading_order(logread,
-                                              DESCENDING_ORDER,
-                                              list_modules)
+    (result, message) = check_unloading_order(logread, DESCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 4: Kernel module aren't unloaded in "
-                     "the expected order. Observed: %s" % message)
+        swilog.error(
+            "Step 4: Kernel module aren't unloaded in "
+            "the expected order. Observed: %s" % message
+        )
 
     # Start legato
     swilog.step("Step 5: Starting legato...")
@@ -707,25 +673,26 @@ def L_MDEF_0006(legato, logread, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 6: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 6: Kernel module %s has not been properly loaded" % module
+            )
 
     # Verify loading order
-    (result, message) = check_loading_order(logread,
-                                            ASCENDING_ORDER,
-                                            list_modules)
+    (result, message) = check_loading_order(logread, ASCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 6: Kernel module aren't loaded in "
-                     "the expected order. Observed: %s" % message)
+        swilog.error(
+            "Step 6: Kernel module aren't loaded in "
+            "the expected order. Observed: %s" % message
+        )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0009(legato, mdef_setup):
-    """
-    Verify that mdef able to take more than two sources using {}
+def L_MDEF_0009(legato):
+    """Verify that mdef able to take more than two sources using {}.
+
     This script will
         1. Create an update package (load: auto)
         2. Verify loading of the module
@@ -735,10 +702,7 @@ def L_MDEF_0009(legato, mdef_setup):
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0009"
@@ -755,8 +719,9 @@ def L_MDEF_0009(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     # Stop legato
     swilog.step("Step 3: Starting legato...")
@@ -767,8 +732,9 @@ def L_MDEF_0009(legato, mdef_setup):
     for module in list_modules:
         if check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 4: Kernel module %s has not been "
-                         "properly unloaded" % module)
+            swilog.error(
+                "Step 4: Kernel module %s has not been properly unloaded" % module
+            )
 
     # Start legato
     swilog.step("Step 5: Starting legato...")
@@ -779,16 +745,17 @@ def L_MDEF_0009(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 6: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 6: Kernel module %s has not been properly loaded" % module
+            )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0010(legato, mdef_setup):
-    """
-    Verify mksys is able to handle empty kernel modules section
+def L_MDEF_0010(legato):
+    """Verify mksys is able to handle empty kernel modules section.
+
     This script will
         1. Create an update package (load: auto)
         2. Verify loading of the module
@@ -798,10 +765,7 @@ def L_MDEF_0010(legato, mdef_setup):
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0010"
@@ -818,8 +782,9 @@ def L_MDEF_0010(legato, mdef_setup):
     for module in list_modules:
         if check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has been "
-                         "unexpectedly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has been unexpectedly loaded" % module
+            )
 
     # Stop legato
     swilog.step("Step 3: Stopping legato...")
@@ -834,16 +799,17 @@ def L_MDEF_0010(legato, mdef_setup):
     for module in list_modules:
         if check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 5: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 5: Kernel module %s has not been properly loaded" % module
+            )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0011(legato, mdef_setup):
-    """
-    Verify mdef is not loaded when load is set to manual
+def L_MDEF_0011(legato):
+    """Verify mdef is not loaded when load is set to manual.
+
     This script will
         1. Create an update package (load: manual)
         2. Verify loading of the module
@@ -853,10 +819,7 @@ def L_MDEF_0011(legato, mdef_setup):
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0011"
@@ -873,14 +836,14 @@ def L_MDEF_0011(legato, mdef_setup):
     for module in list_modules:
         if check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has been "
-                         "unexpectedly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has been unexpectedly loaded" % module
+            )
 
     folder_path = "/legato/systems/current/modules"
     if not check_file_presence(legato, folder_path, test_name):
         test_passed = False
-        swilog.error("Step 3: Kernel module %s is not present in folder"
-                     % module)
+        swilog.error("Step 3: Kernel module %s is not present in folder" % module)
 
     # Stop legato
     swilog.step("Step 4: Stopping legato...")
@@ -895,31 +858,28 @@ def L_MDEF_0011(legato, mdef_setup):
     for module in list_modules:
         if check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 6: Kernel module %s has been "
-                         "unexpectedly loaded" % module)
+            swilog.error(
+                "Step 6: Kernel module %s has been unexpectedly loaded" % module
+            )
 
     if not check_file_presence(legato, folder_path, module):
         test_passed = False
-        swilog.error("Step 7: Kernel module %s is not present in folder"
-                     % module)
+        swilog.error("Step 7: Kernel module %s is not present in folder" % module)
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0012(legato, mdef_setup):
-    """
-    Verify mksys is able to handle kernel module with same name
+def L_MDEF_0012(legato):
+    """Verify mksys is able to handle kernel module with same name.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in pathing
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0012"
@@ -927,23 +887,22 @@ def L_MDEF_0012(legato, mdef_setup):
     # Sdef file
     sdef_file = test_name + ".sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
 
-    returned_value = legato.make_sys(source_file_path,
-                                     source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
 
-    err_msg = "error: Module '%s' added to the system more than once."\
-              % test_name
+    err_msg = "error: Module '%s' added to the system more than once." % test_name
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0014(legato, mdef_setup):
-    """
-    Verify relative path could be taken by specifying moduleSearch
+def L_MDEF_0014(legato):
+    """Verify relative path could be taken by specifying moduleSearch.
+
     This script will
         1. Create an update package (load: auto)
         2. Verify loading of the module
@@ -953,10 +912,7 @@ def L_MDEF_0014(legato, mdef_setup):
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
 
@@ -974,8 +930,9 @@ def L_MDEF_0014(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     # Stop legato
     swilog.step("Step 3: Stopping legato...")
@@ -986,8 +943,9 @@ def L_MDEF_0014(legato, mdef_setup):
     for module in list_modules:
         if check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 4: Kernel module %s has not been "
-                         "properly unloaded" % module)
+            swilog.error(
+                "Step 4: Kernel module %s has not been properly unloaded" % module
+            )
 
     # Start legato
     swilog.step("Step 5: Starting legato...")
@@ -998,26 +956,24 @@ def L_MDEF_0014(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 6: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 6: Kernel module %s has not been properly loaded" % module
+            )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0015(legato, mdef_setup):
-    """
-    Verify mksys should be able to handle non existence path and file
+def L_MDEF_0015(legato):
+    """Verify mksys should be able to handle non existence path and file.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in pathing
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0015"
@@ -1025,32 +981,33 @@ def L_MDEF_0015(legato, mdef_setup):
     # Sdef file
     sdef_file = test_name + ".sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path,
-                                     source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
 
-    err_msg = "error: Can't find definition file (.mdef) for module "\
-              "specification 'L_MDEF_0015.mdef'."
+    err_msg = (
+        "error: Can't find definition file (.mdef) for module "
+        "specification 'L_MDEF_0015.mdef'."
+    )
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0016(legato, mdef_setup):
-    """
-    Verify mksys should be able to handle non existence .c file under source
+def L_MDEF_0016(legato):
+    """Verify mksys should be able to handle non existence .c file.
+
+    under source.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in pathing
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0016"
@@ -1058,21 +1015,23 @@ def L_MDEF_0016(legato, mdef_setup):
     # Sdef file
     sdef_file = test_name + ".sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path,
-                                     source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
 
     err_msg = "error: File 'missingSource.c' does not exist."
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0017(legato, mdef_setup):
-    """
-    Verify mksys should be able to handle both relative path and absolute path
+def L_MDEF_0017(legato):
+    """Verify mksys should be able to handle both relative path.
+
+    and absolute path.
+
     This script will
         1. Create an update package (load: auto)
         2. Verify loading of the module
@@ -1082,10 +1041,7 @@ def L_MDEF_0017(legato, mdef_setup):
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0017"
@@ -1102,8 +1058,9 @@ def L_MDEF_0017(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     # Stop legato
     swilog.step("Step 3: Stopping legato...")
@@ -1114,8 +1071,9 @@ def L_MDEF_0017(legato, mdef_setup):
     for module in list_modules:
         if check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 4: Kernel module %s has not been "
-                         "properly unloaded" % module)
+            swilog.error(
+                "Step 4: Kernel module %s has not been properly unloaded" % module
+            )
 
     # Start legato
     swilog.step("Step 5: Starting legato...")
@@ -1126,17 +1084,19 @@ def L_MDEF_0017(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 6: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 6: Kernel module %s has not been properly loaded" % module
+            )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0018(legato, mdef_setup):
-    """
-    Verify that files, bin and scripts directory is bundled
-    under system module directory
+def L_MDEF_0018(legato):
+    """Verify that files, bin and scripts directory is bundled.
+
+    under system module directory.
+
     This script will
         1. Create an update package (load: auto)
         2. Verify loading of the module
@@ -1145,10 +1105,7 @@ def L_MDEF_0018(legato, mdef_setup):
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0018"
@@ -1165,8 +1122,9 @@ def L_MDEF_0018(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     swilog.step("Step 3: Verify module file is present...")
     folder_path = "/legato/systems/current/modules"
@@ -1180,16 +1138,16 @@ def L_MDEF_0018(legato, mdef_setup):
     for file_name in files:
         if not check_file_presence(legato, folder_path, file_name):
             test_passed = False
-            swilog.error("Step 3: File or directory %s isn't present"
-                         % file_name)
+            swilog.error("Step 3: File or directory %s isn't present" % file_name)
 
     files = ["install.sh", "remove.sh"]
     folder_path = "/legato/systems/current/modules/files/L_MDEF_0018_0/scripts"
     for file_name in files:
         if not check_file_presence(legato, folder_path, file_name):
             test_passed = False
-            swilog.error("Step 3: File or directory scripts/%s isn't present"
-                         % file_name)
+            swilog.error(
+                "Step 3: File or directory scripts/%s isn't present" % file_name
+            )
 
     files = ["dir.txt"]
     folder_path = "/legato/systems/current/modules/files/L_MDEF_0018_0/dir"
@@ -1202,19 +1160,16 @@ def L_MDEF_0018(legato, mdef_setup):
     assert test_passed, display_errors()
 
 
-def L_MDEF_0019(legato, mdef_setup):
-    """
-    Invalid path in  bundles section
+def L_MDEF_0019(legato):
+    """Invalid path in  bundles section.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0019"
@@ -1222,31 +1177,28 @@ def L_MDEF_0019(legato, mdef_setup):
     # Sdef file
     sdef_file = test_name + ".sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path,
-                                     source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
 
     err_msg = "error: File not found: '/ErrorInPath/text.txt'."
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0020(legato, mdef_setup):
-    """
-    Testing to load more than one kernelModule with scripts
+def L_MDEF_0020(legato):
+    """Test to load more than one kernelModule with scripts.
+
     This script will
         1. Create an update package (load: auto)
         2. Verify loading of the module
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0020"
@@ -1263,16 +1215,17 @@ def L_MDEF_0020(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0021(target, legato, mdef_setup):
-    """
-    Load kernel module manual with script
+def L_MDEF_0021(target, legato):
+    """Load kernel module manual with script.
+
     This script will
         1. Create an update package (load: auto)
         2. Verify loading of the module
@@ -1283,10 +1236,7 @@ def L_MDEF_0021(target, legato, mdef_setup):
     Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0021"
@@ -1302,13 +1252,15 @@ def L_MDEF_0021(target, legato, mdef_setup):
     swilog.step("Step 2: Verify auto loading mod has been loaded...")
     if not check_presence(legato, "L_MDEF_0021_0"):
         test_passed = False
-        swilog.error("Step 2: Kernel module L_MDEF_0021_0 has not been "
-                     "properly loaded")
+        swilog.error(
+            "Step 2: Kernel module L_MDEF_0021_0 has not been properly loaded"
+        )
 
     # Insert manual mod
     swilog.step("Step 3: Insert manual mod...")
-    cmd = '/sbin/insmod /legato/systems/current/modules/L_MDEF_0021_1.ko'
-    exit_code, rsp = target.run(cmd, withexitstatus=1)
+    cmd = "/sbin/insmod /legato/systems/current/modules/L_MDEF_0021_1.ko"
+    exit_code, rsp = target.run(cmd, withexitstatus=True)
+    swilog.debug(rsp)
     if exit_code != 0:
         test_passed = False
         swilog.error("Insertion of manual loading mod has failed")
@@ -1318,26 +1270,24 @@ def L_MDEF_0021(target, legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 4: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 4: Kernel module %s has not been properly loaded" % module
+            )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0022(legato, mdef_setup):
-    """
-    Specify install and remove in your script section
+def L_MDEF_0022(legato):
+    """Specify install and remove in your script section.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0022"
@@ -1345,29 +1295,26 @@ def L_MDEF_0022(legato, mdef_setup):
     # Sdef file
     sdef_file = test_name + ".sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path,
-                                     source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find("error: Unexpected character") != -1, failed_msg
 
 
-def L_MDEF_0023(legato, mdef_setup):
-    """
-    Relative path in script section of mdef
+def L_MDEF_0023(legato):
+    """Relative path in script section of mdef.
+
     This script will
         1. Create an update package with relative pathing (load: auto)
         2. Verify loading of the module
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0023"
@@ -1378,8 +1325,9 @@ def L_MDEF_0023(legato, mdef_setup):
 
     # Compile and update target
     swilog.step("Step 1: Compiling using relative path...")
-    swilog.warning("WARNING: Works only if you run the test script "
-                   "from qa/letp/ directory")
+    swilog.warning(
+        "WARNING: Works only if you run the test script from qa/letp/ directory"
+    )
     install_system(legato, test_name)
 
     # Verify mod has been loaded
@@ -1387,26 +1335,26 @@ def L_MDEF_0023(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0024(legato, mdef_setup):
-    """
-    Put more than one scripts path in install or remove section script section
+def L_MDEF_0024(legato):
+    """Put more than one scripts path in install.
+
+    or remove section script section.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in mdef
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0024"
@@ -1414,32 +1362,28 @@ def L_MDEF_0024(legato, mdef_setup):
     # Sdef file
     sdef_file = test_name + ".sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path,
-                                     source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
 
-    err_msg = "error: Internal error: "\
-              "Multiple install scripts not allowed."
+    err_msg = "error: Internal error: Multiple install scripts not allowed."
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0025(legato, mdef_setup):
-    """
-    Put more than one scripts section in mdef file
+def L_MDEF_0025(legato):
+    """Put more than one scripts section in mdef file.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in mdef
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0025"
@@ -1447,32 +1391,28 @@ def L_MDEF_0025(legato, mdef_setup):
     # Sdef file
     sdef_file = test_name + ".sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path,
-                                     source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
 
-    err_msg = "error: Internal error: "\
-              "Multiple install scripts not allowed."
+    err_msg = "error: Internal error: Multiple install scripts not allowed."
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0026(legato, mdef_setup):
-    """
-    Invalid path in scripts section
+def L_MDEF_0026(legato):
+    """Invalid path in scripts section.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in pathing
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0026"
@@ -1480,21 +1420,21 @@ def L_MDEF_0026(legato, mdef_setup):
     # Sdef file
     sdef_file = test_name + ".sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path,
-                                     source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
 
     err_msg = "error: Script file '/WrongPath/install.sh' does not exist."
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0029(legato, logread, mdef_setup):
-    """
-    Verify that mdef can be use to include multiple prebuilt kernel module
+def L_MDEF_0029(legato, logread):
+    """Verify that mdef can be use to include multiple prebuilt kernel module.
+
     This script will
         1. Create an update package (load: auto)
         2. Verify loading of the module
@@ -1505,10 +1445,7 @@ def L_MDEF_0029(legato, logread, mdef_setup):
     Args:
         legato: fixture to call useful functions regarding legato
         logread: fixture to check log on the target
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0029"
@@ -1525,16 +1462,18 @@ def L_MDEF_0029(legato, logread, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     # Verify loading order
-    (result, message) = check_loading_order(logread, ASCENDING_ORDER,
-                                            list_modules)
+    (result, message) = check_loading_order(logread, ASCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 2: Kernel module aren't loaded in "
-                     "the expected order. Observed: %s" % message)
+        swilog.error(
+            "Step 2: Kernel module aren't loaded in "
+            "the expected order. Observed: %s" % message
+        )
 
     # Stop legato
     swilog.step("Step 3: Stopping legato...")
@@ -1545,16 +1484,18 @@ def L_MDEF_0029(legato, logread, mdef_setup):
     for module in list_modules:
         if check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 4: Kernel module %s has not been "
-                         "properly unloaded" % module)
+            swilog.error(
+                "Step 4: Kernel module %s has not been properly unloaded" % module
+            )
 
     # Verify unloading order
-    (result, message) = check_unloading_order(logread, DESCENDING_ORDER,
-                                              list_modules)
+    (result, message) = check_unloading_order(logread, DESCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 4: Kernel module aren't unloaded in "
-                     "the expected order. Observed: %s" % message)
+        swilog.error(
+            "Step 4: Kernel module aren't unloaded in "
+            "the expected order. Observed: %s" % message
+        )
 
     # Start legato
     swilog.step("Step 5: Starting legato...")
@@ -1565,136 +1506,136 @@ def L_MDEF_0029(legato, logread, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 6: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 6: Kernel module %s has not been properly loaded" % module
+            )
 
     # Verify loading order
-    (result, message) = check_loading_order(logread, ASCENDING_ORDER,
-                                            list_modules)
+    (result, message) = check_loading_order(logread, ASCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 6: Kernel module aren't loaded in "
-                     "the expected order. Observed: %s" % message)
+        swilog.error(
+            "Step 6: Kernel module aren't loaded in "
+            "the expected order. Observed: %s" % message
+        )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0030(legato, mdef_setup):
-    """
-    Check Mdef error case and system including prebuilt and to be built
-    kernel module
+def L_MDEF_0030(legato):
+    """Check Mdef error case and system including prebuilt.
+
+    and to be built kernel module.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in pathing
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Sdef file
     sdef_file = "L_MDEF_0030.sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path, source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
 
     err_msg = "Module file 'missingModule.ko' does not exist."
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0031(legato, mdef_setup):
-    """
-    Check Mdef error case and system including prebuilt and to be built
-    kernel module
+def L_MDEF_0031(legato):
+    """Check Mdef error case and system including prebuilt.
+
+    and to be built kernel module.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in pathing
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Sdef file
     sdef_file = "L_MDEF_0031.sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path, source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
 
     err_msg = "File 'missingSource.c' does not exist."
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0032(legato, mdef_setup):
-    """
-    Check Mdef error case and system including prebuilt and to be built
-    kernel module
+def L_MDEF_0032(legato):
+    """Check Mdef error case and system including prebuilt.
+
+    and to be built kernel module.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in pathing
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Sdef file
     sdef_file = "L_MDEF_0032.sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path, source_file_path,
-                                     should_fail=True)
-    err_msg = "error: Can't find definition file (.mdef) for module "\
-              "specification 'missingModule.mdef'."
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
+    err_msg = (
+        "error: Can't find definition file (.mdef) for module "
+        "specification 'missingModule.mdef'."
+    )
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0033(legato, mdef_setup):
-    """
-    Check Mdef error case and system including prebuilt and to be built
-    kernel module
+def L_MDEF_0033(legato):
+    """Check Mdef error case and system including prebuilt.
+
+    and to be built kernel module.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in pathing
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Sdef file
     sdef_file = "L_MDEF_0033.sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path, source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
 
     err_msg = "error: Module file 'missingPreBuiltModule.ko' does not exist."
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0043(legato, logread, mdef_setup):
-    """
-    Verify that mdef able to take more than two prebuilt using {} and :
+def L_MDEF_0043(legato, logread):
+    """Verify that mdef able to take more than two prebuilt using "{}" and ":".
+
     This script will
         1. Create an update package (load: auto)
         2. Verify loading of the module
@@ -1705,10 +1646,7 @@ def L_MDEF_0043(legato, logread, mdef_setup):
     Args:
         legato: fixture to call useful functions regarding legato
         logread: fixture to check log on the target
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0043"
@@ -1725,16 +1663,18 @@ def L_MDEF_0043(legato, logread, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     # Verify loading order
-    (result, message) = check_loading_order(logread, ASCENDING_ORDER,
-                                            list_modules)
+    (result, message) = check_loading_order(logread, ASCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 2: Kernel module aren't loaded in "
-                     "the expected order. Observed: %s" % message)
+        swilog.error(
+            "Step 2: Kernel module aren't loaded in "
+            "the expected order. Observed: %s" % message
+        )
 
     # Stop legato
     swilog.step("Step 3: Stopping legato...")
@@ -1745,16 +1685,18 @@ def L_MDEF_0043(legato, logread, mdef_setup):
     for module in list_modules:
         if check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 4: Kernel module %s has not been "
-                         "properly unloaded" % module)
+            swilog.error(
+                "Step 4: Kernel module %s has not been properly unloaded" % module
+            )
 
     # Verify unloading order
-    (result, message) = check_unloading_order(logread, DESCENDING_ORDER,
-                                              list_modules)
+    (result, message) = check_unloading_order(logread, DESCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 4: Kernel module aren't unloaded in "
-                     "the expected order. Observed: %s" % message)
+        swilog.error(
+            "Step 4: Kernel module aren't unloaded in "
+            "the expected order. Observed: %s" % message
+        )
 
     # Start legato
     swilog.step("Step 5: Starting legato...")
@@ -1765,24 +1707,26 @@ def L_MDEF_0043(legato, logread, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 6: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 6: Kernel module %s has not been properly loaded" % module
+            )
 
     # Verify loading order
-    (result, message) = check_loading_order(logread, ASCENDING_ORDER,
-                                            list_modules)
+    (result, message) = check_loading_order(logread, ASCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 6: Kernel module aren't loaded in "
-                     "the expected order. Observed: %s" % message)
+        swilog.error(
+            "Step 6: Kernel module aren't loaded in "
+            "the expected order. Observed: %s" % message
+        )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0046(legato, logread, mdef_setup):
-    """
-    Verify relative path could be taken by specifying moduleSearch
+def L_MDEF_0046(legato, logread):
+    """Verify relative path could be taken by specifying moduleSearch.
+
     This script will
         1. Create an update package (load: auto)
         2. Verify loading of the module
@@ -1793,10 +1737,7 @@ def L_MDEF_0046(legato, logread, mdef_setup):
     Args:
         legato: fixture to call useful functions regarding legato
         logread: fixture to check log on the target
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0046"
@@ -1813,16 +1754,18 @@ def L_MDEF_0046(legato, logread, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     # Verify loading order
-    (result, message) = check_loading_order(logread, ASCENDING_ORDER,
-                                            list_modules)
+    (result, message) = check_loading_order(logread, ASCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 2: Kernel module aren't loaded in "
-                     "the expected order. Observed: %s" % message)
+        swilog.error(
+            "Step 2: Kernel module aren't loaded in "
+            "the expected order. Observed: %s" % message
+        )
 
     # Stop legato
     swilog.step("Step 3: Stopping legato...")
@@ -1833,16 +1776,18 @@ def L_MDEF_0046(legato, logread, mdef_setup):
     for module in list_modules:
         if check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 4: Kernel module %s has not been "
-                         "properly unloaded" % module)
+            swilog.error(
+                "Step 4: Kernel module %s has not been properly unloaded" % module
+            )
 
     # Verify unloading order
-    (result, message) = check_unloading_order(logread, DESCENDING_ORDER,
-                                              list_modules)
+    (result, message) = check_unloading_order(logread, DESCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 4: Kernel module aren't unloaded in "
-                     "the expected order. Observed: %s" % message)
+        swilog.error(
+            "Step 4: Kernel module aren't unloaded in "
+            "the expected order. Observed: %s" % message
+        )
 
     # Start legato
     swilog.step("Step 5: Starting legato...")
@@ -1853,24 +1798,26 @@ def L_MDEF_0046(legato, logread, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 6: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 6: Kernel module %s has not been properly loaded" % module
+            )
 
     # Verify loading order
-    (result, message) = check_loading_order(logread, ASCENDING_ORDER,
-                                            list_modules)
+    (result, message) = check_loading_order(logread, ASCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 6: Kernel module aren't loaded in "
-                     "the expected order. Observed: %s" % message)
+        swilog.error(
+            "Step 6: Kernel module aren't loaded in "
+            "the expected order. Observed: %s" % message
+        )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0047(legato, logread, mdef_setup):
-    """
-    Verify relative path could be taken by specifying moduleSearch
+def L_MDEF_0047(legato, logread):
+    """Verify relative path could be taken by specifying moduleSearch.
+
     This script will
         1. Create an update package (load: auto)
         2. Verify loading of the module
@@ -1881,10 +1828,7 @@ def L_MDEF_0047(legato, logread, mdef_setup):
     Args:
         legato: fixture to call useful functions regarding legato
         logread: fixture to check log on the target
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0047"
@@ -1901,16 +1845,18 @@ def L_MDEF_0047(legato, logread, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     # Verify loading order
-    (result, message) = check_loading_order(logread, ASCENDING_ORDER,
-                                            list_modules)
+    (result, message) = check_loading_order(logread, ASCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 2: Kernel module aren't loaded in "
-                     "the expected order. Observed: %s" % message)
+        swilog.error(
+            "Step 2: Kernel module aren't loaded in "
+            "the expected order. Observed: %s" % message
+        )
 
     # Stop legato
     swilog.step("Step 3: Stopping legato...")
@@ -1921,16 +1867,18 @@ def L_MDEF_0047(legato, logread, mdef_setup):
     for module in list_modules:
         if check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 4: Kernel module %s has not been "
-                         "properly unloaded" % module)
+            swilog.error(
+                "Step 4: Kernel module %s has not been properly unloaded" % module
+            )
 
     # Verify unloading order
-    (result, message) = check_unloading_order(logread, DESCENDING_ORDER,
-                                              list_modules)
+    (result, message) = check_unloading_order(logread, DESCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 4: Kernel module aren't unloaded in "
-                     "the expected order.\nObserved: %s" % message)
+        swilog.error(
+            "Step 4: Kernel module aren't unloaded in "
+            "the expected order.\nObserved: %s" % message
+        )
 
     # Start legato
     swilog.step("Step 5: Starting legato...")
@@ -1941,135 +1889,134 @@ def L_MDEF_0047(legato, logread, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 6: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 6: Kernel module %s has not been properly loaded" % module
+            )
 
     # Verify loading order
-    (result, message) = check_loading_order(logread, ASCENDING_ORDER,
-                                            list_modules)
+    (result, message) = check_loading_order(logread, ASCENDING_ORDER, list_modules)
     if not result:
         test_passed = False
-        swilog.error("Step 6: Kernel module aren't loaded in "
-                     "the expected order. Observed: %s" % message)
+        swilog.error(
+            "Step 6: Kernel module aren't loaded in "
+            "the expected order. Observed: %s" % message
+        )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0048(legato, mdef_setup):
-    """
-    Verify mksys should be able to handle non existence path and file
+def L_MDEF_0048(legato):
+    """Verify mksys should be able to handle non existence path and file.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in pathing
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Sdef file management
     sdef_file = "L_MDEF_0048.sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path, source_file_path,
-                                     should_fail=True)
-    err_msg = "error: Can't find definition file (.mdef) for "\
-              "module specification 'nonExisting.mdef'."
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
+    err_msg = (
+        "error: Can't find definition file (.mdef) for "
+        "module specification 'nonExisting.mdef'."
+    )
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0049(legato, mdef_setup):
-    """
-    Verify mksys should be able to handle non existence path and file
+def L_MDEF_0049(legato):
+    """Verify mksys should be able to handle non existence path and file.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in pathing
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     sdef_file = "L_MDEF_0049.sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path, source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
 
-    err_msg = "error: Can't find definition file (.mdef) for "\
-              "module specification 'nonExisting.mdef'."
+    err_msg = (
+        "error: Can't find definition file (.mdef) for "
+        "module specification 'nonExisting.mdef'."
+    )
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0050(legato, mdef_setup):
-    """
-    Verify mksys should be able to handle non existence .ko
-    under preBuilt section
+def L_MDEF_0050(legato):
+    """Verify mksys should be able to handle non existence .ko.
+
+    under preBuilt section.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in pathing
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Sdef file management
     sdef_file = "L_MDEF_0050.sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path, source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
 
     err_msg = "error: Module file 'missingPreBuilt.ko' does not exist."
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0051(legato, mdef_setup):
-    """
-    Invalid path in  bundles section
+def L_MDEF_0051(legato):
+    """Invalid path in  bundles section.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in pathing
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Sdef file management
     sdef_file = "L_MDEF_0051.sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path, source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
 
     err_msg = "error: File not found: '/ErrorInPath/text.txt'."
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0052(legato, mdef_setup):
-    """
-    Testing to load more than one kernelModule with scripts
+def L_MDEF_0052(legato):
+    """Test to load more than one kernelModule with scripts.
+
     This script will
         1. Create an update package with multiple prebuilt packages in it
         (load: auto)
@@ -2077,10 +2024,7 @@ def L_MDEF_0052(legato, mdef_setup):
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0052"
@@ -2097,16 +2041,17 @@ def L_MDEF_0052(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0053(legato, mdef_setup):
-    """
-    Testing to load more than one kernelModule with scripts
+def L_MDEF_0053(legato):
+    """Test to load more than one kernelModule with scripts.
+
     This script will
         1. Create an update package with multiple prebuilt packages in it
         (load: auto)
@@ -2114,10 +2059,7 @@ def L_MDEF_0053(legato, mdef_setup):
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0053"
@@ -2134,16 +2076,17 @@ def L_MDEF_0053(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0054(target, legato, mdef_setup):
-    """
-    Load kernel module manual with script
+def L_MDEF_0054(target, legato):
+    """Load kernel module manual with script.
+
     This script will
         1. Create an update package (load: manual)
         2. Verify loading of the module
@@ -2152,10 +2095,7 @@ def L_MDEF_0054(target, legato, mdef_setup):
     Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0054"
@@ -2171,13 +2111,15 @@ def L_MDEF_0054(target, legato, mdef_setup):
     swilog.step("Step 2: Verify auto loading mod has been loaded...")
     if not check_presence(legato, "L_MDEF_prebuilt_0"):
         test_passed = False
-        swilog.error("Step 2: Kernel module L_MDEF_prebuilt_0 has not been "
-                     "properly loaded")
+        swilog.error(
+            "Step 2: Kernel module L_MDEF_prebuilt_0 has not been properly loaded"
+        )
 
     # Insert manual mod
     swilog.step("Step 3: Insert manual mod...")
-    cmd = '/sbin/insmod /legato/systems/current/modules/L_MDEF_prebuilt_1.ko'
-    exit_code, rsp = target.run(cmd, withexitstatus=1)
+    cmd = "/sbin/insmod /legato/systems/current/modules/L_MDEF_prebuilt_1.ko"
+    exit_code, rsp = target.run(cmd, withexitstatus=True)
+    swilog.debug(rsp)
     if exit_code != 0:
         test_passed = False
         swilog.error("Insertion of manual loading mod has failed")
@@ -2187,41 +2129,40 @@ def L_MDEF_0054(target, legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 4: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 4: Kernel module %s has not been properly loaded" % module
+            )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0055(legato, mdef_setup):
-    """
-    Specify install and remove in your script section
+def L_MDEF_0055(legato):
+    """Specify install and remove in your script section.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in mdef
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Sdef file management
     sdef_file = "L_MDEF_0055.sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path, source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find("error: Unexpected character") != -1, failed_msg
 
 
-def L_MDEF_0056(legato, mdef_setup):
-    """
-    Specify install and remove in your script section
+def L_MDEF_0056(legato):
+    """Specify install and remove in your script section.
+
     This script will
         1. Create an update package (load: auto)
         2. Verify loading of the module
@@ -2229,10 +2170,7 @@ def L_MDEF_0056(legato, mdef_setup):
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0056"
@@ -2249,16 +2187,17 @@ def L_MDEF_0056(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0057(legato, mdef_setup):
-    """
-    Specify install and remove in your script section
+def L_MDEF_0057(legato):
+    """Specify install and remove in your script section.
+
     This script will
         1. Create an update package (load: auto)
         2. Verify loading of the module
@@ -2266,10 +2205,7 @@ def L_MDEF_0057(legato, mdef_setup):
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0057"
@@ -2286,16 +2222,17 @@ def L_MDEF_0057(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0058(legato, mdef_setup):
-    """
-    Relative path in script section of mdef
+def L_MDEF_0058(legato):
+    """Relative path in script section of mdef.
+
     This script will
         1. Create an update package with relative path (load: auto)
         2. Verify loading of the module
@@ -2303,10 +2240,7 @@ def L_MDEF_0058(legato, mdef_setup):
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0058"
@@ -2317,8 +2251,9 @@ def L_MDEF_0058(legato, mdef_setup):
 
     # Compile and update target
     swilog.step("Step 1: Compiling using relative path...")
-    swilog.warning("WARNING: Works only if you run the test script "
-                   "from qa/letp/ directory")
+    swilog.warning(
+        "WARNING: Works only if you run the test script from qa/letp/ directory"
+    )
     install_system(legato, test_name)
 
     # Verify mod has been loaded
@@ -2326,100 +2261,98 @@ def L_MDEF_0058(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     # End of script
     assert test_passed, display_errors()
 
 
-def L_MDEF_0059(legato, mdef_setup):
-    """
-    Put more than one scripts path in install or remove section script section
+def L_MDEF_0059(legato):
+    """Put more than one scripts path in install.
+
+    or remove section script section.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in mdef
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Sdef file management
     sdef_file = "L_MDEF_0059.sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path, source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
 
     err_msg = "error: Internal error: Multiple install scripts not allowed."
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0060(legato, mdef_setup):
-    """
-    Put more than one scripts section in mdef file
+def L_MDEF_0060(legato):
+    """Put more than one scripts section in mdef file.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in mdef
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     sdef_file = "L_MDEF_0060.sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path, source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
 
     err_msg = "error: Internal error: Multiple install scripts not allowed."
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0061(legato, mdef_setup):
-    """
-    Invalid path in scripts section
+def L_MDEF_0061(legato):
+    """Invalid path in scripts section.
+
     This script will
         1. Create an update package (load: auto)
         2. Try to compile a module with error in pathing
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     sdef_file = "L_MDEF_0061.sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
-    assert os.path.exists(source_file_path), 'Sdef file does not exist'
+    assert os.path.exists(source_file_path), "Sdef file does not exist"
 
     # Compile and update target
-    returned_value = legato.make_sys(source_file_path, source_file_path,
-                                     should_fail=True)
+    returned_value = legato.make_sys(
+        source_file_path, source_file_path, should_fail=True
+    )
 
     err_msg = "error: Script file '/WrongPath/install.sh' does not exist."
     failed_msg = "Mksys didn't returned the expected sentence"
     assert returned_value.find(err_msg) != -1, failed_msg
 
 
-def L_MDEF_0062(legato, mdef_setup):
-    """
-    Verify that files, bin and scripts directory is bundled
-    under system module directory
+def L_MDEF_0062(legato):
+    """Verify that files, bin and scripts directory is bundled.
+
+    under system module directory.
+
     This script will
         1. Create an update package (load: auto)
         2. Verify loading of the module
@@ -2428,10 +2361,7 @@ def L_MDEF_0062(legato, mdef_setup):
 
     Args:
         legato: fixture to call useful functions regarding legato
-        mdef_setup: fixture to initial and cleanup the test
-
     """
-
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_MDEF_0062"
@@ -2448,8 +2378,9 @@ def L_MDEF_0062(legato, mdef_setup):
     for module in list_modules:
         if not check_presence(legato, module):
             test_passed = False
-            swilog.error("Step 2: Kernel module %s has not been "
-                         "properly loaded" % module)
+            swilog.error(
+                "Step 2: Kernel module %s has not been properly loaded" % module
+            )
 
     swilog.step("Step 3: Verify module file is present...")
     folder_path = "/legato/systems/current/modules"
@@ -2463,17 +2394,16 @@ def L_MDEF_0062(legato, mdef_setup):
     for file_name in files:
         if not check_file_presence(legato, folder_path, file_name):
             test_passed = False
-            swilog.error("Step 3: File or directory %s isn't present"
-                         % file_name)
+            swilog.error("Step 3: File or directory %s isn't present" % file_name)
 
     files = ["install.sh", "remove.sh"]
-    folder_path = "/legato/systems/current/modules/files/"\
-                  "L_MDEF_prebuilt_0/scripts"
+    folder_path = "/legato/systems/current/modules/files/L_MDEF_prebuilt_0/scripts"
     for file_name in files:
         if not check_file_presence(legato, folder_path, file_name):
             test_passed = False
-            swilog.error("Step 3: File or directory scripts/%s isn't present"
-                         % file_name)
+            swilog.error(
+                "Step 3: File or directory scripts/%s isn't present" % file_name
+            )
 
     files = ["dir.txt"]
     folder_path = "/legato/systems/current/modules/files/L_MDEF_prebuilt_0/dir"

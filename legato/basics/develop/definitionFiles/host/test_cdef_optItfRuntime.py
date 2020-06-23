@@ -1,39 +1,36 @@
-""" @package componentModule Component Definition Files test
+"""@package componentModule Component Definition Files test.
 
-    Set of functions to test the Legato component definition files
+Set of functions to test the Legato component definition files.
 """
 import os
-import swilog
 import re
 import pytest
+import swilog
 
-__copyright__ = 'Copyright (C) Sierra Wireless Inc.'
-# =================================================================================================
+__copyright__ = "Copyright (C) Sierra Wireless Inc."
+# ====================================================================================
 # Constants and Globals
-# =================================================================================================
+# ====================================================================================
 # Determine the resources folder (legato apps)
-TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                              'resources')
+TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)), "resources")
 APP_NAME = "optional_withoutBindings"
-APP_PATH = "%s/cdef/interfaceOptions/optional/legatoAPI/clientIPC/mkapp" \
-           % TEST_RESOURCES
+APP_PATH = (
+    "%s/cdef/interfaceOptions/optional/legatoAPI/clientIPC/mkapp" % TEST_RESOURCES
+)
 
 
-# =================================================================================================
+# ====================================================================================
 # Local fixtures
-# =================================================================================================
-@pytest.fixture
+# ====================================================================================
+@pytest.fixture(autouse=True)
 def init_cleanup_test(legato, tmpdir):
-    """
-    Initial and clean up the test
+    """Init and clean up the test.
 
     Args:
         legato: fixture to call useful functions regarding legato
         tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
-
     """
-
     # Go to temp directory
     os.chdir(str(tmpdir))
     yield
@@ -41,12 +38,12 @@ def init_cleanup_test(legato, tmpdir):
     legato.clean(APP_NAME)
 
 
-# =================================================================================================
+# ====================================================================================
 # Test functions
-# =================================================================================================
-def L_CDEF_0028(target, legato, init_cleanup_test):
-    """
-    Verify the binding is not existed after app's deployment
+# ====================================================================================
+def L_CDEF_0028(target, legato):
+    """Verify the binding is not existed after app's deployment.
+
     when its client-side IPC API is not bounded to any server-side API
     with the interface option: [optional]
     Verification:
@@ -62,10 +59,7 @@ def L_CDEF_0028(target, legato, init_cleanup_test):
     Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
-        init_cleanup_test: fixture to init and clean up the test
-
     """
-
     cmd = "/legato/systems/current/bin/sdir list"
 
     # LogClient is the default hardcoded binding which created
@@ -78,14 +72,18 @@ def L_CDEF_0028(target, legato, init_cleanup_test):
     rsp = target.run(cmd)
     if re.search(APP_NAME, rsp):
         if re.search(log_client_binding_name, rsp):
-            swilog.info("Arbitrary binding does not exist after app's "
-                        "deployment when its client-side IPC API is not "
-                        "bounded to any server-side API with the interface "
-                        "option: [optional]")
+            swilog.info(
+                "Arbitrary binding does not exist after app's "
+                "deployment when its client-side IPC API is not "
+                "bounded to any server-side API with the interface "
+                "option: [optional]"
+            )
     else:
-        swilog.error("Arbitrary binding does not exist after app's deployment "
-                     "when its client-side IPC API is not bounded to any "
-                     "server-side API with the interface option: [optional]")
+        swilog.error(
+            "Arbitrary binding does not exist after app's deployment "
+            "when its client-side IPC API is not bounded to any "
+            "server-side API with the interface option: [optional]"
+        )
 
     failed_testcases_list = swilog.get_error_list()
     if failed_testcases_list != []:

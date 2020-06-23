@@ -1,81 +1,74 @@
-""" @package bundlesComponentModule Component Definition Files test
+"""@package bundlesComponentModule Component Definition Files test.
 
-    Set of functions to test the Legato component definition files
+Set of functions to test the Legato component definition files.
 """
-import pytest
 import os
-import time
-import swilog
 import shutil
+import pytest
+import swilog
 
-__copyright__ = 'Copyright (C) Sierra Wireless Inc.'
-# =================================================================================================
+__copyright__ = "Copyright (C) Sierra Wireless Inc."
+# ====================================================================================
 # Constants and Globals
-# =================================================================================================
+# ====================================================================================
 # Determine the resources folder (legato apps)
-TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                              'resources')
+TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)), "resources")
 
 APP_NAME = "bundles"
 TEST_FOLDER = "testFolder"
 TEST_FILE = "testFile1.txt"
 
 
-# =================================================================================================
+# ====================================================================================
 # Functions
-# =================================================================================================
+# ====================================================================================
 def is_file_on_target(target, path, file_name):
-    """
-    Checks for <file> relative to path
+    """Check for <file> relative to path.
 
     Agrs:
         legato: fixture to call useful functions regarding legato
         path: path of file
         file_name: the name of file
-
     """
+    exit_status, rsp = target.run(
+        "[ -f %s/%s ]" % (path, file_name), withexitstatus=True
+    )
 
-    exit, rsp = target.run("[ -f %s/%s ]" % (path, file_name),
-                           withexitstatus=1)
-
-    if exit == 0:
+    swilog.debug(rsp)
+    if exit_status == 0:
         swilog.info("Found bundled file %s" % file_name)
     else:
         swilog.error("Could not find bundled file %s" % file_name)
 
 
 def is_directory_on_target(target, path, directory):
-    """
-    Checks for <directory> relative to path
+    """Check for <directory> relative to path.
 
     Agrs:
         target: fixture to communicate with the target
         path: path of directory
         directory: name of directory
-
     """
-
-    exit, rsp = target.run("[ -d %s/%s ]" % (path, directory),
-                           withexitstatus=1)
-    if exit == 0:
+    exit_status, rsp = target.run(
+        "[ -d %s/%s ]" % (path, directory), withexitstatus=True
+    )
+    swilog.debug(rsp)
+    if exit_status == 0:
         swilog.info("Found bundled directory %s" % directory)
     else:
         swilog.error("Could not find bundled directroy %s" % directory)
 
 
-# =================================================================================================
+# ====================================================================================
 # Local fixtures
-# =================================================================================================
-@pytest.fixture(scope='function')
+# ====================================================================================
+@pytest.fixture(scope="function")
 def test_init(legato):
-    """
-    Fixture to init and clean up the test
+    """Fixture to init and clean up the test.
 
     Agrs:
         legato: fixture to call useful functions regarding legato
-
     """
-
     os.chdir("%s/cdef/bundles" % TEST_RESOURCES)
     legato.clear_target_log()
 
@@ -101,19 +94,16 @@ def test_init(legato):
     legato.clean(APP_NAME)
 
     # Remove the created file and directory
-    shutil.rmtree("%s/cdef/bundles/bundlesComponent/%s"
-                  % (TEST_RESOURCES, TEST_FOLDER))
-    os.remove("%s/cdef/bundles/bundlesComponent/%s"
-              % (TEST_RESOURCES, TEST_FILE))
+    shutil.rmtree("%s/cdef/bundles/bundlesComponent/%s" % (TEST_RESOURCES, TEST_FOLDER))
+    os.remove("%s/cdef/bundles/bundlesComponent/%s" % (TEST_RESOURCES, TEST_FILE))
 
 
-# =================================================================================================
+# ====================================================================================
 # Test functions
-# =================================================================================================
-def L_CDEF_0001(target, legato, tmpdir, test_init):
-    """
-    This test verifies the functionality of the "bundles" section
-    in cdef files.
+# ====================================================================================
+@pytest.mark.usefixtures("test_init")
+def L_CDEF_0001(target, legato, tmpdir):
+    """Verify the functionality of the "bundles" section in cdef files.
 
     Agrs:
         target: fixture to communicate with the target
@@ -121,9 +111,7 @@ def L_CDEF_0001(target, legato, tmpdir, test_init):
         tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
         test_init: fixture to init and clean up the test
-
     """
-
     # Go to temp directory
     os.chdir(str(tmpdir))
     legato.make_install(APP_NAME, "%s/cdef/bundles" % TEST_RESOURCES)

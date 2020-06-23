@@ -1,38 +1,34 @@
-""" @package componentModule Component Definition Files test
+"""@package componentModule Component Definition Files test.
 
-    Set of functions to test the Legato component definition files
+Set of functions to test the Legato component definition files.
 """
 import os
 import swilog
 import pytest
 
-__copyright__ = 'Copyright (C) Sierra Wireless Inc.'
-# =================================================================================================
+__copyright__ = "Copyright (C) Sierra Wireless Inc."
+# ====================================================================================
 # Constants and Globals
-# =================================================================================================
+# ====================================================================================
 # Determine the resources folder (legato apps)
-TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                              'resources')
+TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)), "resources")
 
 SERVER_APP_NAME = "printServer"
 CLIENT_APP_NAME = "printClient"
 
 
-# =================================================================================================
+# ====================================================================================
 # Local fixtures
-# =================================================================================================
-@pytest.fixture
+# ====================================================================================
+@pytest.fixture(autouse=True)
 def init_cleanup_test(legato, tmpdir):
-    """
-    Initial and clean up the test
+    """Init and clean up the test.
 
     Args:
         legato: fixture to call useful functions regarding legato
         tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
-
     """
-
     legato.clear_target_log()
 
     # Go to temp directory
@@ -52,23 +48,19 @@ def init_cleanup_test(legato, tmpdir):
     legato.clean(CLIENT_APP_NAME)
 
 
-# =================================================================================================
+# ====================================================================================
 # Test functions
-# =================================================================================================
-def L_CDEF_0004(legato, init_cleanup_test):
-    """
-    This test verifies the provides and requires sections of cdef files
+# ====================================================================================
+def L_CDEF_0004(legato):
+    """Verify the provides and requires sections of cdef files.
 
     Args:
         legato: fixture to call useful functions regarding legato
-        init_cleanup_test: fixture to init and clean up the test
-
     """
-
     # Provide/Require Section:
     # Look for string to ensure apps are communicating using API
     rsp = legato.find_in_target_log("Client says 'Hello, world!'")
-    if rsp is True:
+    if rsp:
         swilog.info("Found Server response string")
     else:
         swilog.error("Did not find Server response string")
