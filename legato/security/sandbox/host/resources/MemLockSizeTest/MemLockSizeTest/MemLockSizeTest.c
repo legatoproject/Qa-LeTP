@@ -1,3 +1,9 @@
+/**
+ * @file MemLockSizeTest.c
+ *
+ * Copyright (C) Sierra Wireless Inc.
+ *
+ */
 /*
  * This app tests the limit of maximum number of bytes of memory that may be locked into RAM
  *

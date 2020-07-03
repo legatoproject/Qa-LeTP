@@ -1,3 +1,9 @@
+/**
+ * @file ldflags.c
+ *
+ * Copyright (C) Sierra Wireless Inc.
+ *
+ */
 #include "legato.h"
 #include "interfaces.h"
 #include "testLib.h"

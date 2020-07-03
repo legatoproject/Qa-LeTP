@@ -1,3 +1,9 @@
+/**
+ * @file NumSigQueuedTest.c
+ *
+ * Copyright (C) Sierra Wireless Inc.
+ *
+ */
 /*
  * This app tests the limit on the number of signals that may be queued for the real user ID of the calling process.
  *

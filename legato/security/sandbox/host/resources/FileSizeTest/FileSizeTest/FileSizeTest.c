@@ -1,3 +1,9 @@
+/**
+ * @file FileSizeTest.c
+ *
+ * Copyright (C) Sierra Wireless Inc.
+ *
+ */
 /*
  * This app tests max file size that a process can create
  *

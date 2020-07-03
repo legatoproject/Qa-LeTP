@@ -1,3 +1,9 @@
+/**
+ * @file FdTest.c
+ *
+ * Copyright (C) Sierra Wireless Inc.
+ *
+ */
 /*
  * This app tests file descriptor limit by creating many different file types.
  *

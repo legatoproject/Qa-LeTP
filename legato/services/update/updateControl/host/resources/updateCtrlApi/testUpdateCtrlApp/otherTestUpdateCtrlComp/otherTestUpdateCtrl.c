@@ -1,4 +1,10 @@
 /**
+ * @file otherTestUpdateCtrl.c
+ *
+ * Copyright (C) Sierra Wireless Inc.
+ *
+ */
+/**
     The Legato system will be in probation period when this app is installed to the target.
     This app/process will take two parameters such as "updateCtrlApi name" and "test case number"
     to test le_updateCtrl_UnlockProbation() and le_updateCtrl_Allow() for the test case that

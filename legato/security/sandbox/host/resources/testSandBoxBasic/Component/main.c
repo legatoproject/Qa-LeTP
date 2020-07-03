@@ -1,3 +1,9 @@
+/**
+ * @file main.c
+ *
+ * Copyright (C) Sierra Wireless Inc.
+ *
+ */
 #include "legato.h"
 #include <assert.h>
 #include <dirent.h>

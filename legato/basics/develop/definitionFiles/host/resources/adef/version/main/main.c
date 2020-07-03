@@ -1,3 +1,9 @@
+/**
+ * @file main.c
+ *
+ * Copyright (C) Sierra Wireless Inc.
+ *
+ */
 #include "legato.h"
 
 COMPONENT_INIT
