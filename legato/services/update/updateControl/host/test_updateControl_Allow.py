@@ -218,7 +218,6 @@ def L_UpdateCtrl_Allow_0003(target, legato):
     old_system_status = ""
     new_system_status = ""
     is_target_reboot = False
-    is_tc_passed = False
 
     # Get the system index from a 'good' system by setting the probation period
     # to 1s to turn the system into 'good'
@@ -279,17 +278,24 @@ def L_UpdateCtrl_Allow_0003(target, legato):
     # If any of the previous behaviours wasn't inspected,
     # roll-back wasn't proceed when the defer lock is released and
     # mark this test case failed
-    if (
-        (old_sys_index != new_sys_index)
-        or legato.is_app_exist(target, APP_NAME_01)
-        or is_target_reboot is False
-        or (old_system_status != "bad")
-        or (new_system_status) != "good"
-    ):
-        swilog.error("[FAILED] rollback is not successful" " when defers are lifted")
-    else:
-        swilog.info("[PASSED] rollback is successful when defers are lifted")
-        is_tc_passed = True
-
-    assert is_tc_passed, "[FAILED] L_UpdateCtrl_Allow_0003"
+    tc_passed = True
+    if old_sys_index != new_sys_index:
+        swilog.error(
+            "sytem index mismatch old:{} != new:{}".format(old_sys_index, new_sys_index)
+        )
+        tc_passed = False
+    if legato.is_app_exist(target, APP_NAME_01):
+        swilog.error("app still on target: {}".format(APP_NAME_01))
+        tc_passed = False
+    if not is_target_reboot:
+        swilog.error("target did not reboot")
+        tc_passed = False
+    if old_system_status != "bad":
+        swilog.error("old system status is not bad: {}".format(old_system_status))
+        tc_passed = False
+    if new_system_status != "good":
+        swilog.error("new system status is not good: {}".format(new_system_status))
+        tc_passed = False
+    assert tc_passed, "[FAILED] rollback is not successful when defers are lifted."
+    swilog.info("[PASSED] rollback is successful when defers are lifted")
     swilog.info("[PASSED] Test L_UpdateCtrl_Allow_0003")
