@@ -6,12 +6,13 @@ import time
 import swilog
 import pytest
 import pexpect
+import sim_lib
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
 
 
 @pytest.fixture
-def installapp_cleanup(target, legato, request, tmpdir, read_config):
+def installapp_cleanup(target, legato, request, tmpdir):
     """Fixture to initialize (make, install application...).
 
     And cleanup the test.
@@ -22,7 +23,6 @@ def installapp_cleanup(target, legato, request, tmpdir, read_config):
         request: objiect to access the data
         tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
-        read_config: fixture to get value from .xml file
     """
     app_name = ["dataHub", "actuator", "sensor", "printServer", "printClient", ""]
     test_name = request.node.name.split("[")[0]
@@ -90,9 +90,9 @@ def installapp_cleanup(target, legato, request, tmpdir, read_config):
         # Clear sms on the target
         target.run("cm sms clear", timeout=30, check=False)
 
-        # Read the phone number in sim.xml
-        phone_num = read_config.findtext("sim/tel")
-
+        # Read the phone number in simdb.xml
+        siminfo = sim_lib.get_sim_info(target)
+        phone_num = siminfo.Tel
         # If the phone number is not set in xml
         if phone_num == "":
             # Get Sim's phone number
@@ -103,7 +103,7 @@ def installapp_cleanup(target, legato, request, tmpdir, read_config):
             if match_obj:
                 phone_num = match_obj.group(1)
 
-        assert phone_num != "", "[FAILED] Please set the tel in sim.xml"
+        assert phone_num != "", "[FAILED] Please set the tel in simdb.xml"
         swilog.info("Phone number: %s" % phone_num)
 
     yield phone_num

@@ -5,7 +5,6 @@ Set of functions to test the Legato modemDemo sample app.
 import os
 import time
 import swilog
-import pytest
 import pexpect
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
@@ -38,7 +37,6 @@ def check_log(logread, text_log):
 # ====================================================================================
 # Test functions
 # ====================================================================================
-@pytest.mark.config("config/uicc/sim.xml")
 def L_SampleApps_Sms_0001(target, legato, logread, installapp_cleanup):
     """Automated test verifies the sms sample application.
 
