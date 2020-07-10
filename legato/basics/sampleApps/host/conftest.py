@@ -94,7 +94,7 @@ def installapp_cleanup(target, legato, request, tmpdir):
         siminfo = sim_lib.get_sim_info(target)
         phone_num = siminfo.Tel
         # If the phone number is not set in xml
-        if phone_num == "":
+        if not phone_num:
             # Get Sim's phone number
             phone_num_rsp = target.run("cm sim number", withexitstatus=True)
             match_obj = re.search(
