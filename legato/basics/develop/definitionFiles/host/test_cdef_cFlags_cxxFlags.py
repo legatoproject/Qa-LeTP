@@ -1,38 +1,34 @@
-""" @package cflagsAndcxxflagsComponentModule Component Definition Files test
+"""@package cflagsAndcxxflagsComponentModule Component Definition Files test.
 
-    Set of functions to test the Legato component definition files
+Set of functions to test the Legato component definition files.
 """
 import os
-import swilog
 import re
+import swilog
 
-__copyright__ = 'Copyright (C) Sierra Wireless Inc.'
-# =================================================================================================
+__copyright__ = "Copyright (C) Sierra Wireless Inc."
+# ====================================================================================
 # Constants and Globals
-# =================================================================================================
+# ====================================================================================
 # Determine the resources folder (legato apps)
-TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                              'resources')
+TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)), "resources")
 
 APP_NAME1 = "cflags_cxxflags"
 APP_NAME2 = "overrideC"
 APP_NAME3 = "overrideCxx"
 
 
-# =================================================================================================
+# ====================================================================================
 # Local fixtures
-# =================================================================================================
+# ====================================================================================
 def init_test(legato, tmpdir):
-    """
-    Initial the test
+    """Init the test.
 
     Args:
         legato: fixture to call useful functions regarding legato
         tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
-
     """
-
     legato.clear_target_log()
     # Go to temp directory
     os.chdir(str(tmpdir))
@@ -42,19 +38,17 @@ def init_test(legato, tmpdir):
         legato.remove(APP_NAME1)
 
 
-# =================================================================================================
+# ====================================================================================
 # Test functions
-# =================================================================================================
+# ====================================================================================
 def L_CDEF_0002(legato):
-    """
-    This test verifies the core functionality of the cflags and cxxflags (c++)
-    sections of cdef files.
+    """Verify the core functionality of the cflags.
+
+    And cxxflags (c++) sections of cdef files.
 
     Args:
         legato: fixture to call useful functions regarding legato
-
     """
-
     swilog.step("Test 1: Generic cflag/cppflag test")
 
     # Make and install
@@ -63,21 +57,16 @@ def L_CDEF_0002(legato):
 
     # Cflag/cxxflag Section:
     # Search log for the strings that are printed when the Macro is found
-    rsp = legato.find_in_target_log("cflag: CTESTFLAG response")
-    if rsp is True:
-        swilog.info("Found cflag response: "
-                    "cflag successfully passed to compiler")
-    else:
-        swilog.error("Did not cflag response: "
-                     "cflag was not successfully passed to compiler")
+    if not legato.find_in_target_log("cflag: CTESTFLAG response"):
+        swilog.error(
+            "Did not cflag response: cflag was not successfully passed to compiler"
+        )
 
-    rsp = legato.find_in_target_log("cppflag: CPPTESTFLAG response")
-    if rsp is True:
-        swilog.info("Found cppflag response: "
-                    "cppflag successfully passed to compiler")
-    else:
-        swilog.error("Did not cppflag response: "
-                     "cppflag was not successfully passed to compiler")
+    if not legato.find_in_target_log("cppflag: CPPTESTFLAG response"):
+        swilog.error(
+            "Did not cppflag response: "
+            "cppflag was not successfully passed to compiler"
+        )
 
     # Remove the apps from the target
     legato.clean(APP_NAME1)
@@ -88,16 +77,19 @@ def L_CDEF_0002(legato):
 
     # Search for the build error that arises
     # If -fvisbility=hidden was overriden by -fvisibility=default
-    if re.search("libComponent_overrideCompC.so: undefined reference "
-                 "to \`hiddenFunction'", rsp):
+    if re.search(
+        r"libComponent_overrideCompC.so: undefined reference to \`hiddenFunction'", rsp
+    ):
         # Ensure that only hiddenFunction's error is found
         # Meaning that defaultFunction's visibility was successfully overriden
-        if re.search("libComponent_overrideCompC.so: undefined reference "
-                     "to \`defaultFunction'", rsp):
+        if re.search(
+            "libComponent_overrideCompC.so: undefined reference "
+            r"to \`defaultFunction'",
+            rsp,
+        ):
             swilog.error("Built-in flag was not overriden (C)")
         else:
-            swilog.info("Built-in flag successfully overriden; "
-                        "App failed to build (C)")
+            swilog.info("Built-in flag successfully overriden; App failed to build (C)")
     else:
         swilog.error("hiddenFunction was not hidden properly (C)")
 
@@ -108,16 +100,21 @@ def L_CDEF_0002(legato):
 
     # Search for the build error that arises
     # If -fvisbility=hidden was overriden by -fvisibility=default
-    if re.search("libComponent_overrideCompCxx.so: undefined reference "
-                 "to \`hiddenFunction", rsp):
+    if re.search(
+        r"libComponent_overrideCompCxx.so: undefined reference to \`hiddenFunction", rsp
+    ):
         # Ensure that only hiddenFunction's error is found
         # Meaning that defaultFunction's visibility was successfully overriden
-        if re.search("libComponent_overrideCompCxx.so: undefined reference "
-                     "to \`defaultFunction", rsp):
+        if re.search(
+            "libComponent_overrideCompCxx.so: undefined reference "
+            r"to \`defaultFunction",
+            rsp,
+        ):
             swilog.error("Built-in flag was not overriden (Cxx)")
         else:
-            swilog.info("Built-in flag successfully overriden; "
-                        "App failed to build (Cxx)")
+            swilog.info(
+                "Built-in flag successfully overriden; App failed to build (Cxx)"
+            )
     else:
         swilog.error("hiddenFunction was not hidden properly (Cxx)")
 

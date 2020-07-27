@@ -1,6 +1,6 @@
 """@package kmodToolsModule kmod tools test.
 
-Set of functions to test the Legato kmod tools.
+Set of functions to test the Legato kmod tools
 """
 # pylint: disable=too-many-lines
 import os
@@ -10,22 +10,23 @@ import pexpect
 import swilog
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
-# ====================================================================================
+# ======================================================================================
 # Constants and Globals
-# ====================================================================================
+# ======================================================================================
 TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)), "resources")
 RESULT_OK = 0
 RESULT_FAULT = 1
 RESULT_DUPLICATE = 2
 RESULT_BUSY = 2
+test_passed = True
 
 is_first_execution = True
 outputDirectory = ""
 
 
-# ====================================================================================
+# ======================================================================================
 # Functions
-# ====================================================================================
+# ======================================================================================
 def check_loading(target, module_name, expected_output_index):
     """Check the result of kmod load.
 
@@ -84,7 +85,7 @@ def check_unloading(target, module_name, expected_output_index):
         test_passed:
             True: unloading result is as expected.
             False: unloading result is not as expected
-        found_expected: actual output index.
+        found_expected: actual output index
     """
     test_passed = ""
     found_expected = ""
@@ -121,13 +122,10 @@ def check_presence(legato, module_name):
 
     Returns:
         True: a module is loaded
-        False: a module is not loaded.
+        False: a module is not loaded
     """
-    result = False
     exit_code = legato.ssh_to_target('/sbin/lsmod | grep -F "%s"' % module_name)
-    if exit_code == 0:
-        result = True
-    return result
+    return bool(exit_code == 0)
 
 
 def install_system(target, legato, dir_path, test_name):
@@ -137,7 +135,7 @@ def install_system(target, legato, dir_path, test_name):
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         dir_path: a temporary directory unique to the test invocation
-        test_name: test case name.
+        test_name: test case name
     """
     # Sdef file
     sdef_file = test_name + ".sdef"
@@ -162,7 +160,7 @@ def wait_for_cm_info(target):
     Args:
         target: fixture to communicate with the target
     """
-    swilog.info("Check legato is operational...")
+    swilog.info("Checking legato is operational...")
     timer = 30
     while timer >= 0:
         try:
@@ -182,11 +180,10 @@ def wait_for_app_presence(legato, app_name):
     """Check application is listed.
 
     Args:
-        target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
-        app_name: name of an application want to check.
+        app_name: name of an application want to check
     """
-    swilog.info("Check application is listed...")
+    swilog.info("Checking application is listed...")
     timer = 30
     while not legato.is_app_exist(app_name):
         timer = timer - 1
@@ -200,11 +197,10 @@ def wait_for_app_running(legato, app_name):
     """Check application is running.
 
     Args:
-        target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
-        app_name: application name needs to be checked.
+        app_name: application name needs to be checked
     """
-    swilog.info("Check application is running...")
+    swilog.info("Checking application is running...")
     timer = 30
     while not legato.is_app_running(app_name):
         timer = timer - 1
@@ -217,7 +213,8 @@ def wait_for_app_running(legato, app_name):
 def display_errors():
     """Display errors.
 
-    Returns: output: errors.
+    Returns:
+        output: errors
     """
     output = "\n"
     for err in swilog.get_error_list():
@@ -231,11 +228,10 @@ def make_sys_in_temporary_directory(
     """Compile the provided sdef and update the target.
 
     Args:
-        target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         temp_dir_path: a temporary directory unique to the test invocation
         sys_name: name of the system definition file
-        definition_file_path: path of the  system definition file (.sdef).
+        definition_file_path: path of the  system definition file (.sdef)
     """
     old_path = os.getcwd()
     os.chdir(temp_dir_path)
@@ -255,10 +251,9 @@ def make_install_sys_in_temporary_directory(
 
     Args:
         legato: fixture to call useful functions regarding legato
-        target: fixture to communicate with the target
         temp_dir_path: a temporary directory unique to the test invocation
         sys_name: name of the system definition file
-        definition_file_path: path of the  system definition file (.sdef).
+        definition_file_path: path of the  system definition file (.sdef)
     """
     old_path = os.getcwd()
     os.chdir(temp_dir_path)
@@ -272,9 +267,9 @@ def make_install_sys_in_temporary_directory(
     os.chdir(old_path)
 
 
-# ====================================================================================
+# =====================================================================================
 # Local fixtures
-# ====================================================================================
+# =====================================================================================
 @pytest.fixture
 def check_environment(target, legato, create_temp_workspace):
     """Check environment and clean up after each test.
@@ -283,7 +278,7 @@ def check_environment(target, legato, create_temp_workspace):
         legato: fixture to call useful functions regarding legato
         target: fixture to communicate with the target
         create_temp_workspace: fixture to create a temporary folder
-                            at the emplacement of the module file.
+                            at the emplacement of the module file
     """
     # Clear target log
     swilog.info("Clearing target log...")
@@ -309,15 +304,13 @@ def check_environment(target, legato, create_temp_workspace):
 
 @pytest.fixture
 def environment_setting(target, legato, create_temp_workspace):
-    """Check every environment variable are defined.
-
-    Define them otherwise.
+    """Check every environment variable are defined. Define them otherwise.
 
     Args:
         legato: fixture to call useful functions regarding legato
         target: fixture to communicate with the target
         create_temp_workspace: fixture to create a temporary folder
-                            at the emplacement of the module file.
+                            at the emplacement of the module file
     """
     global is_first_execution
 
@@ -357,7 +350,7 @@ def create_temp_workspace(tmpdir_factory):
     """Create a temporary folder at the emplacement of the module file.
 
     Args:
-        tmpdir_factory: a temporary directory unique to the test invocation.
+        tmpdir_factory: a temporary directory unique to the test invocation
     """
     # Create temporary workspace. Convert to string
     temp_folder_path = str(tmpdir_factory.mktemp("output"))
@@ -366,55 +359,50 @@ def create_temp_workspace(tmpdir_factory):
     yield temp_folder_path
 
 
-# ====================================================================================
+# =====================================================================================
 # Test functions
-# ====================================================================================
+# =====================================================================================
 @pytest.mark.usefixtures("check_environment", "environment_setting")
 def L_Tools_Kmod_0004(target, legato, create_temp_workspace):
     """Verify that kmod command able to load and unload the kernel module.
 
-    1. Create an update package (load: auto)
-    2. Verify loading of the module
-    3. Unload the module
-    4. Load the module
-    5. Compile the default package and update the target with it
+        1. Create an update package (load: auto)
+        2. Verify loading of the module
+        3. Unload the module
+        4. Load the module
+        5. Compile the default package and update the target with it
 
     Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
-        create_temp_workspace: fixture to create a temporary folder.
+        create_temp_workspace: fixture to create a temporary folder
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     swilog.debug(create_temp_workspace)
     test_name = "L_Tools_Kmod_0004"
-    test_passed = True
 
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
 
-    # Verify mod has been loaded
     swilog.step("Step 2: Verify mod has been loaded...")
     if not check_presence(legato, test_name):
         test_passed = False
         swilog.error("Step 2: Kernel module has not been properly loaded")
 
-    # Unloading
     swilog.step("Step 3: Unloading...")
     (returned_value, returned_index) = check_unloading(target, test_name, RESULT_OK)
-    swilog.debug(returned_index)
     if not returned_value:
         test_passed = False
         swilog.error("Step 3: Kernel module has not been properly unloaded")
 
-    # Loading
     swilog.step("Step 5: Loading...")
     (returned_value, returned_index) = check_loading(target, test_name, RESULT_OK)
     if not returned_value:
         test_passed = False
         swilog.error("Step 5: Kernel module has not been properly loaded")
-
+    swilog.debug(returned_index)
     # End of script: Build the default package to reinitialise the target
     # And clean the LEGATO_ROOT directory
     assert test_passed, display_errors()
@@ -424,7 +412,7 @@ def L_Tools_Kmod_0004(target, legato, create_temp_workspace):
 def L_Tools_Kmod_0005(target, legato, create_temp_workspace):
     """Verify that kmod command able to load.
 
-    and unload the kernel module with manual load
+    And unload the kernel module with manual load
         1. Create an update package (load: manual)
         2. Verify loading of the module has not been performed
         3. Load the module
@@ -434,39 +422,34 @@ def L_Tools_Kmod_0005(target, legato, create_temp_workspace):
     Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
-        create_temp_workspace: fixture to create a temporary folder.
+        create_temp_workspace: fixture to create a temporary folder
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     swilog.debug(create_temp_workspace)
     test_name = "L_Tools_Kmod_0005"
-    test_passed = True
 
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
 
-    # Verify mod has not been loaded
     swilog.step("Step 2: Verify mod has not been loaded...")
     if check_presence(legato, test_name):
         test_passed = False
         swilog.error("Step 2: Kernel module has been unexpectedly loaded")
 
-    # Loading
     swilog.step("Step 3: Loading...")
     (returned_value, returned_index) = check_loading(target, test_name, RESULT_OK)
-    swilog.debug(returned_index)
     if not returned_value:
         test_passed = False
         swilog.error("Step 3: Kernel module has not been properly loaded")
 
-    # Unloading
     swilog.step("Step 5: Unloading...")
     (returned_value, returned_index) = check_unloading(target, test_name, RESULT_OK)
     if not returned_value:
         test_passed = False
         swilog.error("Step 5: Kernel module has not been properly unloaded")
-
+    swilog.debug(returned_index)
     # End of script: Build the default package to reinitialise the target
     # And clean the LEGATO_ROOT directory
     assert test_passed, display_errors()
@@ -474,9 +457,8 @@ def L_Tools_Kmod_0005(target, legato, create_temp_workspace):
 
 @pytest.mark.usefixtures("check_environment", "environment_setting")
 def L_Tools_Kmod_0006(target, legato, create_temp_workspace):
-    """Verify that kmod command should not be able.
+    """Verify kmod cmd should not be able to load if it already loaded.
 
-    to load a kernel module that is already loaded
         1. Create an update package (Same modules as L_Tools_Kmod_0004)
         and update the target with it
         2. Verify loading of the module
@@ -487,35 +469,31 @@ def L_Tools_Kmod_0006(target, legato, create_temp_workspace):
     Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
-        create_temp_workspace: fixture to create a temporary folder.
+        create_temp_workspace: fixture to create a temporary folder
     """
     # Initialisation:
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     swilog.debug(create_temp_workspace)
     test_name = "L_Tools_Kmod_0004"
-    test_passed = True
 
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
 
-    # Verify mod has been loaded
     swilog.step("Step 2: Verify mod has been loaded...")
     if not check_presence(legato, test_name):
         test_passed = False
         swilog.error("Step 2: Kernel module has not been properly loaded")
 
-    # Loading
     swilog.step("Step 5: Loading...")
     (returned_value, returned_index) = check_loading(
         target, test_name, RESULT_DUPLICATE
     )
-    swilog.debug(returned_index)
     if not returned_value:
         test_passed = False
         swilog.error("Step 5: Loading should have been forbidden.")
-
+    swilog.debug(returned_index)
     # End of script: Build the default package to reinitialise the target
     # And clean the LEGATO_ROOT directory
     assert test_passed, display_errors()
@@ -523,9 +501,8 @@ def L_Tools_Kmod_0006(target, legato, create_temp_workspace):
 
 @pytest.mark.usefixtures("check_environment", "environment_setting")
 def L_Tools_Kmod_0007(target, legato, create_temp_workspace):
-    """Verify that kmod command should not be able.
+    """Verify kmod cmd should not be able to unload kernel module.
 
-    to unload kernel module with dependencies
         1. Create an update package with a dependence to
         an other module (load:auto) and update the target with it
         2. Verify loading of both modules
@@ -536,20 +513,18 @@ def L_Tools_Kmod_0007(target, legato, create_temp_workspace):
     Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
-        create_temp_workspace: fixture to create a temporary folder.
+        create_temp_workspace: fixture to create a temporary folder
     """
     # Initialisation:
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     swilog.debug(create_temp_workspace)
     test_name = "L_Tools_Kmod_0007"
-    test_passed = True
 
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
 
-    # Verify mods have been loaded
     swilog.step("Step 2: Verify mods have been loaded...")
     check_presence_0004 = check_presence(legato, "L_Tools_Kmod_0004")
     check_presence_0007 = check_presence(legato, test_name)
@@ -562,7 +537,6 @@ def L_Tools_Kmod_0007(target, legato, create_temp_workspace):
     (returned_value, returned_index) = check_unloading(
         target, "L_Tools_Kmod_0004", RESULT_BUSY
     )
-    swilog.debug(returned_index)
     if not returned_value:
         test_passed = False
         swilog.error("Step 3: Unloading should have been forbidden.")
@@ -573,7 +547,7 @@ def L_Tools_Kmod_0007(target, legato, create_temp_workspace):
     if not returned_value:
         test_passed = False
         swilog.error("Step 5: Unloading should have been forbidden.")
-
+    swilog.debug(returned_index)
     # End of script: Build the default package to reinitialise the target
     # And clean the LEGATO_ROOT directory
     assert test_passed, display_errors()
@@ -581,9 +555,8 @@ def L_Tools_Kmod_0007(target, legato, create_temp_workspace):
 
 @pytest.mark.usefixtures("check_environment", "environment_setting")
 def L_Tools_Kmod_0008(target, legato, create_temp_workspace):
-    """Verify that kmod command is not able to load.
+    """Verify that kmod command is not able to.
 
-    and unload the kernel module that is being used by the app
         1. Create an update package with a dependence to
         an application (load:auto)and update the target with it
         2  Verify module is loaded and application is running
@@ -594,20 +567,18 @@ def L_Tools_Kmod_0008(target, legato, create_temp_workspace):
     Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
-        create_temp_workspace: fixture to create a temporary folder.
+        create_temp_workspace: fixture to create a temporary folder
     """
     # Initialisation:
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     swilog.debug(create_temp_workspace)
     test_name = "L_Tools_Kmod_0008"
-    test_passed = True
 
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
 
-    # Verify mod has been loaded and app is running
     swilog.step("Step 2: Verify mod has been loaded and app is running...")
     if not check_presence(legato, test_name):
         test_passed = False
@@ -616,22 +587,18 @@ def L_Tools_Kmod_0008(target, legato, create_temp_workspace):
         test_passed = False
         swilog.error("Step 2: App is not running")
 
-    # Unloading
     swilog.step("Step 3: Unloading...")
     (returned_value, returned_index) = check_unloading(target, test_name, RESULT_OK)
-    swilog.debug(returned_index)
     if not returned_value:
         test_passed = False
         swilog.error("Step 3: Kernel module has not been properly unloaded")
 
-    # Loading
     swilog.step("Step 5: Loading...")
     (returned_value, returned_index) = check_loading(target, test_name, RESULT_OK)
-    swilog.debug(returned_index)
     if not returned_value:
         test_passed = False
         swilog.error("Step 5: Kernel module has not been properly loaded")
-
+    swilog.debug(returned_index)
     # End of script: Build the default package to reinitialise the target
     # And clean the LEGATO_ROOT directory
     assert test_passed, display_errors()
@@ -639,9 +606,8 @@ def L_Tools_Kmod_0008(target, legato, create_temp_workspace):
 
 @pytest.mark.usefixtures("check_environment", "environment_setting")
 def L_Tools_Kmod_0009(target, legato, create_temp_workspace):
-    """Verify that kmod command able to load and unload.
+    """Verify kmod cmd able to load/unload with manual start.
 
-    the kernel module with app with manual start
         1. Create an update package with a dependence to
         an application (load:manual) and update the target with it
         3. Verify module isn't loaded and application isn't running
@@ -652,7 +618,7 @@ def L_Tools_Kmod_0009(target, legato, create_temp_workspace):
     Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
-        create_temp_workspace: fixture to create a temporary folder.
+        create_temp_workspace: fixture to create a temporary folder
     """
     # Initialisation:
     # Verify existence of environment variables and files needed
@@ -660,79 +626,66 @@ def L_Tools_Kmod_0009(target, legato, create_temp_workspace):
     # pylint: disable=too-many-statements
     swilog.debug(create_temp_workspace)
     test_name = "L_Tools_Kmod_0009"
-    test_passed = True
 
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
 
-    # Verify mod has not been loaded and app is not running
     swilog.step("Step 2: Verify mod has not been loaded and app is not running...")
-    if check_presence(legato, test_name):
+    if check_presence(legato, test_name) or legato.is_app_running("LoopingHelloWorld"):
         test_passed = False
-        swilog.error("Step 2: Kernel module has been erroneously loaded")
-    if legato.is_app_running("LoopingHelloWorld"):
-        test_passed = False
-        swilog.error("Step 2: App is running")
+        swilog.error(
+            "Step 2: Kernel module has been erroneously loaded or App is running"
+        )
 
-    # Loading
     swilog.step("Step 3: Loading...")
     (returned_value, returned_index) = check_loading(target, test_name, RESULT_OK)
-    swilog.debug(returned_index)
     if not returned_value:
         test_passed = False
         swilog.error("Step 3: Kernel module has not been properly loaded")
 
-    # Verify mod has been loaded
     swilog.step("Step 5: Verify mod has been loaded...")
     if not check_presence(legato, test_name):
         test_passed = False
         swilog.error("Step 5: Kernel module has not been properly loaded")
 
-    # Unloading
     swilog.step("Step 6: Unloading...")
     (returned_value, returned_index) = check_unloading(target, test_name, RESULT_OK)
     if not returned_value:
         test_passed = False
         swilog.error("Step 6: Kernel module has not been properly unloaded")
 
-    # Start the app
     swilog.step("Step 8: Starting the application...")
     wait_for_app_presence(legato, "LoopingHelloWorld")
     legato.start("LoopingHelloWorld")
     wait_for_app_running(legato, "LoopingHelloWorld")
 
-    # Verify mod has been loaded
     swilog.step("Step 9: Verify mod has been loaded...")
     if not check_presence(legato, test_name):
         test_passed = False
         swilog.error("Step 9: Kernel module has not been properly loaded")
 
-    # Unloading
     swilog.step("Step 10: Unloading...")
     (returned_value, returned_index) = check_unloading(target, test_name, RESULT_BUSY)
     if not returned_value:
         test_passed = False
         swilog.error("Step 10: Unloading should have been forbidden.")
 
-    # Stop the app
     swilog.step("Step 12: Stopping the application...")
     wait_for_app_running(legato, "LoopingHelloWorld")
     legato.stop("LoopingHelloWorld")
 
-    # Verify mod has been unloaded
     swilog.step("Step 13: Verify mod has been unloaded...")
     if check_presence(legato, test_name):
         test_passed = False
         swilog.error("Step 13: Kernel module should have been unloaded")
 
-    # Loading
     swilog.step("Step 14: Loading...")
     (returned_value, returned_index) = check_loading(target, test_name, RESULT_OK)
     if not returned_value:
         test_passed = False
         swilog.error("Step 14: Kernel module has not been properly loaded")
-
+    swilog.debug(returned_index)
     # End of script: Build the default package to reinitialise the target
     # And clean the LEGATO_ROOT directory
     assert test_passed, display_errors()
@@ -740,9 +693,8 @@ def L_Tools_Kmod_0009(target, legato, create_temp_workspace):
 
 @pytest.mark.usefixtures("check_environment", "environment_setting")
 def L_Tools_Kmod_0010(target, legato, create_temp_workspace):
-    """Verify that kmod command able to load and unload.
+    """Verify kmod cmd able to load/unload after removing the app.
 
-    the kernel module with app with manual start after removing the app
         1. Create an update package (Same as L_Tools_Kmod_0009) and
         update the target with it
         3. Verify module isn't loaded and application is running
@@ -757,22 +709,18 @@ def L_Tools_Kmod_0010(target, legato, create_temp_workspace):
     Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
-        create_temp_workspace: fixture to create a temporary folder.
+        create_temp_workspace: fixture to create a temporary folder
     """
     # Initialisation:
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     swilog.debug(create_temp_workspace)
     test_name = "L_Tools_Kmod_0009"
-    test_passed = True
-    # Synchronisation issue after reboot
-    time.sleep(5)
 
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
 
-    # Verify mod has not been loaded and app is not running
     swilog.step("Step 2: Verify mod has not been loaded and app is not running...")
     if check_presence(legato, test_name):
         test_passed = False
@@ -781,11 +729,9 @@ def L_Tools_Kmod_0010(target, legato, create_temp_workspace):
         test_passed = False
         swilog.error("Step 2: App is running")
 
-    # Start app
     print("\nStep 3: Start app...")
     target.sendline("/legato/systems/current/bin/app start LoopingHelloWorld")
 
-    # Verify mod has been loaded and app is running
     swilog.step("Step 4: Verify mod has been loaded and app is running...")
     if not check_presence(legato, test_name):
         test_passed = False
@@ -794,12 +740,10 @@ def L_Tools_Kmod_0010(target, legato, create_temp_workspace):
         test_passed = False
         swilog.error("Step 2: App is not running")
 
-    # Remove the app
     swilog.step("Step 5: Removing the application...")
     wait_for_app_running(legato, "LoopingHelloWorld")
     legato.remove("LoopingHelloWorld")
 
-    # Step 10: Verify mod has been unloaded and app has been removed
     swilog.step("Step 6: Verify mod unloaded and app removed...")
     if check_presence(legato, test_name):
         test_passed = False
@@ -808,21 +752,18 @@ def L_Tools_Kmod_0010(target, legato, create_temp_workspace):
         test_passed = False
         swilog.error("Step 6: App still exists")
 
-    # Loading
     swilog.step("Step 7: Loading...")
     (returned_value, returned_index) = check_loading(target, test_name, RESULT_OK)
-    swilog.debug(returned_index)
     if not returned_value:
         test_passed = False
         swilog.error("Step 3: Kernel module has not been properly loaded")
     time.sleep(5)  # Wait the module to be loaded
 
-    # Verify mod has been loaded
     swilog.step("Step 9: Verify mod has been loaded...")
     if not check_presence(legato, test_name):
         test_passed = False
         swilog.error("Step 9: Kernel module has not been properly loaded")
-
+    swilog.debug(returned_index)
     # End of script: Build the default package to reinitialise the target
     # And clean the LEGATO_ROOT directory
     assert test_passed, display_errors()
@@ -843,43 +784,31 @@ def L_Tools_Kmod_0011(target, legato, create_temp_workspace):
     Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
-        create_temp_workspace: fixture to create a temporary folder.
+        create_temp_workspace: fixture to create a temporary folder
     """
-    swilog.debug(create_temp_workspace)
     # Initialisation:
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_Tools_Kmod_0011"
-    test_passed = True
 
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
 
-    # Verify mods have not been loaded
     swilog.step("Step 2: Verify mods have not been loaded...")
     if check_presence(legato, test_name):
         test_passed = False
-        swilog.error(
-            "Step 2: \
-            Primary kernel module has been unexpectedly loaded"
-        )
+        swilog.error("Step 2: Primary kernel module has been unexpectedly loaded")
     if check_presence(legato, "L_Tools_Kmod_0005"):
         test_passed = False
-        swilog.error(
-            "Step 2: \
-            Required kernel module has been unexpectedly loaded"
-        )
+        swilog.error("Step 2: Required kernel module has been unexpectedly loaded")
 
-    # Loading primary module
     swilog.step("Step 3: Loading primary module...")
     (returned_value, returned_index) = check_loading(target, test_name, RESULT_OK)
-    swilog.debug(returned_index)
     if not returned_value:
         test_passed = False
         swilog.error("Step 3: Primary module has not been properly loaded.")
 
-    # Loading required module
     swilog.step("Step 5: Trying to load the required module...")
     (returned_value, returned_index) = check_loading(
         target, "L_Tools_Kmod_0005", RESULT_DUPLICATE
@@ -887,19 +816,15 @@ def L_Tools_Kmod_0011(target, legato, create_temp_workspace):
     if not returned_value:
         test_passed = False
         swilog.error(
-            "Step 5: \
-            Required kernel module should have been properly forbidden"
+            "Step 5: Required kernel module should have been properly forbidden"
         )
 
-    # Unloading
     swilog.step("Step 6: Unloading the primary module...")
     (returned_value, returned_index) = check_unloading(target, test_name, RESULT_OK)
-    swilog.debug(returned_index)
     if not returned_value:
         test_passed = False
         swilog.error("Step 6: Kernel module has not been properly unloaded")
 
-    # Verify mods have been unloaded
     swilog.step("Step 7: Verify mods have been unloaded...")
     if check_presence(legato, test_name):
         test_passed = False
@@ -907,7 +832,7 @@ def L_Tools_Kmod_0011(target, legato, create_temp_workspace):
     if check_presence(legato, "L_Tools_Kmod_0005"):
         test_passed = False
         swilog.error("Step 7: Required kernel module has not been unloaded")
-
+    swilog.debug(returned_index)
     # End of script: Build the default package to reinitialise the target
     # And clean the LEGATO_ROOT directory
     assert test_passed, display_errors()
@@ -929,9 +854,8 @@ def L_Tools_Kmod_0020(target, legato, create_temp_workspace):
     Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
-        create_temp_workspace: fixture to create a temporary folder.
+        create_temp_workspace: fixture to create a temporary folder
     """
-    swilog.debug(create_temp_workspace)
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_Tools_Kmod_0020"
@@ -942,27 +866,19 @@ def L_Tools_Kmod_0020(target, legato, create_temp_workspace):
         "L_Tools_Kmod_0020_3",
         "L_Tools_Kmod_0020_common",
     ]
-    test_passed = True
 
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
 
-    # Verify mods have not been loaded
     swilog.step("Step 2: Verify mods have not been loaded...")
     for m in module_list:
         if check_presence(legato, test_name):
             test_passed = False
-            swilog.error(
-                "Step 2: \
-                Kernel module %s has been unexpectedly loaded"
-                % m
-            )
+            swilog.error("Step 2: Kernel module %s has been unexpectedly loaded" % m)
 
-    # Loading
     swilog.step("Step 3: Loading...")
     (returned_value, returned_index) = check_loading(target, test_name, RESULT_OK)
-    swilog.debug(returned_index)
     if not returned_value:
         test_passed = False
         swilog.error("Step 3: Kernel module has not been properly loaded")
@@ -972,45 +888,29 @@ def L_Tools_Kmod_0020(target, legato, create_temp_workspace):
     for m in module_list:
         if not check_presence(legato, m):
             test_passed = False
-            swilog.error(
-                "Step 3: \
-                Kernel module %s should have been loaded"
-                % m
-            )
+            swilog.error("Step 3: Kernel module %s should have been loaded" % m)
 
-    # Unloading
     swilog.step("Step 5: Unloading...")
     (returned_value, returned_index) = check_unloading(target, test_name, RESULT_OK)
-    swilog.debug(returned_index)
     if not returned_value:
         test_passed = False
-        swilog.error(
-            "Step 5: \
-            Kernel module has not been properly unloaded"
-        )
+        swilog.error("Step 5: Kernel module has not been properly unloaded")
 
     wait_for_cm_info(target)
 
     for m in module_list:
         if check_presence(legato, m):
             test_passed = False
-            swilog.error(
-                "Step 3: \
-                Kernel module %s should have been unloaded"
-                % m
-            )
-
+            swilog.error("Step 3: Kernel module %s should have been unloaded" % m)
+    swilog.debug(returned_index)
     # End of script: Build the default package to reinitialise the target
     # And clean the LEGATO_ROOT directory
     assert test_passed, display_errors()
 
 
-@pytest.mark.usefixtures("check_environment", "environment_setting")
 def L_Tools_Kmod_0021(target, legato, create_temp_workspace):
-    """Verify that kmod command unable to load and unload the kernel module.
+    """Verify kmod cmd unable to load/unload with manual start.
 
-    in used by app with manual start
-    (every module are loaded manually)
         1. Create an update package (load: manual)
         2. Make sure kernel module has been loaded and app is not running
         3. Start app
@@ -1024,39 +924,33 @@ def L_Tools_Kmod_0021(target, legato, create_temp_workspace):
     Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
-        create_temp_workspace: fixture to create a temporary folder.
+        create_temp_workspace: fixture to create a temporary folder
     """
-    swilog.debug(create_temp_workspace)
     test_name = "L_Tools_Kmod_0021"
-    test_passed = True
 
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
 
-    # Verify kernel module has been loaded and app is not running
     swilog.step("Step 2: Verify mod has been loaded...")
     if not check_presence(legato, test_name):
         test_passed = False
         swilog.error("Step 2: Kernel module has not been properly loaded")
 
-    # Get App status
     rsp = legato.get_app_status("helloWorld")
     assert "stopped" in rsp
     swilog.info("App helloWorld is stopped")
 
-    # Start the app
     swilog.step("Step 3: Start app helloWorld")
     legato.start("helloWorld")
     # Unload the kernel module using "kmod unload L_Tools_Kmod_0021.ko
     swilog.step("Step 4: Unloading...")
     (returned_value, returned_index) = check_unloading(target, test_name, RESULT_OK)
-    swilog.debug(returned_index)
+
     if check_presence(legato, test_name):
         test_passed = False
         swilog.error("Step 4:" "Kernel module %s should have been unloaded" % test_name)
 
-    # Load the kernel module
     swilog.step("Step 5: Loading...")
     (returned_value, returned_index) = check_loading(target, test_name, RESULT_OK)
     if not returned_value:
@@ -1084,7 +978,7 @@ def L_Tools_Kmod_0021(target, legato, create_temp_workspace):
     if not returned_value:
         test_passed = False
         swilog.error("Step 8: Kernel module has not been properly loaded")
-
+    swilog.debug(returned_index)
     # End of script: Build the default package to reinitialise the target
     # And clean the LEGATO_ROOT directory
     assert test_passed, display_errors()

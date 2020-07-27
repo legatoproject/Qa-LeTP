@@ -1,3 +1,9 @@
+/**
+ * @file NumProcsTest.c
+ *
+ * Copyright (C) Sierra Wireless Inc.
+ *
+ */
 /*
  * This app tests max number of processes that a calling process can create
  *

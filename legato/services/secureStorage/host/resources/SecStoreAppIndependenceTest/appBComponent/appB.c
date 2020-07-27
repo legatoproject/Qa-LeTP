@@ -1,3 +1,9 @@
+/**
+ * @file appB.c
+ *
+ * Copyright (C) Sierra Wireless Inc.
+ *
+ */
 /* Legato Framework */
 #include "legato.h"
 

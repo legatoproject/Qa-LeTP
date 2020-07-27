@@ -1,27 +1,22 @@
-"""
-    Fixtures for updateControl
-"""
+"""Fixtures for updateControl."""
 
-import pytest
 import os
 import time
+import pytest
 
-__copyright__ = 'Copyright (C) Sierra Wireless Inc.'
+__copyright__ = "Copyright (C) Sierra Wireless Inc."
 
 
 @pytest.fixture()
-def clean_test(target, legato, tmpdir):
-    """
-    Fixture to clean up legato after the test
+def clean_test(legato, tmpdir):
+    """Fixture to clean up legato after the test.
 
     Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
-
     """
-
     os.chdir(str(tmpdir))
     yield
 
@@ -30,16 +25,13 @@ def clean_test(target, legato, tmpdir):
 
 
 @pytest.fixture()
-def init_update(target, read_config):
-    """
-    Get values from upgrade.xml
+def init_update(read_config):
+    """Get values from upgrade.xml.
 
     Args:
         target: fixture to communicate with the target
         read_config: fixture to get value from .xml file
-
     """
-
     update_cfg = {}
 
     fw_path = read_config.findtext("upgrade/current_firmware_path")

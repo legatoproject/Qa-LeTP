@@ -1,19 +1,18 @@
-""" @package updateControlModule The update control API test
+"""@package updateControlModule The update control API test.
 
-    Set of functions to test the le_updateCtrl_UnLockProbation
+Set of functions to test the le_updateCtrl_UnLockProbation
 """
 import os
 import time
 import swilog
 import pytest
 
-__copyright__ = 'Copyright (C) Sierra Wireless Inc.'
-# ==================================================================================================
+__copyright__ = "Copyright (C) Sierra Wireless Inc."
+# ======================================================================================
 # Constants and Globals
-# ==================================================================================================
+# ======================================================================================
 # Determine the resources folder (legato apps)
-TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                              'resources')
+TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)), "resources")
 APP_PATH_00 = os.path.join(TEST_RESOURCES, "updateCtrlApi")
 
 APP_NAME_01 = "testUpdateCtrl"
@@ -24,21 +23,19 @@ old_sys_index = 0
 new_sys_index = 0
 
 
-# ==================================================================================================
+# ======================================================================================
 # Local fixtures
-# ==================================================================================================
+# ======================================================================================
 @pytest.fixture()
-def init_UpdateCrtl(request, legato, clean_test):
-    """
-    Initial environment and build app
+@pytest.mark.usefixtures("clean_test")
+def init_UpdateCrtl(request, legato):
+    """Initialize environment and build app.
 
     Args:
         request: object to access data
         legato: fixture to call useful functions regarding legato
         clean_test: fixture to clean up environment
-
     """
-
     test_name = request.node.name.split("[")[0]
     if legato.get_current_system_status() != "good":
         legato.restore_golden_legato()
@@ -54,14 +51,15 @@ def init_UpdateCrtl(request, legato, clean_test):
     swilog.info("[PASSED] Make and install the test app successfully.")
 
 
-# ==================================================================================================
+# ======================================================================================
 # Test functions
-# ==================================================================================================
-def L_UpdateCtrl_UnlockProbation_0001(target, legato, init_UpdateCrtl):
-    """
-    Verify that le_updateCtrl_UnLockProbation() is ignored if the probation
+# ======================================================================================
+@pytest.mark.usefixtures("init_UpdateCrtl")
+def L_UpdateCtrl_UnlockProbation_0001(target, legato):
+    """Verify that le_updateCtrl_UnLockProbation() is ignored if the probation.
+
     period has already ended and the process who called
-    le_updateCtrl_UnLockProbation() is terminated
+    le_updateCtrl_UnLockProbation() is terminated.
 
     Initial Condition:
         1. Probation period is 10ms
@@ -84,9 +82,7 @@ def L_UpdateCtrl_UnlockProbation_0001(target, legato, init_UpdateCrtl):
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         init_UpdateCrtl: initial environment and build app
-
     """
-
     swilog.step("Test L_UpdateCtrl_UnlockProbation_0001")
     is_tc_passed = False
 
@@ -99,10 +95,11 @@ def L_UpdateCtrl_UnlockProbation_0001(target, legato, init_UpdateCrtl):
 
     # Set the parameter of the testUpdateCtrl app to "unLockProbation"
     # "1" to run this test case
-    target.run("config set apps/%s/procs"
-               "/%s/args/1 unLockProbation" % (APP_NAME_01, APP_NAME_01))
-    target.run("config set apps/%s/procs"
-               "/%s/args/2 1" % (APP_NAME_01, APP_NAME_01))
+    target.run(
+        "config set apps/%s/procs"
+        "/%s/args/1 unLockProbation" % (APP_NAME_01, APP_NAME_01)
+    )
+    target.run("config set apps/%s/procs" "/%s/args/2 1" % (APP_NAME_01, APP_NAME_01))
 
     # Store the system index before le_updateCtrl_UnlockProbation()
     # is called when the system is already 'good' for verification
@@ -123,25 +120,32 @@ def L_UpdateCtrl_UnlockProbation_0001(target, legato, init_UpdateCrtl):
     # or the system indexes are different before and after
     # le_updateCtrl_UnlockProbation() is called, mark this test case failed
     if system_status != "good":
-        swilog.error("[FAILED] UnlockProbation() modifies the current system"
-                     " status when the probation period has already ended")
+        swilog.error(
+            "[FAILED] UnlockProbation() modifies the current system"
+            " status when the probation period has already ended"
+        )
     elif old_sys_index != new_sys_index:
-        swilog.error("[FAILED] UnlockProbation() modifies the system index"
-                     " when the probation period has already ended")
+        swilog.error(
+            "[FAILED] UnlockProbation() modifies the system index"
+            " when the probation period has already ended"
+        )
     else:
-        swilog.info("[PASSED] UnlockProbation() is ignored when"
-                    " the probation period has already ended")
+        swilog.info(
+            "[PASSED] UnlockProbation() is ignored when"
+            " the probation period has already ended"
+        )
         is_tc_passed = True
 
-    assert is_tc_passed is True, "[FAILED] L_UpdateCtrl_UnlockProbation_0001"
+    assert is_tc_passed, "[FAILED] L_UpdateCtrl_UnlockProbation_0001"
     swilog.info("[PASSED] L_UpdateCtrl_UnlockProbation_0001")
 
 
-def L_UpdateCtrl_UnlockProbation_0002(target, legato, init_UpdateCrtl):
-    """
-    Verify that each call to le_updateCtrl_LockProbation()
-    must be matched with a call to le_updateCtrl_UnLockProbation()
-    in a single process to terminate the probation period
+@pytest.mark.usefixtures("init_UpdateCrtl")
+def L_UpdateCtrl_UnlockProbation_0002(target, legato):
+    """Verify that each call to le_updateCtrl_LockProbation() must be matched.
+
+    with a call to le_updateCtrl_UnLockProbation() in a single process to
+    terminate the probation period.
 
     Initial Conditions:
         1. Probation period is 20s
@@ -163,9 +167,7 @@ def L_UpdateCtrl_UnlockProbation_0002(target, legato, init_UpdateCrtl):
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         init_UpdateCrtl: initial environment and build app
-
     """
-
     swilog.step("Test L_UpdateCtrl_UnlockProbation_0002")
     is_first_unlock_success = False
     is_second_unlock_success = False
@@ -176,12 +178,13 @@ def L_UpdateCtrl_UnlockProbation_0002(target, legato, init_UpdateCrtl):
 
     # Set the parameter of the testUpdateCtrl app to "unLockProbation"
     # "2" to run this test case
-    target.run("config set apps/%s/procs"
-               "/%s/args/1 unLockProbation" % (APP_NAME_01, APP_NAME_01))
-    target.run("config set apps/%s/procs"
-               "/%s/args/2 2" % (APP_NAME_01, APP_NAME_01))
+    target.run(
+        "config set apps/%s/procs"
+        "/%s/args/1 unLockProbation" % (APP_NAME_01, APP_NAME_01)
+    )
+    target.run("config set apps/%s/procs" "/%s/args/2 2" % (APP_NAME_01, APP_NAME_01))
 
-    target.run("app start %s" % APP_NAME_01, withexitstatus=1)
+    target.run("app start %s" % APP_NAME_01, withexitstatus=True)
 
     # Store the current system status after the first
     # le_updateCtrl_UnLockProbation() is called
@@ -216,16 +219,22 @@ def L_UpdateCtrl_UnlockProbation_0002(target, legato, init_UpdateCrtl):
     # probation is successful or the second unlock probation is not then,
     # this test case is marked as failed
     if is_first_unlock_success:
-        swilog.error("[FAILED] the one UnlockProbation() call releases"
-                     " the probation lock from the two LockProbation() calls")
+        swilog.error(
+            "[FAILED] the one UnlockProbation() call releases"
+            " the probation lock from the two LockProbation() calls"
+        )
     elif not is_second_unlock_success:
-        swilog.info("[FAILED] the two UnlockProbation() calls doesn't"
-                    " release the probation lock from "
-                    "the two LockProbation() calls")
+        swilog.info(
+            "[FAILED] the two UnlockProbation() calls doesn't"
+            " release the probation lock from "
+            "the two LockProbation() calls"
+        )
     else:
-        swilog.info("[PASSED] the matching number of UnlockProbation() and "
-                    "LockProbation() calls in one process"
-                    " releases the probation lock")
+        swilog.info(
+            "[PASSED] the matching number of UnlockProbation() and "
+            "LockProbation() calls in one process"
+            " releases the probation lock"
+        )
         is_tc_passed = True
 
     # If TC is not passed, reboot the system to clear
@@ -238,11 +247,12 @@ def L_UpdateCtrl_UnlockProbation_0002(target, legato, init_UpdateCrtl):
     swilog.info("[PASSED] L_UpdateCtrl_UnlockProbation_0002")
 
 
-def L_UpdateCtrl_UnlockProbation_0003(target, legato, init_UpdateCrtl):
-    """
-    Verify that each call to "le_updateCtrl_LockProbation()"
-    must be matched with a call to le_updateCtrl_UnLockProbation()
-    in multiple processes to terminate the probation period
+@pytest.mark.usefixtures("init_UpdateCrtl")
+def L_UpdateCtrl_UnlockProbation_0003(target, legato):
+    """Verify that each call to "le_updateCtrl_LockProbation()" must be.
+
+    matched with a call to le_updateCtrl_UnLockProbation() in multiple processes to
+    terminate the probation period.
 
     Initial Conditions:
         1. Probation period is 20s
@@ -261,13 +271,11 @@ def L_UpdateCtrl_UnlockProbation_0003(target, legato, init_UpdateCrtl):
     (Notes: the current system index, the current system state and the current
     system status can be verified by the command line "legato status")
 
-     Args:
+    Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         init_UpdateCrtl: initial environment and build app
-
     """
-
     swilog.step("Test L_UpdateCtrl_UnlockProbation_0003")
     is_first_unlock_success = False
     is_second_unlock_success = False
@@ -278,19 +286,21 @@ def L_UpdateCtrl_UnlockProbation_0003(target, legato, init_UpdateCrtl):
 
     # Set the parameter of the testUpdateCtrl process to "unLockProbation"
     # "3" to run this test case
-    target.run("config set apps/%s/procs"
-               "/%s/args/1 unLockProbation" % (APP_NAME_01, APP_NAME_01))
-    target.run("config set apps/%s/procs"
-               "/%s/args/2 3" % (APP_NAME_01, APP_NAME_01))
+    target.run(
+        "config set apps/%s/procs"
+        "/%s/args/1 unLockProbation" % (APP_NAME_01, APP_NAME_01)
+    )
+    target.run("config set apps/%s/procs" "/%s/args/2 3" % (APP_NAME_01, APP_NAME_01))
 
     # Set the parameter of the otherTestUpdateCtrl process to
     # "unLockProbation" "3" to run this test case
-    target.run("config set apps/%s/procs"
-               "/otherTestUpdateCtrl/args/1 unLockProbation" % APP_NAME_01)
-    target.run("config set apps/%s/procs"
-               "/otherTestUpdateCtrl/args/2 3" % APP_NAME_01)
+    target.run(
+        "config set apps/%s/procs"
+        "/otherTestUpdateCtrl/args/1 unLockProbation" % APP_NAME_01
+    )
+    target.run("config set apps/%s/procs" "/otherTestUpdateCtrl/args/2 3" % APP_NAME_01)
 
-    target.run("app start %s" % APP_NAME_01, withexitstatus=1)
+    target.run("app start %s" % APP_NAME_01, withexitstatus=True)
 
     # Store the current system status for verification
     system_status = legato.get_current_system_status()
@@ -326,18 +336,24 @@ def L_UpdateCtrl_UnlockProbation_0003(target, legato, init_UpdateCrtl):
     # Therefore, if the first unlock probation is successful or the  second
     # unlock probation is not then, this test case is marked as failed
     if is_first_unlock_success:
-        swilog.error("[FAILED] the two UnlockProbation() calls"
-                     " in the otherUpdateCtrl process releases"
-                     " the probation lock from the one LockProbation()"
-                     " call in the testUpdateCtrl process")
+        swilog.error(
+            "[FAILED] the two UnlockProbation() calls"
+            " in the otherUpdateCtrl process releases"
+            " the probation lock from the one LockProbation()"
+            " call in the testUpdateCtrl process"
+        )
     elif not is_second_unlock_success:
-        swilog.error("[FAILED] the two UnlockProbation() calls"
-                     " doesn't release the probation lock from"
-                     " its two LockProbation() calls")
+        swilog.error(
+            "[FAILED] the two UnlockProbation() calls"
+            " doesn't release the probation lock from"
+            " its two LockProbation() calls"
+        )
     else:
-        swilog.info("[PASSED] the matching number of UnlockProbation() and "
-                    "LockProbation() calls in multiple processes releases"
-                    " the probation lock")
+        swilog.info(
+            "[PASSED] the matching number of UnlockProbation() and "
+            "LockProbation() calls in multiple processes releases"
+            " the probation lock"
+        )
         is_tc_passed = True
 
     # If TC is not passed, reboot the system to clear
@@ -345,5 +361,5 @@ def L_UpdateCtrl_UnlockProbation_0003(target, legato, init_UpdateCrtl):
     if not is_tc_passed:
         target.reboot()
 
-    assert is_tc_passed is True, "[FAILED] L_UpdateCtrl_UnlockProbation_0003"
+    assert is_tc_passed, "[FAILED] L_UpdateCtrl_UnlockProbation_0003"
     swilog.info("[PASSED] L_UpdateCtrl_UnlockProbation_0003")

@@ -1,24 +1,19 @@
-"""
-    Fixture to test atomic files
-"""
+"""Fixture to test atomic files."""
 import pytest
 import swilog
 
-__copyright__ = 'Copyright (C) Sierra Wireless Inc.'
+__copyright__ = "Copyright (C) Sierra Wireless Inc."
 
 
-# ==================================================================================================
+# ======================================================================================
 # Local fixtures
-# ==================================================================================================
+# ======================================================================================
 @pytest.fixture()
-def init_atomicFile(target, request):
-    """
-    Initialize and clean up environment
+def init_atomicFile(target):
+    """Initialize and clean up environment.
 
     Args:
         target: fixture to communicate with the target
-        request: fixture to access the data object
-
     """
     test_file_path = "/tmp/testFile.txt"
     temp_file_extension = ".bak~~XXXXXX"

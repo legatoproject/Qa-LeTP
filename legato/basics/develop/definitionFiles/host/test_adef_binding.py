@@ -1,35 +1,32 @@
-""" @package applicationModule Application Definition Files test
+"""@package applicationModule Application Definition Files test.
 
-    Set of functions to test the Legato application definition files
+Set of functions to test the Legato application definition files.
 """
-import pytest
 import os
 import time
 import swilog
+import pytest
 
-__copyright__ = 'Copyright (C) Sierra Wireless Inc.'
-# =================================================================================================
+__copyright__ = "Copyright (C) Sierra Wireless Inc."
+# ====================================================================================
 # Constants and Globals
-# =================================================================================================
+# ====================================================================================
 # Determine the resources folder (legato apps)
-TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                              'resources')
+TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)), "resources")
 
 
-# =================================================================================================
+# ====================================================================================
 # Functions
-# =================================================================================================
+# ====================================================================================
 def verify_run_correctly(legato, should_fail=False):
-    """
-    Verify the application is running properly or not
+    """Verify the application is running properly or not.
 
     Args:
         legato: fixture to call useful functions regarding legato
         should_fail: the application is run properly or not
-
     """
+    expected = not should_fail
 
-    expected = True if should_fail is False else False
     rsp = legato.find_in_target_log("Message received: USER1")
     if rsp != expected:
         swilog.error("USER1 binding")
@@ -39,18 +36,21 @@ def verify_run_correctly(legato, should_fail=False):
         swilog.error("USER2 binding")
 
 
-# =================================================================================================
+# ====================================================================================
 # Local fixtures
-# =================================================================================================
-@pytest.fixture(params=[("binded", "", False, False),
-                        ("unbinded", "", True, False),
-                        ("wrongbind", "", True, False),
-                        ("dupbinding", "", True, False),
-                        ("client", "server", False, False),
-                        ("requires", "", False, True)])
+# ====================================================================================
+@pytest.fixture(
+    params=[
+        ("binded", "", False, False),
+        ("unbinded", "", True, False),
+        ("wrongbind", "", True, False),
+        ("dupbinding", "", True, False),
+        ("client", "server", False, False),
+        ("requires", "", False, True),
+    ]
+)
 def init_cleanup_test(legato, request, tmpdir):
-    """
-    Initial and clean up the test.
+    """Init and clean up the test.
 
     Args:
         legato: fixture to call useful functions regarding legato
@@ -64,7 +64,6 @@ def init_cleanup_test(legato, request, tmpdir):
         make_should_fail: expected status of the building application result
         run_fail: expected status that the application is run
                   properly or not
-
     """
     app_name = request.param[0]
     app_name2 = request.param[1]
@@ -90,19 +89,18 @@ def init_cleanup_test(legato, request, tmpdir):
         legato.clean(app_name2)
 
 
-# =================================================================================================
+# ====================================================================================
 # Test functions
-# =================================================================================================
-def L_ADEF_0001(legato, tmpdir, init_cleanup_test):
-    """
-    Verify that applications are built and run properly or not
+# ====================================================================================
+@pytest.mark.usefixtures("tmpdir")
+def L_ADEF_0001(legato, init_cleanup_test):
+    """Verify that applications are built and run properly or not.
 
     Args:
         legato: fixture to call useful functions regarding legato
         tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
         init_cleanup_test: fixture to init and clean up the test
-
     """
     # Read returned values from the fixture
     app_name = init_cleanup_test[0]
@@ -117,17 +115,15 @@ def L_ADEF_0001(legato, tmpdir, init_cleanup_test):
     test_path = "%s/adef/binding" % TEST_RESOURCES
 
     # Make the first application
-    legato.make(os.path.join(test_path, app_name),
-                "",
-                should_fail=make_should_fail)
+    legato.make(os.path.join(test_path, app_name), "", should_fail=make_should_fail)
 
     # Make the second application
     if app_name2 != "":
-        legato.make(os.path.join(test_path, app_name2),
-                    "",
-                    should_fail=make_should_fail)
+        legato.make(
+            os.path.join(test_path, app_name2), "", should_fail=make_should_fail
+        )
 
-    if make_should_fail is True:
+    if make_should_fail:
         swilog.info("Make app failed as expected.")
         return
 

@@ -1,3 +1,9 @@
+/**
+ * @file C1.c
+ *
+ * Copyright (C) Sierra Wireless Inc.
+ *
+ */
 #include "legato.h"
 #include "interfaces.h"
 

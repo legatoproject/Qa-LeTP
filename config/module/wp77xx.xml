@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test>
+    <module>
+        <generic_name>wp77xx</generic_name>
+        <hardware_platform>mdm9x06</hardware_platform>
+        <spidev_list>spidev1.0</spidev_list>
+        <spi_block_address_list>78b7000.spi_dbg</spi_block_address_list>
+        <spi_baudrate_list>960000,4800000,9600000,16000000,19200000,25000000</spi_baudrate_list>
+
+        <!-- Below is config using for verification testing -->
+        <!-- Audio -->
+        <feature_audio_pcm>1</feature_audio_pcm>
+        <feature_audio_i2s>1</feature_audio_i2s>
+        <bits_per_i2s>E</bits_per_i2s>
+        <bits_per_pcm>D</bits_per_pcm>
+        <audio_profil_nb>10</audio_profil_nb>
+        <!-- GNSS -->
+        <!-- NMEA sentences supported -->
+        <gnss_nmea_frame>GPGGA,GPGSA,GPGSV,GPRMC,GPVTG,GLGSV,GNGNS,GNGSA</gnss_nmea_frame>
+        <gnss_constellation>11</gnss_constellation> <!-- GPS | GLONASS | GALILEO -->
+
+        <!--  -->
+        <feature_sim_slot2_present>0</feature_sim_slot2_present>
+        <feature_sim_fplmn>0</feature_sim_fplmn>
+        <feature_sar_backoff>0</feature_sar_backoff>
+        <feature_pci_scan>0</feature_pci_scan>
+        <feature_ecall>0</feature_ecall>
+        <feature_boot_count>1</feature_boot_count>
+        <feature_info_get_rf_device>1</feature_info_get_rf_device>
+        <target_default_rat>LTE</target_default_rat>
+        <feature_voice_call>0</feature_voice_call>
+        <adc_channels_supported_list>ADC0,ADC1,ADC2,ADC3</adc_channels_supported_list>
+    </module>
+</test>

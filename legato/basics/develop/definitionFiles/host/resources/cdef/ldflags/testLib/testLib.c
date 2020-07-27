@@ -1,3 +1,9 @@
+/**
+ * @file testLib.c
+ *
+ * Copyright (C) Sierra Wireless Inc.
+ *
+ */
 #include "testLib.h"
 #include <stdio.h>
 

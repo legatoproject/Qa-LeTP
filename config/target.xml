@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test>
+    <module>
+        <!-- put here the exact name of your board (e.g. wp7601, wp7603 etc...)
+             or the generic name (e.g. wp76xx etc...). It must corresponds to a
+             file located in config/module/specific -->
+        <name>rc76xx</name>
+        <include_xml>
+            <file>$LETP_TESTS/config/module/specific/$("module/name").xml</file>
+            <file>$LETP_TESTS/config/module/$("module/generic_name").xml</file>
+        </include_xml>
+
+        <!-- When used is "1", ssh is considered as the main test link -->
+        <!-- except if main_link is 0 or use_uart parameter are used -->
+        <ssh used="0" main_link="1" autoconf="1">
+            <ip_address>192.168.2.2</ip_address>
+            <!-- target interface eth0, ecm0, ...-->
+            <network_if>ecm0</network_if>
+            <!-- when uart is used to get the IP address on ETH  -->
+            <!-- "dhcp" Address set by udhcp on target  -->
+            <!-- "fixed" Address set by ifconfig on target  -->
+            <ip_method>dhcp</ip_method>
+            <!-- Set the eth mac address if needed. Set "auto" to set an address based on FSN  -->
+            <mac_add></mac_add>
+            <port>22</port>
+            <desc>ssh_cli</desc>
+        </ssh>
+
+        <!--
+            Supported slink's names in Linux OS:
+            1) USB serial port adaptor: e.g. /dev/ttyUSBxx (ll /dev/ttyUSB*)
+            2) USB interface associated to a USB serial port adaptor: e.g. usb:5-1:1.2 (realpath /sys/class/tty/ttyUSB*)
+            3) USB ID associated to a USB serial port adaptor: e.g. usb:5-1 (realpath /sys/class/tty/ttyUSB*)
+            4) USB by-id path associated to a USB serial port adaptor: e.g. usb-FTDI_FT230X_Basic_UART_DM01B3OO-if00-port0 (ll /dev/serial/by-id/)
+
+            1) or 2) or 4) should be used for multiple target testing
+         -->
+        <slink1 used="1">
+            <!-- UART CLI -->
+            <name>/dev/ttyUSB0</name>
+            <!-- Symbolic link in target fixture. Uart can be used with target."your description" -->
+            <desc>uart_cli</desc>
+            <port>4002</port>
+            <rtscts>0</rtscts>
+            <speed>115200</speed>
+        </slink1>
+
+        <slink2 used="1">
+            <!-- UART AT -->
+            <name>/dev/ttyUSB1</name>
+            <!-- Symbolic link in target fixture. Uart can be used with target."your description" -->
+            <desc>at</desc>
+            <port>4002</port>
+            <rtscts>0</rtscts>
+            <speed>115200</speed>
+        </slink2>
+
+        <!-- Target USB id -->
+        <usb used="0">
+            <name>usb:1-2.1</name>
+        </usb>
+    </module>
+</test>

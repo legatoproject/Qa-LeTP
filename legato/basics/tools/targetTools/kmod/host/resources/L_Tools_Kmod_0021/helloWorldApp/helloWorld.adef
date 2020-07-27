@@ -1,0 +1,22 @@
+executables:
+{
+    helloWorld = (helloWorldComp)
+}
+
+processes:
+{
+    run:
+    {
+        (helloWorld)
+    }
+}
+
+requires:
+{
+    kernelModules:
+    {
+        $CURDIR/../L_Tools_Kmod_0021.mdef
+    }
+}
+
+start: manual

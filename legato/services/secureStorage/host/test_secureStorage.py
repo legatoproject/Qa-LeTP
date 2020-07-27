@@ -1,82 +1,70 @@
-""" @package SecureStorageModule secured storage test
+"""@package SecureStorageModule secured storage test.
 
-    Set of functions to test the secured storage
+Set of functions to test the secured storage.
 """
-import pytest
-import time
 import os
+import time
+import pytest
 import swilog
 
-__copyright__ = 'Copyright (C) Sierra Wireless Inc.'
-# ==================================================================================================
+__copyright__ = "Copyright (C) Sierra Wireless Inc."
+# ====================================================================================
 # Constants and Globals
-# ==================================================================================================
-TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                              'resources')
-TEST_TOOLS = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                          'tools')
+# ====================================================================================
+TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)), "resources")
+TEST_TOOLS = os.path.join(os.path.abspath(os.path.dirname(__file__)), "tools")
 APP_NAME = "SecureStorageTest"
 APP_PATH = TEST_RESOURCES
 TEST_APP_A = "appA"
 TEST_APP_B = "appB"
 
 
-# ==================================================================================================
+# ====================================================================================
 # Functions
-# ==================================================================================================
+# ====================================================================================
 def set_test_app_test_type(target, test_type):
-    """
-    Set test type for test app
+    """Set test type for test app.
 
     Args:
         target: fixture to communicate with the target
         test_type: type of test is set in config tree
             (read, write, delete, writeread, writedeleteread...)
-
     """
-
-    cmd = "config set \"/apps/%s/procs/%s/args/1\" %s" \
-          % (APP_NAME, APP_NAME, test_type)
-    exit, rsp = target.run(cmd, withexitstatus=1)
-    assert exit == 0
+    cmd = 'config set "/apps/%s/procs/%s/args/1" %s' % (APP_NAME, APP_NAME, test_type)
+    exit_status, rsp = target.run(cmd, withexitstatus=True)
+    swilog.debug(rsp)
+    assert exit_status == 0
 
 
 def set_test_app_repeat_cycle(target, test_cycle):
-    """
-    Set test cycle for test app
+    """Set test cycle for test app.
 
     Args:
         target: fixture to communicate with the target
         test_cycle: cycle of test is set in config tree
-
     """
+    cmd = 'config set "/apps/%s/procs/%s/args/2" %s' % (APP_NAME, APP_NAME, test_cycle)
+    exit_status, rsp = target.run(cmd, withexitstatus=True)
+    swilog.debug(rsp)
+    assert exit_status == 0
 
-    cmd = "config set \"/apps/%s/procs/%s/args/2\" %s" \
-          % (APP_NAME, APP_NAME, test_cycle)
-    exit, rsp = target.run(cmd, withexitstatus=1)
-    assert exit == 0
 
-
-def check_log(target, legato, test_title):
-    """
-    Check log for test app
+def check_log(legato, test_title):
+    """Check log for test app.
 
     Args:
-        target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         test_title: title of test
 
     Returns:
         1: Failed to check log
         2: Passed to check log
-
     """
-
     # Need to ensure app has started running and is active
     retry_count = 0
     retry_max = 5
 
-    cmd = "/sbin/logread | grep -c '\- Round \['"
+    cmd = r"/sbin/logread | grep -c '\- Round \['"
     last_round_count = legato.ssh_to_target(cmd, output=True)
 
     while last_round_count == 0 and retry_count <= retry_max:
@@ -84,9 +72,11 @@ def check_log(target, legato, test_title):
         last_round_count = legato.ssh_to_target(cmd, output=True)
         retry_count += 1
 
-    err_msg = "[FAILED] %s. Not one round of test has started. "\
-              "Or App takes a long time to start a round of test. "\
-              "Or timeout is too short." % test_title
+    err_msg = (
+        "[FAILED] %s. Not one round of test has started. "
+        "Or App takes a long time to start a round of test. "
+        "Or timeout is too short." % test_title
+    )
     assert retry_count <= retry_max, err_msg
 
     # NOTE: if each "round" of test takes a long time (e.g. from
@@ -98,20 +88,19 @@ def check_log(target, legato, test_title):
     # Retry every 10 sec up to 60 times
     retry_count = 0
 
-    # retry_max * sleep time define the timeout.
+    # Retry_max * sleep time define the timeout.
     retry_max = 60
     while retry_count <= retry_max:
 
         # If app has stopped, there is already a definite result; exit loop.
-        if not legato.is_app_running(APP_NAME):
-            break
-
-        else:
+        if legato.is_app_running(APP_NAME):
             new_round_count = legato.ssh_to_target(cmd, output=True)
             if new_round_count == last_round_count:
                 break
 
             last_round_count = new_round_count
+        else:
+            break
 
         # Sleep time must be longer than 1 cycle of any test.
         time.sleep(10)
@@ -124,25 +113,25 @@ def check_log(target, legato, test_title):
     else:
         swilog.error("[FAILED] %s" % test_title)
         if retry_count > retry_max:
-            swilog.info("This test has too many cycles than the defined "
-                        "timeout would allow. Or the test fails with an "
-                        "unforeseen reason. | ")
+            swilog.info(
+                "This test has too many cycles than the defined "
+                "timeout would allow. Or the test fails with an "
+                "unforeseen reason. | "
+            )
         if legato.is_app_running(APP_NAME):
             swilog.info("App is still running.")
         return 1
 
 
 def restart_syslog(target, legato):
-    """
-    Restart syslog and try to re-mount the log socket
-    since sandbox is persistent (May 2016).
+    """Restart syslog and try to re-mount the log socket.
+
+    Since sandbox is persistent May 2016.
 
     Args:
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
-
     """
-
     # Restart syslogd to have a clean slate of logs
     legato.clear_target_log()
 
@@ -155,19 +144,22 @@ def restart_syslog(target, legato):
     # do "logread -f > logfile &" at the point where log needs to be captured
     # (typically before test app start), and kill that process
     # and grep logfile when test app finishes.  It's less convenient.
-    test_app_log_socket = "/legato/systems/current/appsWriteable/%s/dev/log" \
-                          % APP_NAME
-    exit, rsp = target.run("umount %s" % test_app_log_socket, withexitstatus=1)
-    assert exit == 0, "[FAILED] umount failed"
+    test_app_log_socket = "/legato/systems/current/appsWriteable/%s/dev/log" % APP_NAME
+    exit_status, rsp = target.run(
+        "umount %s" % test_app_log_socket, withexitstatus=True
+    )
+    swilog.debug(rsp)
+    assert exit_status == 0, "[FAILED] Unmount failed."
 
-    exit, rsp = target.run("mount --bind /dev/log %s" % test_app_log_socket,
-                           withexitstatus=1)
-    assert exit == 0, "[FAILED] mount failed"
+    exit_status, rsp = target.run(
+        "mount --bind /dev/log %s" % test_app_log_socket, withexitstatus=True
+    )
+    swilog.debug(rsp)
+    assert exit_status == 0, "[FAILED] Mount failed."
 
 
 def secure_storage_test_post(target, legato, test_title, test_type, test_cycle):
-    """
-    Secure storage test post
+    """Secure storage test post.
 
     Args:
         target: fixture to communicate with the target
@@ -175,7 +167,6 @@ def secure_storage_test_post(target, legato, test_title, test_type, test_cycle):
         test_title: title of test
         test_type: test type to be set in config tree
         test_cycle: test cycle to be set in config tree
-
     """
     time.sleep(5)
     assert test_title != "", "[FAILED] Test title is empty."
@@ -185,25 +176,21 @@ def secure_storage_test_post(target, legato, test_title, test_type, test_cycle):
     legato.restart(APP_NAME)
 
     err_msg = "[FAILED] Secure Storage test post failed."
-    assert check_log(target, legato, test_title) == 0, err_msg
+    assert check_log(legato, test_title) == 0, err_msg
 
 
-# ==================================================================================================
+# ====================================================================================
 # Local fixtures
-# ==================================================================================================
+# ====================================================================================
 @pytest.fixture(scope="function")
-def test_app(target, legato, tmpdir):
-    """
-    Fixture regarding to build, install and remove app
+def test_app(legato, tmpdir):
+    """Fixture regarding to build, install and remove app.
 
     Args:
-        target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
-
     """
-
     # Remove the test app if it is already existing
     if legato.is_app_exist(TEST_APP_A):
         legato.remove(TEST_APP_A)
@@ -212,10 +199,8 @@ def test_app(target, legato, tmpdir):
 
     # Go to temp directory
     os.chdir(str(tmpdir))
-    legato.make_install(TEST_APP_A,
-                        "%s/SecStoreAppIndependenceTest" % TEST_RESOURCES)
-    legato.make_install(TEST_APP_B,
-                        "%s/SecStoreAppIndependenceTest" % TEST_RESOURCES)
+    legato.make_install(TEST_APP_A, "%s/SecStoreAppIndependenceTest" % TEST_RESOURCES)
+    legato.make_install(TEST_APP_B, "%s/SecStoreAppIndependenceTest" % TEST_RESOURCES)
 
     yield
     if legato.is_app_exist(TEST_APP_A):
@@ -224,13 +209,13 @@ def test_app(target, legato, tmpdir):
         legato.remove(TEST_APP_B)
 
 
-# ==================================================================================================
+# ====================================================================================
 # Test functions
-# ==================================================================================================
-def L_SecureStorage_0004(legato, test_app):
-    """
-    Purpose: Verify that multiple apps have independent access
-             to the secured storage
+# ====================================================================================
+@pytest.mark.usefixtures("test_app")
+def L_SecureStorage_0004(legato):
+    """Multiple apps have independent access to the secured storage.
+
     Verification:
         This test case will mark as "failed" when
             1. both apps can't read its independent written contents
@@ -248,9 +233,7 @@ def L_SecureStorage_0004(legato, test_app):
     Args:
         legato: fixture to call useful functions regarding legato
         test_app: fixture regarding to build, install and remove app
-
     """
-
     swilog.step("Execute L_SecureStorage_0004")
     legato.clear_target_log()
 
@@ -260,10 +243,12 @@ def L_SecureStorage_0004(legato, test_app):
     legato.runProc("%s" % TEST_APP_B, "--exe=%s" % TEST_APP_B, "read")
 
     time.sleep(10)
-    rsp1 = legato.find_in_target_log("appA successfully read"
-                                     " its own written content")
-    rsp2 = legato.find_in_target_log("appB successfully read"
-                                     " its own written content")
+    rsp1 = legato.find_in_target_log(
+        "appA successfully read" " its own written content"
+    )
+    rsp2 = legato.find_in_target_log(
+        "appB successfully read" " its own written content"
+    )
     if not rsp1:
         swilog.error("%s doesn't read what it wrote" % TEST_APP_A)
     if not rsp2:
@@ -276,10 +261,10 @@ def L_SecureStorage_0004(legato, test_app):
         swilog.info("[PASSED] L_SecureStorage_0004")
 
 
-def L_SecureStorage_0006(target, legato, app_leg):
-    """
-    Purpose: Verify that the Secure Storage Read API can be repeatedly
-             called many times reliably.
+@pytest.mark.usefixtures("app_leg")
+def L_SecureStorage_0006(target, legato):
+    """Secure Storage Read API can be repeatedly called many times reliably.
+
     This script will
         1. Use the "Write" API to write an item.
         2. Use the "Read" API to repeatedly read the written item.
@@ -290,11 +275,9 @@ def L_SecureStorage_0006(target, legato, app_leg):
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         app_leg: fixture regarding to build, install and remove app
-
     """
-
     swilog.step("Execute L_SecureStorage_0006")
-    test_title = "Read\ Test"
+    test_title = r"Read\ Test"
     test_type = "read"
     test_cycle = "50"
 
@@ -306,10 +289,10 @@ def L_SecureStorage_0006(target, legato, app_leg):
     swilog.info("[PASSED] L_SecureStorage_0006")
 
 
-def L_SecureStorage_0007(target, legato, app_leg):
-    """
-    Purpose: Verify that the Secure Storage Write API can be
-             repeatedly called many times reliably.
+@pytest.mark.usefixtures("app_leg")
+def L_SecureStorage_0007(target, legato):
+    """Secure Storage Write API can be repeatedly called many times reliably.
+
     This script will
         1. Use the "Write" API to repeatedly write an item.
         2. Verify that every write is successful.
@@ -318,11 +301,9 @@ def L_SecureStorage_0007(target, legato, app_leg):
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         app_leg: fixture regarding to build, install and remove app
-
     """
-
     swilog.step("Execute L_SecureStorage_0007")
-    test_title = "Write\ Test"
+    test_title = r"Write\ Test"
     test_type = "write"
     test_cycle = "50"
 
@@ -334,10 +315,12 @@ def L_SecureStorage_0007(target, legato, app_leg):
     swilog.info("[PASSED] L_SecureStorage_0007")
 
 
-def L_SecureStorage_0011(target, legato, app_leg):
-    """
-    Purpose: Verify that the Secure Storage Write and Read APIs
-             can be repeatedly called many times reliably.
+@pytest.mark.usefixtures("app_leg")
+def L_SecureStorage_0011(target, legato):
+    """Purpose: Verify that the Secure Storage Write and Read APIs.
+
+    Can be repeatedly called many times reliably.
+
     This script will
         1. Use the "Write" API to write an item.
         2. Use the "Read" API to read the item.
@@ -349,11 +332,9 @@ def L_SecureStorage_0011(target, legato, app_leg):
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         app_leg: fixture regarding to build, install and remove app
-
     """
-
     swilog.step("Execute L_SecureStorage_0011")
-    test_title = "Write\ Read\ Test"
+    test_title = r"Write\ Read\ Test"
     test_type = "writeread"
     test_cycle = "50"
 
@@ -365,10 +346,11 @@ def L_SecureStorage_0011(target, legato, app_leg):
     swilog.info("[PASSED] L_SecureStorage_0011")
 
 
-def L_SecureStorage_0012(target, legato, app_leg):
-    """
-    Purpose: Verify that the Secure Storage Write, Delete,
-             and Read APIs can be repeatedly called many times reliably.
+@pytest.mark.usefixtures("app_leg")
+def L_SecureStorage_0012(target, legato):
+    """Verify that the Secure Storage Write, Delete.
+
+    And Read APIs can be repeatedly called many times reliably.
 
     This script will
         1. Use the "Write" API to write an item.
@@ -382,11 +364,9 @@ def L_SecureStorage_0012(target, legato, app_leg):
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         app_leg: fixture regarding to build, install and remove app
-
     """
-
     swilog.step("Execute L_SecureStorage_0012")
-    test_title = "Write\ Delete\ Read\ Test"
+    test_title = r"Write\ Delete\ Read\ Test"
     test_type = "writedeleteread"
     test_cycle = "50"
 

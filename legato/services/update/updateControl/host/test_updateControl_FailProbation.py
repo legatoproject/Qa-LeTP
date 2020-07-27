@@ -1,40 +1,37 @@
-""" @package updateControlModule The update control API test
+"""@package updateControlModule The update control API test.
 
-    Set of functions to test the le_updateCtrl_FailProbation
+Set of functions to test the le_updateCtrl_FailProbation
 """
 import os
 import time
 import swilog
 import pytest
 
-__copyright__ = 'Copyright (C) Sierra Wireless Inc.'
-# ==================================================================================================
+__copyright__ = "Copyright (C) Sierra Wireless Inc."
+# ======================================================================================
 # Constants and Globals
-# ==================================================================================================
+# ======================================================================================
 # Determine the resources folder (legato apps)
-TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                              'resources')
+TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)), "resources")
 APP_PATH_00 = os.path.join(TEST_RESOURCES, "updateCtrlApi")
 
 APP_NAME_01 = "testUpdateCtrl"
 APP_PATH_01 = os.path.join(APP_PATH_00, "testUpdateCtrlApp")
 
 
-# ==================================================================================================
+# ======================================================================================
 # Local fixtures
-# ==================================================================================================
+# ======================================================================================
 @pytest.fixture()
-def init_UpdateCrtl(request, legato, clean_test):
-    """
-    Initial and build app
+@pytest.mark.usefixtures("clean_test")
+def init_UpdateCrtl(request, legato):
+    """Initialize and build app.
 
     Args:
         request: object to access data
         legato: fixture to call useful functions regarding legato
         clean_test: fixture to clean up environment
-
     """
-
     test_name = request.node.name.split("[")[0]
     if legato.get_current_system_status() != "good":
         legato.restore_golden_legato()
@@ -64,14 +61,14 @@ def init_UpdateCrtl(request, legato, clean_test):
     yield old_sys_index
 
 
-# ==================================================================================================
+# ======================================================================================
 # Test Functions
-# ==================================================================================================
+# ======================================================================================
 def L_UpdateCtrl_FailProbation_0001(target, legato, init_UpdateCrtl):
-    """
-    Verify that le_updateCtrl_FailProbation() marks the current system
-    as bad and rolls back to a previous good system
-    when the system is under probation
+    """Verify that le_updateCtrl_FailProbation() marks the current system as.
+
+    bad and rolls back to a previous good system when the system is under
+    probation.
 
     Initial Conditions:
         1. Current system state is marked as "good"
@@ -94,9 +91,7 @@ def L_UpdateCtrl_FailProbation_0001(target, legato, init_UpdateCrtl):
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         init_UpdateCrtl: initial and build app
-
     """
-
     swilog.step("Test L_UpdateCtrl_FailProbation_0001")
     old_sys_index = 0
     new_sys_index = 0
@@ -110,12 +105,13 @@ def L_UpdateCtrl_FailProbation_0001(target, legato, init_UpdateCrtl):
     # StartTC(target)
     # Set the parameter of the testUpdateCtrl app to
     # "failProbation" "1" to run this test case
-    target.run("config set apps/%s/procs/%s/args/1"
-               " failProbation" % (APP_NAME_01, APP_NAME_01))
-    target.run("config set apps/%s/procs/%s/args/2 1" % (APP_NAME_01,
-                                                         APP_NAME_01))
+    target.run(
+        "config set apps/%s/procs/%s/args/1"
+        " failProbation" % (APP_NAME_01, APP_NAME_01)
+    )
+    target.run("config set apps/%s/procs/%s/args/2 1" % (APP_NAME_01, APP_NAME_01))
     time.sleep(5)
-    rsp, exit = target.run("app start %s" % APP_NAME_01, withexitstatus=1)
+    rsp = target.run("app start %s" % APP_NAME_01)
     swilog.info(rsp)
 
     # Store the system status after le_updateCtrl_FailProbation()
@@ -124,7 +120,7 @@ def L_UpdateCtrl_FailProbation_0001(target, legato, init_UpdateCrtl):
     old_system_status = legato.get_current_system_status()
 
     # ==========================================================
-    # TODO whether the reboot is necessary before the roll-back
+    # whether the reboot is necessary before the roll-back
     # If this test case is failed then, the system
     # may perform roll-back so, target device will reboot
     # Ticket: LE-5080
@@ -132,7 +128,7 @@ def L_UpdateCtrl_FailProbation_0001(target, legato, init_UpdateCrtl):
 
     # Wait 10s to check whether the target device is shutting down to reboot
     time.sleep(5)
-    if target.wait_for_device_down(10) is 0:
+    if target.wait_for_device_down(10) == 0:
         target.wait_for_reboot(120)
         is_target_reboot = True
     swilog.info(is_target_reboot)
@@ -156,38 +152,50 @@ def L_UpdateCtrl_FailProbation_0001(target, legato, init_UpdateCrtl):
     # If any of the previous5 behaviours wasn't inspected,
     #  mark this test case failed
     if old_sys_index != new_sys_index:
-        swilog.error("[FAILED] FailProbation() doesn't "
-                     "roll-back when the system is under probation")
+        swilog.error(
+            "[FAILED] FailProbation() doesn't "
+            "roll-back when the system is under probation"
+        )
     elif new_system_status != "good":
-        swilog.error("[FAILED] FailProbation() doesn't roll-back to"
-                     " a previous 'good' system when the system is"
-                     " under probation - %s" % new_system_status)
+        swilog.error(
+            "[FAILED] FailProbation() doesn't roll-back to"
+            " a previous 'good' system when the system is"
+            " under probation - %s" % new_system_status
+        )
     elif old_system_status != "bad":
-        swilog.error("[FAILED] FailProbation() doesn't mark the current"
-                     " system as 'bad' before the roll-back occurred"
-                     " when the system is under probation")
+        swilog.error(
+            "[FAILED] FailProbation() doesn't mark the current"
+            " system as 'bad' before the roll-back occurred"
+            " when the system is under probation"
+        )
     elif legato.is_app_exist(APP_NAME_01):
-        swilog.error("[FAILED] FailProbation() rolls-back to a system that"
-                     " doesn't match to a previous 'good' system which"
-                     " doesn't has the testUpdateCtrl app when"
-                     " the system is under probation")
+        swilog.error(
+            "[FAILED] FailProbation() rolls-back to a system that"
+            " doesn't match to a previous 'good' system which"
+            " doesn't has the testUpdateCtrl app when"
+            " the system is under probation"
+        )
     elif is_target_reboot is False:
-        swilog.error("[FAILED] FailProbation() doesn't cause the target"
-                     " to reboot to complete the system roll-back when"
-                     " the system is under probation")
+        swilog.error(
+            "[FAILED] FailProbation() doesn't cause the target"
+            " to reboot to complete the system roll-back when"
+            " the system is under probation"
+        )
     else:
-        swilog.info("[PASSED] FailProbation() rolls-back to a previous"
-                    " 'good' system when the system is under probation")
+        swilog.info(
+            "[PASSED] FailProbation() rolls-back to a previous"
+            " 'good' system when the system is under probation"
+        )
         is_tc_passed = True
 
-    assert is_tc_passed is True, "[FAILED] L_UpdateCtrl_FailProbation_0001"
+    assert is_tc_passed, "[FAILED] L_UpdateCtrl_FailProbation_0001"
     swilog.step("[PASSED] L_UpdateCtrl_FailProbation_0001")
 
 
 def L_UpdateCtrl_FailProbation_0002(target, legato, init_UpdateCrtl):
-    """
-    Verify that le_updateCtrl_FailProbation()
-    is ignored if the probation period has already ended
+    """Verify that le_updateCtrl_FailProbation() is ignored if the probation.
+
+    period has already ended.
 
     Initial Conditions:
         1. Current system state is marked as "good"
@@ -209,15 +217,14 @@ def L_UpdateCtrl_FailProbation_0002(target, legato, init_UpdateCrtl):
         target: fixture to communicate with the target
         legato: fixture to call useful functions regarding legato
         init_UpdateCrtl: initial and build app
-
     """
-
     swilog.step("Test L_UpdateCtrl_FailProbation_0002")
     old_sys_index = 0
     new_sys_index = 0
     system_status = ""
     is_tc_passed = False
     is_target_reboot = False
+    swilog.debug(init_UpdateCrtl)
 
     # Start TC2(target)
     # Set the probation period to 1s so that
@@ -228,18 +235,21 @@ def L_UpdateCtrl_FailProbation_0002(target, legato, init_UpdateCrtl):
     time.sleep(3)
 
     # Set the parameter of the testUpdateCtrl app to "failProbation" "2"
-    target.run("config set apps/%s/procs/%s/args/1"
-               " failProbation" % (APP_NAME_01, APP_NAME_01))
-    target.run("config set apps/%s/procs/$APP_NAME_01/"
-               "args/2 2" % APP_NAME_01, withexitstatus=1)
+    target.run(
+        "config set apps/%s/procs/%s/args/1"
+        " failProbation" % (APP_NAME_01, APP_NAME_01)
+    )
+    target.run(
+        "config set apps/%s/procs/$APP_NAME_01/" "args/2 2" % APP_NAME_01,
+        withexitstatus=True,
+    )
 
     # Store the current system index of a 'good' system before
     # invoking le_updateCtrl_FailProbation()
     # for verification
     old_sys_index = legato.get_current_system_index()
 
-    rsp, exit = target.run("app start %s" % APP_NAME_01, withexitstatus=1)
-    swilog.info(rsp)
+    target.run("app start %s" % APP_NAME_01, withexitstatus=True)
 
     # Store the current system index of a 'good' system after
     # le_updateCtrl_FailProbation() was invoked
@@ -265,25 +275,36 @@ def L_UpdateCtrl_FailProbation_0002(target, legato, init_UpdateCrtl):
     # Mark this test case failed
 
     # ==========================================================
-    # TODO whether the reboot is necessary before the roll-back
+    # whether the reboot is necessary before the roll-back
     # if this test case is failed then, the system
     # may perform roll-back so, target device will reboot
     # Ticket: LE-5080
     # ==========================================================
-    if is_target_reboot is True:
-        swilog.error("[FAILED] FailProbation() performs roll-back when"
-                     " the probation period has already ended")
+    if is_target_reboot:
+        swilog.error(
+            "[FAILED] FailProbation() performs roll-back when"
+            " the probation period has already ended"
+        )
     elif old_sys_index != new_sys_index:
-        swilog.error("[FAILED] FailProbation() modified the system index when"
-                     " the probation period has already ended")
+        swilog.error(
+            "[FAILED] FailProbation() modified the system index when"
+            " the probation period has already ended"
+        )
     elif system_status != "good":
         swilog.info(system_status)
-        swilog.error("[FAILED] FailProbation() modified the system status"
-                     " when the probation period has already ended")
+        swilog.error(
+            "[FAILED] FailProbation() modified the system status"
+            " when the probation period has already ended"
+        )
     else:
-        swilog.info("[PASSED] FailProbation() is ignored when"
-                    " the probation period has already ended")
+        swilog.info(
+            "[PASSED] FailProbation() is ignored when"
+            " the probation period has already ended"
+        )
         is_tc_passed = True
-    assert is_tc_passed is True, "[FAILED]"" Test \
+    assert is_tc_passed, (
+        "[FAILED]"
+        " Test \
                                              L_UpdateCtrl_FailProbation_0002"
+    )
     swilog.step("[PASSED] Test L_UpdateCtrl_FailProbation_0002")
