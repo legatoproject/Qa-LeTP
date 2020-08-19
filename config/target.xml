@@ -4,7 +4,7 @@
         <!-- put here the exact name of your board (e.g. wp7601, wp7603 etc...)
              or the generic name (e.g. wp76xx etc...). It must corresponds to a
              file located in config/module/specific -->
-        <name>rc76xx</name>
+        <name>wp76xx</name>
         <include_xml>
             <file>$LETP_TESTS/config/module/specific/$("module/name").xml</file>
             <file>$LETP_TESTS/config/module/$("module/generic_name").xml</file>
@@ -12,7 +12,7 @@
 
         <!-- When used is "1", ssh is considered as the main test link -->
         <!-- except if main_link is 0 or use_uart parameter are used -->
-        <ssh used="0" main_link="1" autoconf="1">
+        <ssh used="1" main_link="1" autoconf="1">
             <ip_address>192.168.2.2</ip_address>
             <!-- target interface eth0, ecm0, ...-->
             <network_if>ecm0</network_if>
@@ -35,7 +35,7 @@
 
             1) or 2) or 4) should be used for multiple target testing
          -->
-        <slink1 used="1">
+        <slink1 used="0">
             <!-- UART CLI -->
             <name>/dev/ttyUSB0</name>
             <!-- Symbolic link in target fixture. Uart can be used with target."your description" -->
@@ -45,7 +45,7 @@
             <speed>115200</speed>
         </slink1>
 
-        <slink2 used="1">
+        <slink2 used="0">
             <!-- UART AT -->
             <name>/dev/ttyUSB1</name>
             <!-- Symbolic link in target fixture. Uart can be used with target."your description" -->
