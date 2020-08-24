@@ -45,13 +45,7 @@
         "name": "$LETP_TEST_SET/legato/c-runtime/file/host/test_createStream.py::L_AtomicFile_Stream_0018"
     },
     {
-        "name": "$LETP_TEST_SET/legato/c-runtime/file/host/test_delete.py::L_AtomicFile_Operation_0033"
-    },
-    {
         "name": "$LETP_TEST_SET/legato/c-runtime/file/host/test_delete.py::L_AtomicFile_Operation_0034"
-    },
-    {
-        "name": "$LETP_TEST_SET/legato/c-runtime/file/host/test_delete.py::L_AtomicFile_Operation_0035"
     },
     {
         "name": "$LETP_TEST_SET/legato/c-runtime/file/host/test_open.py::L_AtomicFile_Operation_0001"
@@ -117,16 +111,10 @@
         "name": "$LETP_TEST_SET/legato/c-runtime/file/host/test_tryOpen.py::L_AtomicFile_Operation_0019"
     },
     {
-        "name": "$LETP_TEST_SET/legato/c-runtime/file/host/test_tryOpen.py::L_AtomicFile_Operation_0020"
-    },
-    {
         "name": "$LETP_TEST_SET/legato/c-runtime/file/host/test_tryOpen.py::L_AtomicFile_Operation_0021"
     },
     {
         "name": "$LETP_TEST_SET/legato/c-runtime/file/host/test_tryOpen.py::L_AtomicFile_Operation_0022"
-    },
-    {
-        "name": "$LETP_TEST_SET/legato/c-runtime/file/host/test_tryOpen.py::L_AtomicFile_Operation_0023"
     },
     {
         "name": "$LETP_TEST_SET/legato/c-runtime/file/host/test_tryOpenStream.py::L_AtomicFile_Stream_0019"

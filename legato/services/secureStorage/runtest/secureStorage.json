@@ -10,8 +10,5 @@
     },
     {
         "name": "$LETP_TEST_SET/legato/services/secureStorage/host/test_secureStorage.py::L_SecureStorage_0011"
-    },
-    {
-        "name": "$LETP_TEST_SET/legato/services/secureStorage/host/test_secureStorage.py::L_SecureStorage_0012"
     }
 ]

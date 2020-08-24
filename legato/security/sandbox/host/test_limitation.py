@@ -20,20 +20,10 @@ APP_PATH_L_SandBox_0007 = os.path.join(TEST_RESOURCES, APP_NAME_L_SandBox_0007)
 TEMPLATE_NAME_L_SandBox_0007 = "FST_tpl"
 TEST_TITLE_L_SandBox_0007 = "MaxCreatedFileSize"
 
-APP_NAME_L_SandBox_0009 = "NumProcsTest"
-APP_PATH_L_SandBox_0009 = os.path.join(TEST_RESOURCES, APP_NAME_L_SandBox_0009)
-TEMPLATE_NAME_L_SandBox_0009 = "NPT_tpl"
-TEST_TITLE_L_SandBox_0009 = "NumberOfProcesses"
-
 APP_NAME_L_SandBox_0010 = "NumSigQueuedTest"
 APP_PATH_L_SandBox_0010 = os.path.join(TEST_RESOURCES, APP_NAME_L_SandBox_0010)
 TEMPLATE_NAME_L_SandBox_0010 = "NSQT_tpl"
 TEST_TITLE_L_SandBox_0010 = "RealTimeSignalQueueSize"
-
-APP_NAME_L_SandBox_0011 = "CoreDumpFileSizeTest"
-APP_PATH_L_SandBox_0011 = os.path.join(TEST_RESOURCES, APP_NAME_L_SandBox_0011)
-TEMPLATE_NAME_L_SandBox_0011 = "CDFS_tpl"
-TEST_TITLE_L_SandBox_0011 = "CoreDumpFileSize"
 
 APP_NAME_L_SandBox_0012 = "MemLockSizeTest"
 APP_PATH_L_SandBox_0012 = os.path.join(TEST_RESOURCES, APP_NAME_L_SandBox_0012)
@@ -383,42 +373,6 @@ def L_SandBox_0007(
 @pytest.mark.parametrize(
     ("tpl_val", "expect_tst", "failed_reason"),
     [
-        ("0", "invalid", ""),
-        ("1", "1", ""),
-        ("-1", "invalid", ""),
-        ("-2", "invalid", ""),
-        ("asdf", "invalid", ""),
-        ("500", "500", ""),
-        ("-1000000", "invalid", ""),
-    ],
-)
-def L_SandBox_0009(
-    target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_sandbox
-):
-    """Num of Processes.
-
-    The NumProcsTest app creates processes until the configured limit,
-    and also at limit+1.
-    The scripts configures the config tree for various conditions
-    (0, min, max, invalid value, etc.), and re-runs the NumProcsTest app.
-    It also processes the output to determine pass/fail.
-
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        tmpdir: fixture to provide a temporary directory
-                unique to the test invocation
-        init_sandbox: fixture to initation and cleanup the environment
-        tpl_val: testing value
-        expect_tst: expected value
-        failed_reason: failed reason
-    """
-    sandbox(target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_sandbox)
-
-
-@pytest.mark.parametrize(
-    ("tpl_val", "expect_tst", "failed_reason"),
-    [
         ("0", "0", ""),
         ("1", "1", ""),
         ("-1", "invalid", ""),
@@ -440,51 +394,6 @@ def L_SandBox_0010(
     The scripts configures the config tree for various conditions
     (0, min, max, invalid value, etc.), and re-runs
     the NumSigQueuedTest legato.
-    It also processes the output to determine pass/fail.
-
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        tmpdir: fixture to provide a temporary directory
-                unique to the test invocation
-        init_sandbox: fixture to initation and cleanup the environment
-        tpl_val: testing value
-        expect_tst: expected value
-        failed_reason: failed reason
-    """
-    sandbox(target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_sandbox)
-
-
-@pytest.mark.parametrize(
-    ("tpl_val", "expect_tst", "failed_reason"),
-    [
-        ("0", "0", ""),
-        ("1", "1", ""),
-        ("-1", "invalid", ""),
-        ("-2", "invalid", ""),
-        ("asdf", "invalid", ""),
-        ("4095", "4095", ""),
-        ("4096", "4096", ""),
-        ("4097", "4097", ""),
-        ("8191", "8191", ""),
-        ("8192", "8192", ""),
-        ("8193", "8193", ""),
-        ("90112", "90112", ""),
-        ("1000000", "1000000", ""),
-        ("-1000000", "invalid", ""),
-    ],
-)
-def L_SandBox_0011(
-    target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_sandbox
-):
-    """Core Dump File Size.
-
-    The CoreDumpFileSizeTest app causes seg fault
-    which creates a core dump.
-
-    The scripts configures the config tree for various conditions
-    (0, min, max, invalid value, etc.), and re-runs
-    the CoreDumpFileSizeTest legato.
     It also processes the output to determine pass/fail.
 
     Args:

@@ -344,35 +344,3 @@ def L_SecureStorage_0011(target, legato):
     secure_storage_test_post(target, legato, test_title, test_type, test_cycle)
 
     swilog.info("[PASSED] L_SecureStorage_0011")
-
-
-@pytest.mark.usefixtures("app_leg")
-def L_SecureStorage_0012(target, legato):
-    """Verify that the Secure Storage Write, Delete.
-
-    And Read APIs can be repeatedly called many times reliably.
-
-    This script will
-        1. Use the "Write" API to write an item.
-        2. Use the "Delete" API to delete the item.
-        3. Use the "Read" API to read the item.
-        4. Repeat 1 to 3 many times.
-        5. Verify that for all operations, write and delete are successful,
-           but read is not.
-
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-    """
-    swilog.step("Execute L_SecureStorage_0012")
-    test_title = r"Write\ Delete\ Read\ Test"
-    test_type = "writedeleteread"
-    test_cycle = "50"
-
-    if not legato.is_app_running(APP_NAME):
-        legato.start(APP_NAME)
-
-    secure_storage_test_post(target, legato, test_title, test_type, test_cycle)
-
-    swilog.info("[PASSED] L_SecureStorage_0012")

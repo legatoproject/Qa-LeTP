@@ -1,8 +1,5 @@
 [
     {
-        "name": "$LETP_TEST_SET/legato/basics/develop/definitionFiles/host/test_adef_binding.py::L_ADEF_0001"
-    },
-    {
         "name": "$LETP_TEST_SET/legato/basics/develop/definitionFiles/host/test_adef_link.py::L_ADEF_0006"
     },
     {

@@ -1,8 +1,5 @@
 [
     {
-        "name": "$LETP_TEST_SET/legato/services/update/flash/host/test_flash.py::L_SwUpdate_Flash_MtdInfo_0001"
-    },
-    {
         "name": "$LETP_TEST_SET/legato/services/update/flash/host/test_flash.py::L_SwUpdate_Flash_MtdInfo_0009"
     },
     {

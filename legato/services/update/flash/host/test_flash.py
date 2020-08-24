@@ -54,48 +54,6 @@ PARTITIONS_UBILIST = [
 # Test functions
 # ======================================================================================
 @pytest.mark.usefixtures("app_leg")
-def L_SwUpdate_Flash_MtdInfo_0001(target, legato):
-    """Get info from partition: tz,rpm about bootsystem lefwkro customer.
-
-    Check that can access mtd partitions and getting its info:
-    tz_update, tz_active, tz_1, tz_2 ...
-
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture to make, install and remove application
-    """
-    i = 0
-    j = 0
-    while i < len(PARTITIONS_MTDLIST):
-        j = 0
-        swilog.step("Test case %s MTD partition:" % str(j + i + 1))
-        while j < len(PARTITIONS_MTDLIST[i]):
-            cmd = (
-                "app runProc flashApp flashApp -- info "
-                + PARTITIONS_MTDLIST[i][j]
-                + "\n"
-            )
-            target.run(cmd, withexitstatus=True)
-            pattern = "flashApp* has exited with exit code 0"
-            err_msg = (
-                "[FAILED] Getting info from" + PARTITIONS_MTDLIST[i][j] + "failed !"
-            )
-            if legato.find_in_target_log(pattern):
-                swilog.error(err_msg)
-            legato.clear_target_log()
-            time.sleep(5)
-            j += 1
-        i += 1
-
-    failed_testcases_list = swilog.get_error_list()
-    if failed_testcases_list != []:
-        assert 0, "Some tests failed:\n%s" % "\n".join(failed_testcases_list)
-    else:
-        swilog.info("[PASSED] L_SwUpdate_Flash_MtdInfo_0001")
-
-
-@pytest.mark.usefixtures("app_leg")
 def L_SwUpdate_Flash_UbiInfo_0001(target, legato):
     """Get information from Ubi volume system/system 2.
 
