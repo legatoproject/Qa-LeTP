@@ -26,14 +26,14 @@ APP_PATH_02 = os.path.join(APP_PATH_00, "helloWorldApp")
 # Local fixtures
 # ======================================================================================
 @pytest.fixture()
-@pytest.mark.usefixtures("clean_test")
-def init_UpdateCrtl(legato):
+def init_UpdateCrtl(legato, clean_test):
     """Clean up environment and build app.
 
     Args:
         legato: fixture to call useful functions regarding legato
         clean_test: fixture to clean up environment
     """
+    assert clean_test
     if legato.get_current_system_index() != 0:
         legato.restore_golden_legato()
     # Make install application

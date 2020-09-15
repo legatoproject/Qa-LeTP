@@ -1,7 +1,6 @@
 """Fixtures for updateControl."""
 
 import os
-import time
 import pytest
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
@@ -18,9 +17,7 @@ def clean_test(legato, tmpdir):
                 unique to the test invocation
     """
     os.chdir(str(tmpdir))
-    yield
-
-    time.sleep(60)
+    yield True
     legato.restore_golden_legato()
 
 

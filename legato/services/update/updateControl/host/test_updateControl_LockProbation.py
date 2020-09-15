@@ -22,9 +22,8 @@ APP_PATH_01 = os.path.join(APP_PATH_00, "testUpdateCtrlApp")
 # ======================================================================================
 # Local fixtures
 # ======================================================================================
-@pytest.mark.usefixtures("clean_test")
 @pytest.fixture()
-def init_UpdateCrtl(request, legato):
+def init_UpdateCrtl(request, legato, clean_test):
     """Initialize and build app.
 
     Args:
@@ -32,6 +31,7 @@ def init_UpdateCrtl(request, legato):
         legato: fixture to call useful functions regarding legato
         clean_test: fixture to clean up environment
     """
+    assert clean_test
     test_name = request.node.name.split("[")[0]
     if test_name != "L_UpdateCtrl_LockProbation_0002":
         # Since the test framework would change the probation period to 1ms,

@@ -23,8 +23,7 @@ APP_PATH_01 = os.path.join(APP_PATH_00, "testUpdateCtrlApp")
 # Local fixtures
 # ======================================================================================
 @pytest.fixture()
-@pytest.mark.usefixtures("clean_test")
-def init_UpdateCrtl(request, legato):
+def init_UpdateCrtl(request, legato, clean_test):
     """Initialize and build app.
 
     Args:
@@ -32,6 +31,7 @@ def init_UpdateCrtl(request, legato):
         legato: fixture to call useful functions regarding legato
         clean_test: fixture to clean up environment
     """
+    assert clean_test
     test_name = request.node.name.split("[")[0]
     if legato.get_current_system_status() != "good":
         legato.restore_golden_legato()
