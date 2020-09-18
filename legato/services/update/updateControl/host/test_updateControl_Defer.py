@@ -15,13 +15,13 @@ __copyright__ = "Copyright (C) Sierra Wireless Inc."
 # Determine the resources folder (legato apps)
 LEGATO_ROOT = os.environ["LEGATO_ROOT"]
 TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)), "resources")
-APP_PATH_00 = os.path.join(TEST_RESOURCES, "updateCtrlApi")
+APP_PATH = os.path.join(TEST_RESOURCES, "updateCtrlApi")
 
-APP_NAME_01 = "testUpdateCtrl"
-APP_PATH_01 = os.path.join(APP_PATH_00, "testUpdateCtrlApp")
+UPDATE_CTRL_APP = "testUpdateCtrl"
+UPDATE_CTRL_PATH = os.path.join(APP_PATH, "testUpdateCtrlApp")
 
-APP_NAME_02 = "helloWorld"
-APP_PATH_02 = os.path.join(APP_PATH_00, "helloWorldApp")
+HELLO_WORLD_APP = "helloWorld"
+HELLO_WORLD_PATH = os.path.join(APP_PATH, "helloWorldApp")
 
 
 # ======================================================================================
@@ -39,7 +39,7 @@ def init_UpdateCrtl(legato, clean_test):
     if legato.get_current_system_index() != 0:
         legato.restore_golden_legato()
     # Make install application
-    legato.make_install(APP_NAME_01, APP_PATH_01)
+    legato.make_install(UPDATE_CTRL_APP, UPDATE_CTRL_PATH)
     swilog.info("[PASSED] Make and install the test app successfully.")
 
 
@@ -78,11 +78,15 @@ def L_UpdateCtrl_Defer_0001(target):
 
     # Set the parameters of the testUpdateCtrl app to
     # "defer" "1" to run this test case
-    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01, APP_NAME_01))
-    target.run("config set apps/%s/procs/%s/args/2 1" % (APP_NAME_01, APP_NAME_01))
+    target.run(
+        "config set apps/%s/procs/%s/args/1 defer" % (UPDATE_CTRL_APP, UPDATE_CTRL_APP)
+    )
+    target.run(
+        "config set apps/%s/procs/%s/args/2 1" % (UPDATE_CTRL_APP, UPDATE_CTRL_APP)
+    )
 
     # Run the testUpdateCtrl app that will invoke le_updateCtrl_Defer()
-    status, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=True)
+    status, rsp = target.run("app start %s" % UPDATE_CTRL_APP, withexitstatus=True)
     swilog.debug(rsp)
     assert status == 0, "[FAILED] App could not be started."
 
@@ -90,7 +94,7 @@ def L_UpdateCtrl_Defer_0001(target):
     # the testUpdateCtrl app while the
     # Current system should hold a defer lock
     # If the removal was successful then, the system update is proceed
-    status, rsp = target.run("app remove %s" % APP_NAME_01, withexitstatus=True)
+    status, rsp = target.run("app remove %s" % UPDATE_CTRL_APP, withexitstatus=True)
     swilog.debug(rsp)
     assert (
         status == 1
@@ -139,19 +143,23 @@ def L_UpdateCtrl_Defer_0002(target, legato):
 
     # Set the parameter of the testUpdateCtrl app to
     # "defer" "2" to run this test case
-    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01, APP_NAME_01))
-    target.run("config set apps/%s/procs/%s/args/2 2" % (APP_NAME_01, APP_NAME_01))
+    target.run(
+        "config set apps/%s/procs/%s/args/1 defer" % (UPDATE_CTRL_APP, UPDATE_CTRL_APP)
+    )
+    target.run(
+        "config set apps/%s/procs/%s/args/2 2" % (UPDATE_CTRL_APP, UPDATE_CTRL_APP)
+    )
 
     # Run the testUpdateCtrl app that will invoke le_updateCtrl_Defer()
-    status, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=True)
+    status, rsp = target.run("app start %s" % UPDATE_CTRL_APP, withexitstatus=True)
     swilog.debug(rsp)
     assert status == 0, "[FAILED] App could not be started."
 
     # Perform an update to the system by installing the new helloWorld app
     # If the installation was successful then,
     # the system update attempt is proceed
-    legato.make(APP_NAME_02, APP_PATH_02)
-    legato.install(APP_NAME_02, APP_PATH_02, should_fail=True)
+    legato.make(HELLO_WORLD_APP, HELLO_WORLD_PATH)
+    legato.install(HELLO_WORLD_APP, HELLO_WORLD_PATH, should_fail=True)
 
     # If the system update was successful,
     # the update was allowed and mark this TC failed
@@ -192,8 +200,12 @@ def L_UpdateCtrl_Defer_0003(target, legato):
     swilog.step("Test L_UpdateCtrl_Defer_0003")
 
     # Set the parameter of the testUpdateCtrl app to "defer" "3"
-    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01, APP_NAME_01))
-    target.run("config set apps/%s/procs/%s/args/2 3" % (APP_NAME_01, APP_NAME_01))
+    target.run(
+        "config set apps/%s/procs/%s/args/1 defer" % (UPDATE_CTRL_APP, UPDATE_CTRL_APP)
+    )
+    target.run(
+        "config set apps/%s/procs/%s/args/2 3" % (UPDATE_CTRL_APP, UPDATE_CTRL_APP)
+    )
 
     # Change the probation period to 1s to
     # turn the current system into a "good" system status because
@@ -205,7 +217,7 @@ def L_UpdateCtrl_Defer_0003(target, legato):
     # Wait for 4s allow the probation period to pass
     time.sleep(4)
     # Run the testUpdateCtrl app that will invoke le_updateCtrl_Defer()
-    status, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=True)
+    status, rsp = target.run("app start %s" % UPDATE_CTRL_APP, withexitstatus=True)
     swilog.debug(rsp)
     assert status == 0, "[FAILED] App could not be started."
 
@@ -253,10 +265,14 @@ def L_UpdateCtrl_Defer_0004(target, legato):
 
     # Set the parameter of the testUpdateCtrl app to
     # "defer" "4" to run this test case
-    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01, APP_NAME_01))
-    target.run("config set apps/%s/procs/%s/args/2 4" % (APP_NAME_01, APP_NAME_01))
+    target.run(
+        "config set apps/%s/procs/%s/args/1 defer" % (UPDATE_CTRL_APP, UPDATE_CTRL_APP)
+    )
+    target.run(
+        "config set apps/%s/procs/%s/args/2 4" % (UPDATE_CTRL_APP, UPDATE_CTRL_APP)
+    )
     # Run the testUpdateCtrl app that will invoke le_updateCtrl_Defer()
-    status, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=True)
+    status, rsp = target.run("app start %s" % UPDATE_CTRL_APP, withexitstatus=True)
     swilog.debug(rsp)
     assert status == 0, "[FAILED] App could not be started."
 
@@ -264,7 +280,7 @@ def L_UpdateCtrl_Defer_0004(target, legato):
     # any system update is allowed by installing
     # The helloWorld app when when the client (process)
     # who called le_updateCtrl_Defer() is dead
-    legato.make_install(APP_NAME_01, APP_PATH_01)
+    legato.make_install(HELLO_WORLD_APP, HELLO_WORLD_PATH)
 
     # If the target device is not shutting down then,
     # killing the process who holds the defer lock
@@ -320,19 +336,23 @@ def L_UpdateCtrl_Defer_0005(target, legato):
     legato.reset_probation_timer()
 
     # Begin of the this TC
-    legato.make_install(APP_NAME_01, APP_PATH_01)
+    legato.make_install(UPDATE_CTRL_APP, UPDATE_CTRL_PATH)
     swilog.info("[PASSED] Make and install the test app successfully.")
 
     # Set the parameter of the testUpdateCtrl app to
     # "defer" "5" to run this test case
-    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01, APP_NAME_01))
-    target.run("config set apps/%s/procs/%s/args/2 5" % (APP_NAME_01, APP_NAME_01))
+    target.run(
+        "config set apps/%s/procs/%s/args/1 defer" % (UPDATE_CTRL_APP, UPDATE_CTRL_APP)
+    )
+    target.run(
+        "config set apps/%s/procs/%s/args/2 5" % (UPDATE_CTRL_APP, UPDATE_CTRL_APP)
+    )
 
     # Store the system index before the deferral of
     # the system roll-back for verification
     old_sys_index = legato.get_current_system_index()
 
-    target.run("app start %s" % APP_NAME_01, withexitstatus=True)
+    target.run("app start %s" % UPDATE_CTRL_APP, withexitstatus=True)
 
     # ==========================================================
     # whether the reboot is necessary before the roll-back
@@ -371,7 +391,7 @@ def L_UpdateCtrl_Defer_0005(target, legato):
     # mark this test case failed
     if (
         (old_sys_index is not new_sys_index)
-        or not (legato.is_app_exist(APP_NAME_01))
+        or not (legato.is_app_exist(UPDATE_CTRL_APP))
         or (is_target_reboot)
         or (system_status == "good")
     ):
@@ -406,16 +426,20 @@ def L_UpdateCtrl_Defer_0006(target, legato):
 
     # Set the parameter of the testUpdateCtrl app to
     # "defer" "4" to run this test case
-    target.run("config set apps/%s/procs/%s/args/1 defer" % (APP_NAME_01, APP_NAME_01))
-    target.run("config set apps/%s/procs/%s/args/2 6" % (APP_NAME_01, APP_NAME_01))
+    target.run(
+        "config set apps/%s/procs/%s/args/1 defer" % (UPDATE_CTRL_APP, UPDATE_CTRL_APP)
+    )
+    target.run(
+        "config set apps/%s/procs/%s/args/2 6" % (UPDATE_CTRL_APP, UPDATE_CTRL_APP)
+    )
 
     # Run the testUpdateCtrl app that will invoke le_updateCtrl_Defer()
-    status, rsp = target.run("app start %s" % APP_NAME_01, withexitstatus=True)
+    status, rsp = target.run("app start %s" % UPDATE_CTRL_APP, withexitstatus=True)
     swilog.debug(rsp)
     assert status == 0, "[FAILED] App could not be started."
 
     # Stop the testUPdateCtrl app which is holding a defer lock
-    status, rsp = target.run("app stop %s" % APP_NAME_01, withexitstatus=True)
+    status, rsp = target.run("app stop %s" % UPDATE_CTRL_APP, withexitstatus=True)
     swilog.debug(rsp)
     assert status == 0, "[FAILED] App could not be stopped."
 
@@ -423,7 +447,7 @@ def L_UpdateCtrl_Defer_0006(target, legato):
     #    any system update is allowed by installing
     # The helloWorld app when when the client (process)
     #    who called le_updateCtrl_Defer() is stopped
-    legato.make_install(APP_NAME_01, APP_PATH_01)
+    legato.make_install(UPDATE_CTRL_APP, UPDATE_CTRL_PATH)
 
     # If the target device is not shutting down then,
     # killing the process who holds the defer lock
