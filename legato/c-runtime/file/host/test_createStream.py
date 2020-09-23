@@ -4,10 +4,11 @@ Set of functions to test the le_atomFile_CreateStream
 """
 import os
 import time
-import files
-import swilog
+
 import pytest
 
+import files
+import swilog
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
 # ======================================================================================

@@ -3,10 +3,12 @@
 import os
 import re
 import time
-import swilog
-import pytest
+
 import pexpect
+import pytest
+
 import sim_lib
+import swilog
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
 
@@ -134,15 +136,15 @@ def installsys_cleanup(target, legato, request, tmpdir):
 
     if test_name == "L_SampleApps_Mqtt_0001":
         ret = os.system("/bin/ps -A |/bin/grep -w mosquitto")
-        fail_mesg = (
-            "[FAILED] Please install mosquitto " "and mosquitto-clients before test"
+        fail_msg = (
+            "[FAILED] Please install mosquitto and mosquitto-clients before test"
         )
-        assert ret == 0, fail_mesg
+        assert ret == 0, fail_msg
 
         # Check mosquitto_pub is available
         ret = os.popen("/usr/bin/which mosquitto_pub").readlines()
-        fail_mesg = "[FAILED] Please install mosquitto_pub before test"
-        assert "/usr/bin/mosquitto_pub" in ret[0], fail_mesg
+        fail_msg = "[FAILED] Please install mosquitto_pub before test"
+        assert "/usr/bin/mosquitto_pub" in ret[0], fail_msg
 
     # Build and instal system
     legato.make_install_sys(sys_name, sys_path=sys_path)

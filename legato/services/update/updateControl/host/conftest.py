@@ -1,6 +1,7 @@
 """Fixtures for updateControl."""
 
 import os
+
 import pytest
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."

@@ -3,9 +3,11 @@
 Set of functions to test the Legato sample apps.
 """
 import os
-import swilog
-import pytest
+
 import pexpect
+import pytest
+
+import swilog
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
 # ====================================================================================

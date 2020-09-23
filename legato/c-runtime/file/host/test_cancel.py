@@ -3,9 +3,11 @@
 Set of functions to test the le_atomFile_Cancel
 """
 import os
+
+import pytest
+
 import files
 import swilog
-import pytest
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
 # ======================================================================================

@@ -3,10 +3,11 @@
 Set of functions to test the le_atomFile_TryOpen
 """
 import os
-import files
-import swilog
+
 import pytest
 
+import files
+import swilog
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
 # ======================================================================================

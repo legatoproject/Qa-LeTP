@@ -3,8 +3,10 @@
 Set of functions to test the Legato component definition files.
 """
 import os
-import swilog
+
 import pytest
+
+import swilog
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
 # ====================================================================================

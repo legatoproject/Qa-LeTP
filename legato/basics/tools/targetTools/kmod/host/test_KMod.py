@@ -2,7 +2,6 @@
 
 Set of functions to test the Legato kmod tools
 """
-# pylint: disable=too-many-lines
 import os
 import time
 import pytest
@@ -21,7 +20,6 @@ RESULT_BUSY = 2
 test_passed = True
 
 is_first_execution = True
-outputDirectory = ""
 
 
 # ======================================================================================
@@ -620,10 +618,9 @@ def L_Tools_Kmod_0009(target, legato, create_temp_workspace):
         legato: fixture to call useful functions regarding legato
         create_temp_workspace: fixture to create a temporary folder
     """
-    # Initialisation:
+    # Initialization:
     # Verify existence of environment variables and files needed
     # Prepare compilation
-    # pylint: disable=too-many-statements
     swilog.debug(create_temp_workspace)
     test_name = "L_Tools_Kmod_0009"
 

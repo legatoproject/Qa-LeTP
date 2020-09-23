@@ -4,9 +4,11 @@ Set of functions to test the le_updateCtrl_Defer
 """
 import os
 import time
-import swilog
+
 import pexpect
 import pytest
+
+import swilog
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
 # ======================================================================================

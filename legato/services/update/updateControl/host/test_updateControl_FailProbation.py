@@ -4,8 +4,10 @@ Set of functions to test the le_updateCtrl_FailProbation
 """
 import os
 import time
-import swilog
+
 import pytest
+
+import swilog
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
 # ======================================================================================

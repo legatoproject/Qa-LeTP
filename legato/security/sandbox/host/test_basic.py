@@ -4,9 +4,11 @@ Set of functions to test the sandboxbasic app.
 """
 import os
 import re
-import swilog
-import pytest
+
 import pexpect
+import pytest
+
+import swilog
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
 # ====================================================================================
