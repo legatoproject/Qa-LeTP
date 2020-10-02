@@ -1,6 +1,10 @@
-"""@package bundlesComponentModule Component Definition Files test.
+r"""!Component Definition Files test.
 
 Set of functions to test the Legato component definition files.
+
+@package bundlesComponentModule
+@file
+\ingroup definitionFileTests
 """
 import os
 import shutil
@@ -23,12 +27,11 @@ TEST_FILE = "testFile1.txt"
 # Functions
 # ====================================================================================
 def is_file_on_target(target, path, file_name):
-    """Check for <file> relative to path.
+    """!Check for <file> relative to path.
 
-    Agrs:
-        legato: fixture to call useful functions regarding legato
-        path: path of file
-        file_name: the name of file
+    @param legato: fixture to call useful functions regarding legato
+    @param path: path of file
+    @param file_name: the name of file
     """
     exit_status, rsp = target.run(
         "[ -f %s/%s ]" % (path, file_name), withexitstatus=True
@@ -42,12 +45,11 @@ def is_file_on_target(target, path, file_name):
 
 
 def is_directory_on_target(target, path, directory):
-    """Check for <directory> relative to path.
+    """!Check for <directory> relative to path.
 
-    Agrs:
-        target: fixture to communicate with the target
-        path: path of directory
-        directory: name of directory
+    @param target: fixture to communicate with the target
+    @param path: path of directory
+    @param directory: name of directory
     """
     exit_status, rsp = target.run(
         "[ -d %s/%s ]" % (path, directory), withexitstatus=True
@@ -64,10 +66,9 @@ def is_directory_on_target(target, path, directory):
 # ====================================================================================
 @pytest.fixture(scope="function")
 def test_init(legato):
-    """Fixture to init and clean up the test.
+    """!Fixture to init and clean up the test.
 
-    Agrs:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     os.chdir("%s/cdef/bundles" % TEST_RESOURCES)
     legato.clear_target_log()
@@ -103,14 +104,13 @@ def test_init(legato):
 # ====================================================================================
 @pytest.mark.usefixtures("test_init")
 def L_CDEF_0001(target, legato, tmpdir):
-    """Verify the functionality of the "bundles" section in cdef files.
+    """!Verify the functionality of the "bundles" section in cdef files.
 
-    Agrs:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        tmpdir: fixture to provide a temporary directory
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
-        test_init: fixture to init and clean up the test
+    @param test_init: fixture to init and clean up the test
     """
     # Go to temp directory
     os.chdir(str(tmpdir))

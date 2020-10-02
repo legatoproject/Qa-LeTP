@@ -10,10 +10,9 @@ __copyright__ = "Copyright (C) Sierra Wireless Inc."
 # ======================================================================================
 @pytest.fixture()
 def init_atomicFile(target):
-    """Initialize and clean up environment.
+    """!Initialize and clean up environment.
 
-    Args:
-        target: fixture to communicate with the target
+    @param target: fixture to communicate with the target
     """
     test_file_path = "/tmp/testFile.txt"
     temp_file_extension = ".bak~~XXXXXX"

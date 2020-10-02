@@ -1,6 +1,10 @@
-"""@package atomicFileStreamOpenModule atomicFile Stream open test.
+r"""!atomicFile Stream open test.
 
 Set of functions to test the le_atomFile_OpenStream
+
+@package atomicFileStreamOpenModule
+@file
+\ingroup runtimeTests
 """
 import os
 import time
@@ -27,26 +31,27 @@ APP_PATH = os.path.join(
 # ======================================================================================
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0001(target, legato, init_atomicFile):
-    """Purpose: Verify that resultPtr of le_atomFile_OpenStream returns.
+    """!Purpose: Verify that resultPtr of le_atomFile_OpenStream returns.
 
     LE_NOT_FOUND when tries to open a non-existed file
 
     Initial condition:
         1. Test app is unsandboxed
+
     Verification:
         This test case will mark as "failed" when
             1. le_atomFile_OpenStream doesn't return LE_NOT_FOUND
+
     This script will
         1. Make and install the test app
         2. Run the test app
         3. Check  "resultPtr of le_atomFile_OpenStream returns
         LE_NOT_FOUND ..." can be captured from the target's log == 0
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture regarding to build, install and remove app
+    @param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomOpenStream"
     test_app_proc_name = "atomOpenStreamProc"
@@ -72,26 +77,27 @@ def L_AtomicFile_Stream_0001(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0002(target, legato, init_atomicFile):
-    """Purpose: Verify that resultPtr of le_atomFile_OpenStream returns LE_FAULT.
+    """!Purpose: Verify that resultPtr of le_atomFile_OpenStream returns LE_FAULT.
 
     there was == 0: an error (accesses to a non-existed dir)
 
     Initial condition:
         1. Test app is unsandboxed
+
     Verification:
         This test case will mark as "failed" when
             1. resultPtr doesn't return LE_FAULT
+
     This script will
         1. Make and install the test app
         2. Run the test app
         3. Check  "resultPtr of le_atomFile_Open returns LE_FAULT ..."
         can be captured from the target's log == 0:
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture regarding to build, install and remove app
+    @param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomOpenStream"
     test_app_proc_name = "atomOpenStreamProc"
@@ -118,26 +124,27 @@ def L_AtomicFile_Stream_0002(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0003(target, legato, init_atomicFile):
-    """Purpose: Verify that le_atomFile_OpenStream returns the buffered file.
+    """!Purpose: Verify that le_atomFile_OpenStream returns the buffered file.
 
     stream handle to the file  successfully == 0
 
     Initial condition:
         1. Test app is unsandboxed
+
     Verification:
         This test case will mark as "failed" when
             1. le_atomFile_OpenStream doesn't return a file stream
+
     This script will
         1. Make and install the test app
         2. Run the test app
         3. Check  "le_atomFile_OpenStream returns a file stream ..."
         can be captured from the target's log == 0:
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture regarding to build, install and remove app
+    @param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomOpenStream"
     test_app_proc_name = "atomOpenStreamProc"

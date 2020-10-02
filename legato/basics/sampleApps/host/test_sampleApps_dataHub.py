@@ -1,6 +1,12 @@
-"""@package dataHubAppsModule DataHub Sample apps test.
+r"""!DataHub Sample apps test.
 
 Set of functions to test the Legato DataHub sample apps.
+
+@package dataHubAppsModule
+@defgroup sampleAppTests Sample App Tests
+
+@file
+\ingroup sampleAppTests
 """
 import os
 
@@ -23,14 +29,13 @@ APP_PATH_L_SampleApps_DataHub_0001 = "%s/apps/sample/dataHub/" % (LEGATO_ROOT)
 # ====================================================================================
 @pytest.mark.usefixtures("installapp_cleanup")
 def L_SampleApps_DataHub_0001(target, legato):
-    """Test sample dataHub.
+    """!Test sample dataHub.
 
-    Args:
-        target: fixture to communicate with
-            the target ar758x/ar759x/wp76xx/wp77xx/wp85
-        legato: fixture to call useful functions regarding legato
-        installapp_cleanup: this function is called from the fixture
-            in conftest.py, that will make and install sample app
+    @param target: fixture to communicate with
+                   the target ar758x/ar759x/wp76xx/wp77xx/wp85
+    @param legato: fixture to call useful functions regarding legato
+    @param installapp_cleanup: this function is called from the fixture
+                               in conftest.py, that will make and install sample app
     """
     data_hub_app = "dataHub"
     actuator_app = "actuator"

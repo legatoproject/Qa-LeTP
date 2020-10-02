@@ -1,6 +1,10 @@
-"""@package componentModule Component Definition Files test.
+r"""!Component Definition Files test.
 
 Set of functions to test the Legato component definition files.
+
+@package componentModule
+@file
+\ingroup definitionFileTests
 """
 import os
 import re
@@ -24,11 +28,10 @@ APP_PATH = (
 # ====================================================================================
 @pytest.fixture(autouse=True)
 def init_cleanup_test(legato, tmpdir):
-    """Init and clean up the test.
+    """!Init and clean up the test.
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        tmpdir: fixture to provide a temporary directory
+    @param legato: fixture to call useful functions regarding legato
+    @param tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
     """
     # Go to temp directory
@@ -42,7 +45,7 @@ def init_cleanup_test(legato, tmpdir):
 # Test functions
 # ====================================================================================
 def L_CDEF_0028(target, legato):
-    """Verify the binding is not existed after app's deployment.
+    """!Verify the binding is not existed after app's deployment.
 
     when its client-side IPC API is not bounded to any server-side API
     with the interface option: [optional]
@@ -56,9 +59,8 @@ def L_CDEF_0028(target, legato):
          2. Run the command line in the target, "sdir list"
          3. Check the existence of the binding
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
     """
     cmd = "/legato/systems/current/bin/sdir list"
 

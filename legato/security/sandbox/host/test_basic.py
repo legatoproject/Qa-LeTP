@@ -1,6 +1,12 @@
-"""@package sandboxBasicModule sandbox basic app test.
+r"""!sandbox basic app test.
 
 Set of functions to test the sandboxbasic app.
+
+@package sandboxBasicModule
+@defgroup sandboxTests Sandbox Tests
+
+@file
+\ingroup sandboxTests
 """
 import os
 import re
@@ -27,14 +33,13 @@ LEGATO_CONFIG_TREE_DIR = "/legato/systems/current/config"
 # Functions
 # ====================================================================================
 def sandbox_basic(target, act_name, param2="", param3="", timeout=30):
-    """Run the test app with options.
+    """!Run the test app with options.
 
-    Args:
-        target: fixture to communicate with the target
-        act_name: action name (changdir, getdir, createdir, getpid, killpid)
-        param2: directory name/path in case changedir/createdir
-        param3: loop number/new dir name in case changedir/createdir
-        timeout: timeout for the command
+    @param target: fixture to communicate with the target
+    @param act_name: action name (changdir, getdir, createdir, getpid, killpid)
+    @param param2: directory name/path in case changedir/createdir
+    @param param3: loop number/new dir name in case changedir/createdir
+    @param timeout: timeout for the command
     """
     proc_name = "test_ctrl"
     cmd = "app runProc %s --exe=%s -- %s %s %s" % (
@@ -50,12 +55,11 @@ def sandbox_basic(target, act_name, param2="", param3="", timeout=30):
 
 
 def check_message_in_log(logread, msg_1, msg_2):
-    """Check directory message in logread.
+    """!Check directory message in logread.
 
-    Args:
-        logread: fixture to check logread on the target
-        msg_1: first message displays on the target
-        msg_2: second message displays on the target
+    @param logread: fixture to check logread on the target
+    @param msg_1: first message displays on the target
+    @param msg_2: second message displays on the target
     """
     assert logread.expect([pexpect.TIMEOUT, msg_1], 30) == 1, (
         "[FAILED] Cannot find out: %s" % msg_1
@@ -66,14 +70,12 @@ def check_message_in_log(logread, msg_1, msg_2):
 
 
 def get_pid_from_log(reg_expression, log_msg):
-    """Get pid form log message.
+    """!Get pid form log message.
 
-    Args:
-        reg_expression: regular expression to get to correct pid in the message
-        log_msg: log message that contains pid
+    @param reg_expression: regular expression to get to correct pid in the message
+    @param log_msg: log message that contains pid
 
-    Returns:
-        pid: process id
+    @return pid: process id
     """
     pid = ""
     pid_obj = re.search(reg_expression, log_msg, re.M)
@@ -91,20 +93,19 @@ def get_pid_from_log(reg_expression, log_msg):
 # ====================================================================================
 @pytest.mark.usefixtures("app_leg")
 def L_SandBox_0001(target, logread):
-    """Sandbox app is sandboxed.
+    """!Sandbox app is sandboxed.
 
-    1) Run SB_10_20_30() from the sandbox app "sandbox.c"
+    1) Run SB_10_20_30() from the sandbox app "sandbox.c" <br>
     2) Verify if correct home directory has been set for
-    sandbox app (/home/sandbox)
-    3) Move to root level of sandbox (/)
-    4) Move beyond root level
-    5) Move to legato directory (/opt/legato/)
-    6) Move to legato config tree (/tmp/LegatoConfigTree)
+    sandbox app (/home/sandbox) <br>
+    3) Move to root level of sandbox (/) <br>
+    4) Move beyond root level <br>
+    5) Move to legato directory (/opt/legato/) <br>
+    6) Move to legato config tree (/tmp/LegatoConfigTree) <br>
 
-    Args:
-        target: fixture to communicate with the target
-        logread: fixture to check the logread on the target
-        app_leg: fixture regarding to build, install and remove app
+    @param target: fixture to communicate with the target
+    @param logread: fixture to check the logread on the target
+    @param app_leg: fixture regarding to build, install and remove app
     """
     # NEED TO: since home dir is no longer "/home/appAPPNAME",
     # This section is kinda moot.
@@ -146,19 +147,18 @@ def L_SandBox_0001(target, logread):
 
 @pytest.mark.usefixtures("app_leg")
 def L_SandBox_0005(target, logread):
-    """BreakOut1.
+    """!BreakOut1.
 
     1) Run BreakOut1() from sandbox app which will follow some ways
-    of breaking out of sandbox suggested by the internet
-    2) Go to home directory of sandbox app
-    3) Create temp directory (foo)
-    4) chroot temp directory
+    of breaking out of sandbox suggested by the internet <br>
+    2) Go to home directory of sandbox app <br>
+    3) Create temp directory (foo) <br>
+    4) chroot temp directory <br>
     5) cd ..
 
-    Args:
-        target: fixture to communicate with the target
-        logread: fixture to check the logread on the target
-        app_leg: fixture regarding to build, install and remove app
+    @param target: fixture to communicate with the target
+    @param logread: fixture to check the logread on the target
+    @param app_leg: fixture regarding to build, install and remove app
     """
     # Create new directory
     act_name = "createdir"
@@ -182,17 +182,16 @@ def L_SandBox_0005(target, logread):
 
 @pytest.mark.usefixtures("app_leg")
 def L_SandBox_0006(target, logread):
-    """BreakOut2.
+    """!BreakOut2.
 
     1) Run BreakOut2() from sandbox app which will follow some ways
-    of breaking out of sandbox suggested by the internet
-    2) Go to home directory of sandbox app
+    of breaking out of sandbox suggested by the internet <br>
+    2) Go to home directory of sandbox app <br>
     3) chdir many many times (10000x)
 
-    Args:
-        target: fixture to communicate with the target
-        logread: fixture to check logread on the target
-        app_leg: fixture regarding to build, install and remove app
+    @param target: fixture to communicate with the target
+    @param logread: fixture to check logread on the target
+    @param app_leg: fixture regarding to build, install and remove app
     """
     # Try to move to top level of sandbox -> "/"
     # It does not go beyond. The current dir is still ROOT_DIR of sandbox
@@ -221,19 +220,18 @@ def L_SandBox_0006(target, logread):
 
 @pytest.mark.usefixtures("app_leg")
 def L_SandBox_0004(target, legato, logread):
-    """Signaling other sandboxed apps.
+    """!Signaling other sandboxed apps.
 
     1) Run SB_110() from sandbox app
-    which will send SIG_KILL signals to running processes.
-    2) Kill parent process
-    3) Kill arbitrary pids since we have no knowledge of existing pids
+    which will send SIG_KILL signals to running processes. <br>
+    2) Kill parent process <br>
+    3) Kill arbitrary pids since we have no knowledge of existing pids <br>
     4) Kill itself
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        logread: fixture to check logread on the target
-        app_leg: fixture regarding to build, install and remove app
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param logread: fixture to check logread on the target
+    @param app_leg: fixture regarding to build, install and remove app
     """
     # Set the parameter of the testSandBoxBasic app to "getpid"
     # Get current PID and parent PID of the application

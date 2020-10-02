@@ -15,16 +15,15 @@ __copyright__ = "Copyright (C) Sierra Wireless Inc."
 
 @pytest.fixture
 def installapp_cleanup(target, legato, request, tmpdir):
-    """Fixture to initialize (make, install application...).
+    """!Fixture to initialize (make, install application...).
 
     And cleanup the test.
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        request: objiect to access the data
-        tmpdir: fixture to provide a temporary directory
-                unique to the test invocation
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param request: objiect to access the data
+    @param tmpdir: fixture to provide a temporary directory
+                   unique to the test invocation
     """
     app_name = ["dataHub", "actuator", "sensor", "printServer", "printClient", ""]
     test_name = request.node.name.split("[")[0]
@@ -118,13 +117,12 @@ def installapp_cleanup(target, legato, request, tmpdir):
 
 @pytest.fixture()
 def installsys_cleanup(target, legato, request, tmpdir):
-    """Fixture to initialize (make, install system...) and cleanup the test.
+    """!Fixture to initialize (make, install system...) and cleanup the test.
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        request: objiect to access the data
-        tmpdir: fixture to provide a temporary directory
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param request: objiect to access the data
+    @param tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
     """
     test_name = request.node.name.split("[")[0]
@@ -161,10 +159,9 @@ def installsys_cleanup(target, legato, request, tmpdir):
 
 @pytest.fixture()
 def open_port(target):
-    """Open the ports 8080 and 8443 for the HTTP server test.
+    """!Open the ports 8080 and 8443 for the HTTP server test.
 
-    Args:
-        target: fixture to communicate with the target
+    @param target: fixture to communicate with the target
     """
     target.open_port(8080, "tcp")
     target.open_port(8443, "tcp")

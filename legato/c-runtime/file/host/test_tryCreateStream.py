@@ -1,6 +1,10 @@
-"""@package atomicFileStreamTryCreateModule atomicFile Stream try create test.
+r"""!atomicFile Stream try create test.
 
 Set of functions to test the le_atomFile_TryCreateStream
+
+@package atomicFileStreamTryCreateModule
+@file
+\ingroup runtimeTests
 """
 import os
 
@@ -26,16 +30,18 @@ APP_PATH = os.path.join(
 # ======================================================================================
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0024(target, legato, init_atomicFile):
-    """Purpose: Verify that resultPtr of le_atomFile_TryCreateStream returns.
+    """!Purpose: Verify that resultPtr of le_atomFile_TryCreateStream returns.
 
     LE_DUPLICATE  the target file already == 0: existed and
     LE_FLOCK_FAIL_IF_EXIST is specified in createMode
 
     Initial condition:
         1. Test app is unsandboxed
+
     Verification:
         This test case will mark as "failed" when
             1. le_atomFile_TryCreateStream doesn't return LE_DUPLICATE
+
     This script will
         1. Transfer a file to the target
         2. Make and install the test app
@@ -43,11 +49,10 @@ def L_AtomicFile_Stream_0024(target, legato, init_atomicFile):
         4. Check  "resultPtr of le_atomFile_TryCreateStream returns
         LE_DUPLICATE ..." can be captured from the target's log == 0:
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture regarding to build, install and remove app
+    @param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryCreateStream"
     test_app_proc_name = "atomTryCreateStreamProc"
@@ -74,13 +79,14 @@ def L_AtomicFile_Stream_0024(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0025(legato, init_atomicFile):
-    """Purpose: Verify that resultPtr le_atomFile_TryCreateStream returns.
+    """!Purpose: Verify that resultPtr le_atomFile_TryCreateStream returns.
 
     LE_WOULD_BLOCK  the target file already == 0: existed and
     LE_FLOCK_FAIL_IF_EXIST is specified in createMode
 
     Initial condition:
         1. Test app is unsandboxed
+
     Verification:
         This test case will mark as "failed" when
             1. le_atomFile_TryCreateStream doesn't return LE_WOULD_BLOCK
@@ -92,11 +98,10 @@ def L_AtomicFile_Stream_0025(legato, init_atomicFile):
         4. Check  "le_atomFile_TryCreateStream returns LE_WOULD_BLOCK ..."
         can be captured from the target's log == 0:
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture regarding to build, install and remove app
+    @param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryCreateStream"
     test_app_proc_name = "atomTryCreateStreamProc"
@@ -120,15 +125,17 @@ def L_AtomicFile_Stream_0025(legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0026(legato, init_atomicFile):
-    """Purpose: Verify that le_atomFile_TryCreateStream returns.
+    """!Purpose: Verify that le_atomFile_TryCreateStream returns.
 
     a file pointer  successful == 0
 
     Initial condition:
         1. Test app is unsandboxed
+
     Verification:
         This test case will mark as "failed" when
             1. le_atomFile_TryCreateStream doesn't return a file pointer
+
     This script will
         1. Transfer a file to the target
         2. Make and install the test app
@@ -136,11 +143,10 @@ def L_AtomicFile_Stream_0026(legato, init_atomicFile):
         4. Check  "le_atomFile_TryCreateStream returns a file pointer ..."
         can be captured from the target's log == 0:
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture regarding to build, install and remove app
+    @param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryCreateStream"
     test_app_proc_name = "atomTryCreateStreamProc"
@@ -164,15 +170,17 @@ def L_AtomicFile_Stream_0026(legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0027(legato, init_atomicFile):
-    """Purpose: Verify that resultPtr of le_atomFile_TryCreateStream returns.
+    """!Purpose: Verify that resultPtr of le_atomFile_TryCreateStream returns.
 
     LE_FAULT  there was an error (accesses to a non-existed dir == 0
 
     Initial condition:
         1. Test app is unsandboxed
+
     Verification:
         This test case will mark as "failed" when
             1. le_atomFile_TryCreateStream doesn't return LE_FAULT
+
     This script will
         1. Transfer a file to the target
         2. Make and install the test app
@@ -180,11 +188,10 @@ def L_AtomicFile_Stream_0027(legato, init_atomicFile):
         4. Check  "resultPtr of le_atomFile_TryCreateStream returns
         LE_FAULT ..." can be captured from the target's log == 0:
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture regarding to build, install and remove app
+    @param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryCreateStream"
     test_app_proc_name = "atomTryCreateStreamProc"
@@ -209,17 +216,19 @@ def L_AtomicFile_Stream_0027(legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0028(legato, init_atomicFile):
-    """Purpose: Verify that le_atomFile_TryCreateStream can successfully.
+    """!Purpose: Verify that le_atomFile_TryCreateStream can successfully.
 
     acquire a file lock to the target file
 
     Initial condition:
         1. test app is unsandboxed
+
     Verification:
         This test case will mark as "failed" when
             1. The second process who calls le_atomFile_CreateStream
             does not block after the first process of the test app
             held the file lock
+
     This script will
         1. Transfer a file to the target
         1. Make and install the test app
@@ -227,11 +236,10 @@ def L_AtomicFile_Stream_0028(legato, init_atomicFile):
         3. Check  the second process does block after the first process
         successfully acquired the lock == 0:
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture regarding to build, install and remove app
+    @param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryCreateStream"
     test_app_proc_name = "atomTryCreateStreamProc"

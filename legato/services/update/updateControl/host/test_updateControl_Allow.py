@@ -1,6 +1,10 @@
-"""@package updateControlModule The update control API test.
+r"""!The update control API test.
 
 Set of functions to test the le_updateCtrl_Allow
+
+@package updateControlModule
+@file
+\ingroup updateTests
 """
 import os
 import time
@@ -29,11 +33,10 @@ APP_PATH_02 = os.path.join(APP_PATH_00, "helloWorldApp")
 # ======================================================================================
 @pytest.fixture()
 def init_UpdateCrtl(legato, clean_test):
-    """Clean up environment and build app.
+    """!Clean up environment and build app.
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        clean_test: fixture to clean up environment
+    @param legato: fixture to call useful functions regarding legato
+    @param clean_test: fixture to clean up environment
     """
     assert clean_test
     if legato.get_current_system_index() != 0:
@@ -48,7 +51,7 @@ def init_UpdateCrtl(legato, clean_test):
 # ======================================================================================
 @pytest.mark.usefixtures("init_UpdateCrtl")
 def L_UpdateCtrl_Allow_0001(target, legato):
-    """Verify that le_updateCtrl_Allow() will not allow updates to.
+    """!Verify that le_updateCtrl_Allow() will not allow updates to.
 
     go ahead until no clients are deferring updates in a single process
 
@@ -65,10 +68,9 @@ def L_UpdateCtrl_Allow_0001(target, legato):
         4. After 20s, install the second app again
         5. Check 5. is successful
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        init_UpdateCrtl: fixture to clean up environment and build app
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param init_UpdateCrtl: fixture to clean up environment and build app
     """
     swilog.step("Test L_UpdateCtrl_Allow_0001")
 
@@ -113,7 +115,7 @@ def L_UpdateCtrl_Allow_0001(target, legato):
 
 @pytest.mark.usefixtures("init_UpdateCrtl")
 def L_UpdateCtrl_Allow_0002(target, legato):
-    """Verify that le_updateCtrl_Allow() will not allow updates to.
+    """!Verify that le_updateCtrl_Allow() will not allow updates to.
 
     go ahead until no clients are deferring updates in multiple processes
 
@@ -132,10 +134,9 @@ def L_UpdateCtrl_Allow_0002(target, legato):
         7. After 20 seconds, install the second app again
         8. Check 7. is successful
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        init_UpdateCrtl: fixture to clean up environment and build app
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param init_UpdateCrtl: fixture to clean up environment and build app
     """
     swilog.step("Test L_UpdateCtrl_Allow_0002")
 

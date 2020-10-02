@@ -1,6 +1,10 @@
-"""@package kernelModule Kernel Module Definition Files test.
+r"""!Kernel Module Definition Files test.
 
 Set of functions to test the Legato kernel module definition files.
+
+@package kernelModule
+@file
+\ingroup definitionFileTests
 """
 # pylint: disable=too-many-lines
 import os
@@ -31,13 +35,12 @@ campaign_temp_dir = ""
 # Functions
 # ====================================================================================
 def initialize(target, legato, logread, tmpdir):
-    """Check every environement variable are defined Define them otherwise.
+    """!Check every environement variable are defined Define them otherwise.
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        logread: fixture to check log on the target
-        tmpdir: fixture to provide a temporary directory
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param logread: fixture to check log on the target
+    @param tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
     """
     global is_first_execution
@@ -88,12 +91,11 @@ def initialize(target, legato, logread, tmpdir):
 
 
 def finalize(legato):
-    """Compile the default sdef and update the target with it.
+    """!Compile the default sdef and update the target with it.
 
     It will reinitialise the modules on the target.
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Clean target by restore golden legato
     legato.restore_golden_legato()
@@ -108,15 +110,13 @@ def finalize(legato):
 
 
 def check_presence(legato, module_name):
-    """Check whether a module is loaded or not.
+    """!Check whether a module is loaded or not.
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        module_name: name of module
+    @param legato: fixture to call useful functions regarding legato
+    @param module_name: name of module
 
-    Returns:
-        True: module is loaded successfully
-        False: module is not loaded properly
+    @return True: module is loaded successfully
+    @return False: module is not loaded properly
     """
     swilog.info("Check presence.")
     exit_code = legato.ssh_to_target('/sbin/lsmod | grep -F "%s "' % module_name)
@@ -132,16 +132,14 @@ def check_presence(legato, module_name):
 
 
 def check_file_presence(legato, folder_path, file_name):
-    """Check whether a file exist or not.
+    """!Check whether a file exist or not.
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        folder_path: path of folder
-        file_name: name of file to check
+    @param legato: fixture to call useful functions regarding legato
+    @param folder_path: path of folder
+    @param file_name: name of file to check
 
-    Returns:
-        True: file exists
-        False: file does not exist
+    @return True: file exists
+    @return False: file does not exist
     """
     exit_code = legato.ssh_to_target(
         'ls "%s" | grep -F "%s"' % (folder_path, file_name)
@@ -150,15 +148,13 @@ def check_file_presence(legato, folder_path, file_name):
 
 
 def find_all_occurences_in_logread(legato, search_pattern):
-    """Retrieve all entries in logread containing the search pattern.
+    """!Retrieve all entries in logread containing the search pattern.
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        search_pattern: pattern for searching
+    @param legato: fixture to call useful functions regarding legato
+    @param search_pattern: pattern for searching
 
-    Returns:
-        result: all entries in logread containing
-        the search pattern
+    @return result: all entries in logread containing
+    @return the search pattern
     """
     result = []
 
@@ -175,10 +171,9 @@ def find_all_occurences_in_logread(legato, search_pattern):
 
 
 def display_errors():
-    """Get the errors list.
+    """!Get the errors list.
 
-    Returns:
-        output: string of all errors in the test.
+    @return output: string of all errors in the test.
     """
     output = "\n"
     for err in swilog.get_error_list():
@@ -187,22 +182,20 @@ def display_errors():
 
 
 def check_order(logread, order, ordered_list):
-    """Check order of appearance for strings contained.
+    """!Check order of appearance for strings contained.
 
     in ordered_list following order.
 
-    Args:
-        logread: fixture to check log on the target
-        order: order type
-                ASCENDING_ORDER = 1
-                DESCENDING_ORDER = -1
-        ordered_list: the list needs to be checked
+    @param logread: fixture to check log on the target
+    @param order: order type
+                  ASCENDING_ORDER = 1
+                  DESCENDING_ORDER = -1
+    @param ordered_list: the list needs to be checked
 
-    Returns:
-        A tuble: (test_result, observed_list)
-            test_result: the result of checking
+    @return A tuble: (test_result, observed_list)
+    @return test_result: the result of checking
                          True or False
-            observed_list: the list after checked
+    @return observed_list: the list after checked
     """
     list_checked = ordered_list
     test_result = True
@@ -235,18 +228,16 @@ def check_order(logread, order, ordered_list):
 
 
 def check_loading_order(logread, order, ordered_list):
-    """Transform a list of module name into loading message in logread.
+    """!Transform a list of module name into loading message in logread.
 
-    Args:
-        logread: fixture to check log on the target
-        order: order type
-                ASCENDING_ORDER = 1
-                DESCENDING_ORDER = -1
-        ordered_list: the list needs to be checked
+    @@param logread: fixture to check log on the target
+    @param order: order type
+                  ASCENDING_ORDER = 1
+                  DESCENDING_ORDER = -1
+    @param ordered_list: the list needs to be checked
 
-    Returns:
-        The result of check_order function. It is a tuple
-        (test_result, observed_list)
+    @returns The result of check_order function. It is a tuple
+             (test_result, observed_list)
     """
     list_checked = []
     for element in ordered_list:
@@ -255,18 +246,16 @@ def check_loading_order(logread, order, ordered_list):
 
 
 def check_unloading_order(logread, order, ordered_list):
-    """Transform a list of module name into unloading message in logread.
+    """!Transform a list of module name into unloading message in logread.
 
-    Args:
-        logread: fixture to check log on the target
-        order: order type
+    @param logread: fixture to check log on the target
+    @param order: order type
                 ASCENDING_ORDER = 1
                 DESCENDING_ORDER = -1
-        ordered_list: the list needs to be checked
+    @param ordered_list: the list needs to be checked
 
-    Returns:
-        The result of check_order function. It is a tuple
-        (test_result, observed_list)
+    @return The result of check_order function. It is a tuple
+            (test_result, observed_list)
     """
     list_checked = []
     for e in ordered_list:
@@ -275,14 +264,13 @@ def check_unloading_order(logread, order, ordered_list):
 
 
 def install_system(legato, test_name):
-    """Compile the provided sdef and update the target with it.
+    """!Compile the provided sdef and update the target with it.
 
     Function called in each test. It's not part of kmod setup because it needs
     parameters to work.
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        test_name: test case name
+    @param legato: fixture to call useful functions regarding legato
+    @param test_name: test case name
     """
     # Sdef file
     sdef_file = test_name + ".sdef"
@@ -299,12 +287,11 @@ def install_system(legato, test_name):
 
 
 def prebuild_system(legato):
-    """Compile the provided sdef This script could be part of initialize.
+    """!Compile the provided sdef This script could be part of initialize.
 
     But it will make test execution longer.
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Sdef file
     sdef_file = "L_MDEF_preBuild.sdef"
@@ -331,14 +318,13 @@ def prebuild_system(legato):
 # ====================================================================================
 @pytest.fixture(autouse=True)
 def mdef_setup(target, legato, logread, tmpdir):
-    """Init and cleanup the test.
+    """!Init and cleanup the test.
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        logread: fixture to check log on the target
-        tmpdir: fixture to provide a temporary directory
-                unique to the test invocation
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param logread: fixture to check log on the target
+    @param tmpdir: fixture to provide a temporary directory
+                   unique to the test invocation
     """
     initialize(target, legato, logread, tmpdir)
     yield
@@ -349,17 +335,16 @@ def mdef_setup(target, legato, logread, tmpdir):
 # Test functions
 # ====================================================================================
 def L_MDEF_0001(legato):
-    """Verify that mdef can be use to include kernel module to be built.
+    """!Verify that mdef can be use to include kernel module to be built.
 
     This script will
-        1. Create an update package (load: auto)
-        2. Verify loading of the module
-        3. Stop Legato. Check module is unloaded.
-        4. Start Legato. Check module is loaded
+        1. Create an update package (load: auto) <br>
+        2. Verify loading of the module <br>
+        3. Stop Legato. Check module is unloaded. <br>
+        4. Start Legato. Check module is loaded <br>
         5. Compile the default package and update the target with it
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -412,17 +397,16 @@ def L_MDEF_0001(legato):
 
 
 def L_MDEF_0002(legato):
-    """Verify that mdef can be use to include prebuilt kernel module.
+    """!Verify that mdef can be use to include prebuilt kernel module.
 
     This script will
-        1. Create an update package (load: auto)
-        2. Verify loading of the module
-        3. Stop Legato. Check module has been unloaded
-        4. Start Legato. Check module has been loaded
+        1. Create an update package (load: auto) <br>
+        2. Verify loading of the module <br>
+        3. Stop Legato. Check module has been unloaded <br>
+        4. Start Legato. Check module has been loaded <br>
         5. Compile the default package and update the target with it
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -473,18 +457,17 @@ def L_MDEF_0002(legato):
 
 
 def L_MDEF_0003(legato):
-    """Check Mdef error case and system including prebuilt.
+    """!Check Mdef error case and system including prebuilt.
 
     And to be built kernel module.
 
     This script will
         1. Create an update package (load: auto) with both sources and
-        prebuilt section in mdef file
-        2. Check that error message is consistent
+        prebuilt section in mdef file <br>
+        2. Check that error message is consistent <br>
         5. Compile the default package and update the target with it
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Sdef file
     sdef_file = "L_MDEF_0003.sdef"
@@ -501,22 +484,21 @@ def L_MDEF_0003(legato):
 
 
 def L_MDEF_0005(legato, logread):
-    """Verify that mdef including kernel module built from source.
+    """!Verify that mdef including kernel module built from source.
 
     are able to create multiple level dependencies.
 
     This script will
-        1. Create an update package (load: auto)
-        2. Verify modules are loaded
-        3. Stop Legato
-        4. Verify modules are unloaded
-        5. Start Legato
-        6. Verify modules are loaded
+        1. Create an update package (load: auto) <br>
+        2. Verify modules are loaded <br>
+        3. Stop Legato <br>
+        4. Verify modules are unloaded <br>
+        5. Start Legato <br>
+        6. Verify modules are loaded <br>
         7. Compile the default package and update the target with it
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        logread: fixture to check log on the target
+    @param legato: fixture to call useful functions regarding legato
+    @param logread: fixture to check log on the target
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -596,22 +578,21 @@ def L_MDEF_0005(legato, logread):
 
 
 def L_MDEF_0006(legato, logread):
-    """Verify that mdef including prebuilt kernel module.
+    """!Verify that mdef including prebuilt kernel module.
 
     are able to create multiple level dependencies.
 
     This script will
-        1. Create an update package (load: auto)
-        2. Verify modules are loaded
-        3. Stop Legato
-        4. Verify modules are unloaded
-        5. Start Legato
-        6. Verify modules are loaded
+        1. Create an update package (load: auto) <br>
+        2. Verify modules are loaded <br>
+        3. Stop Legato <br>
+        4. Verify modules are unloaded <br>
+        5. Start Legato <br>
+        6. Verify modules are loaded <br>
         7. Compile the default package and update the target with it
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        logread: fixture to check log on the target
+    @param legato: fixture to call useful functions regarding legato
+    @param logread: fixture to check log on the target
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -691,17 +672,16 @@ def L_MDEF_0006(legato, logread):
 
 
 def L_MDEF_0009(legato):
-    """Verify that mdef able to take more than two sources using {}.
+    """!Verify that mdef able to take more than two sources using {}.
 
     This script will
-        1. Create an update package (load: auto)
-        2. Verify loading of the module
-        3. Stop Legato
-        4. Start Legato
+        1. Create an update package (load: auto) <br>
+        2. Verify loading of the module <br>
+        3. Stop Legato <br>
+        4. Start Legato <br>
         5. Compile the default package and update the target with it
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -754,17 +734,16 @@ def L_MDEF_0009(legato):
 
 
 def L_MDEF_0010(legato):
-    """Verify mksys is able to handle empty kernel modules section.
+    """!Verify mksys is able to handle empty kernel modules section.
 
     This script will
-        1. Create an update package (load: auto)
-        2. Verify loading of the module
-        3. Stop Legato
-        4. Start Legato
+        1. Create an update package (load: auto) <br>
+        2. Verify loading of the module <br>
+        3. Stop Legato <br>
+        4. Start Legato <br>
         5. Compile the default package and update the target with it
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -808,17 +787,16 @@ def L_MDEF_0010(legato):
 
 
 def L_MDEF_0011(legato):
-    """Verify mdef is not loaded when load is set to manual.
+    """!Verify mdef is not loaded when load is set to manual.
 
     This script will
-        1. Create an update package (load: manual)
-        2. Verify loading of the module
-        3. Stop Legato
-        4. Start Legato
+        1. Create an update package (load: manual) <br>
+        2. Verify loading of the module <br>
+        3. Stop Legato <br>
+        4. Start Legato <br>
         5. Compile the default package and update the target with it
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -871,14 +849,13 @@ def L_MDEF_0011(legato):
 
 
 def L_MDEF_0012(legato):
-    """Verify mksys is able to handle kernel module with same name.
+    """!Verify mksys is able to handle kernel module with same name.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in pathing
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -901,17 +878,16 @@ def L_MDEF_0012(legato):
 
 
 def L_MDEF_0014(legato):
-    """Verify relative path could be taken by specifying moduleSearch.
+    """!Verify relative path could be taken by specifying moduleSearch.
 
     This script will
-        1. Create an update package (load: auto)
-        2. Verify loading of the module
-        3. Stop Legato
-        4. Start Legato
+        1. Create an update package (load: auto) <br>
+        2. Verify loading of the module <br>
+        3. Stop Legato <br>
+        4. Start Legato <br>
         5. Compile the default package and update the target with it
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -965,14 +941,13 @@ def L_MDEF_0014(legato):
 
 
 def L_MDEF_0015(legato):
-    """Verify mksys should be able to handle non existence path and file.
+    """!Verify mksys should be able to handle non existence path and file.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in pathing
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -997,16 +972,15 @@ def L_MDEF_0015(legato):
 
 
 def L_MDEF_0016(legato):
-    """Verify mksys should be able to handle non existence .c file.
+    """!Verify mksys should be able to handle non existence .c file.
 
     under source.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in pathing
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -1028,19 +1002,18 @@ def L_MDEF_0016(legato):
 
 
 def L_MDEF_0017(legato):
-    """Verify mksys should be able to handle both relative path.
+    """!Verify mksys should be able to handle both relative path.
 
     and absolute path.
 
     This script will
-        1. Create an update package (load: auto)
-        2. Verify loading of the module
-        3. Stop Legato
-        4. Start Legato
+        1. Create an update package (load: auto) <br>
+        2. Verify loading of the module <br>
+        3. Stop Legato <br>
+        4. Start Legato <br>
         5. Compile the default package and update the target with it
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -1093,18 +1066,17 @@ def L_MDEF_0017(legato):
 
 
 def L_MDEF_0018(legato):
-    """Verify that files, bin and scripts directory is bundled.
+    """!Verify that files, bin and scripts directory is bundled.
 
     under system module directory.
 
     This script will
-        1. Create an update package (load: auto)
-        2. Verify loading of the module
-        3. Verify presence of the module file
+        1. Create an update package (load: auto) <br>
+        2. Verify loading of the module <br>
+        3. Verify presence of the module file <br>
         5. Verify presence of the bundled files
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -1161,14 +1133,13 @@ def L_MDEF_0018(legato):
 
 
 def L_MDEF_0019(legato):
-    """Invalid path in  bundles section.
+    """!Invalid path in  bundles section.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -1190,14 +1161,13 @@ def L_MDEF_0019(legato):
 
 
 def L_MDEF_0020(legato):
-    """Test to load more than one kernelModule with scripts.
+    """!Test to load more than one kernelModule with scripts.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Verify loading of the module
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -1224,18 +1194,17 @@ def L_MDEF_0020(legato):
 
 
 def L_MDEF_0021(target, legato):
-    """Load kernel module manual with script.
+    """!Load kernel module manual with script.
 
     This script will
-        1. Create an update package (load: auto)
-        2. Verify loading of the module
-        3. Insert modules
-        4. Remove modules
+        1. Create an update package (load: auto) <br>
+        2. Verify loading of the module <br>
+        3. Insert modules <br>
+        4. Remove modules <br>
         5. Insert independant module
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -1279,14 +1248,13 @@ def L_MDEF_0021(target, legato):
 
 
 def L_MDEF_0022(legato):
-    """Specify install and remove in your script section.
+    """!Specify install and remove in your script section.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -1306,14 +1274,13 @@ def L_MDEF_0022(legato):
 
 
 def L_MDEF_0023(legato):
-    """Relative path in script section of mdef.
+    """!Relative path in script section of mdef.
 
     This script will
-        1. Create an update package with relative pathing (load: auto)
+        1. Create an update package with relative pathing (load: auto) <br>
         2. Verify loading of the module
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -1344,16 +1311,15 @@ def L_MDEF_0023(legato):
 
 
 def L_MDEF_0024(legato):
-    """Put more than one scripts path in install.
+    """!Put more than one scripts path in install.
 
     or remove section script section.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in mdef
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -1375,14 +1341,13 @@ def L_MDEF_0024(legato):
 
 
 def L_MDEF_0025(legato):
-    """Put more than one scripts section in mdef file.
+    """!Put more than one scripts section in mdef file.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in mdef
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -1404,14 +1369,13 @@ def L_MDEF_0025(legato):
 
 
 def L_MDEF_0026(legato):
-    """Invalid path in scripts section.
+    """!Invalid path in scripts section.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in pathing
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -1433,18 +1397,17 @@ def L_MDEF_0026(legato):
 
 
 def L_MDEF_0029(legato, logread):
-    """Verify that mdef can be use to include multiple prebuilt kernel module.
+    """!Verify that mdef can be use to include multiple prebuilt kernel module.
 
     This script will
-        1. Create an update package (load: auto)
-        2. Verify loading of the module
-        3. Unload the module
-        4. Load the module
+        1. Create an update package (load: auto) <br>
+        2. Verify loading of the module <br>
+        3. Unload the module <br>
+        4. Load the module <br>
         5. Compile the default package and update the target with it
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        logread: fixture to check log on the target
+    @param legato: fixture to call useful functions regarding legato
+    @param logread: fixture to check log on the target
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -1524,16 +1487,15 @@ def L_MDEF_0029(legato, logread):
 
 
 def L_MDEF_0030(legato):
-    """Check Mdef error case and system including prebuilt.
+    """!Check Mdef error case and system including prebuilt.
 
     and to be built kernel module.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in pathing
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Sdef file
     sdef_file = "L_MDEF_0030.sdef"
@@ -1556,11 +1518,10 @@ def L_MDEF_0031(legato):
     and to be built kernel module.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in pathing
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Sdef file
     sdef_file = "L_MDEF_0031.sdef"
@@ -1578,16 +1539,15 @@ def L_MDEF_0031(legato):
 
 
 def L_MDEF_0032(legato):
-    """Check Mdef error case and system including prebuilt.
+    """!Check Mdef error case and system including prebuilt.
 
     and to be built kernel module.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in pathing
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Sdef file
     sdef_file = "L_MDEF_0032.sdef"
@@ -1607,16 +1567,15 @@ def L_MDEF_0032(legato):
 
 
 def L_MDEF_0033(legato):
-    """Check Mdef error case and system including prebuilt.
+    """!Check Mdef error case and system including prebuilt.
 
     and to be built kernel module.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in pathing
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Sdef file
     sdef_file = "L_MDEF_0033.sdef"
@@ -1634,18 +1593,17 @@ def L_MDEF_0033(legato):
 
 
 def L_MDEF_0043(legato, logread):
-    """Verify that mdef able to take more than two prebuilt using "{}" and ":".
+    """!Verify that mdef able to take more than two prebuilt using "{}" and ":".
 
     This script will
-        1. Create an update package (load: auto)
-        2. Verify loading of the module
-        3. Stop Legato
-        4. Start Legato
+        1. Create an update package (load: auto) <br>
+        2. Verify loading of the module <br>
+        3. Stop Legato <br>
+        4. Start Legato <br>
         5. Compile the default package and update the target with it
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        logread: fixture to check log on the target
+    @param legato: fixture to call useful functions regarding legato
+    @param logread: fixture to check log on the target
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -1725,18 +1683,17 @@ def L_MDEF_0043(legato, logread):
 
 
 def L_MDEF_0046(legato, logread):
-    """Verify relative path could be taken by specifying moduleSearch.
+    """!Verify relative path could be taken by specifying moduleSearch.
 
     This script will
-        1. Create an update package (load: auto)
-        2. Verify loading of the module
-        3. Stop Legato
-        4. Start Legato
+        1. Create an update package (load: auto) <br>
+        2. Verify loading of the module <br>
+        3. Stop Legato <br>
+        4. Start Legato <br>
         5. Compile the default package and update the target with it
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        logread: fixture to check log on the target
+    @param legato: fixture to call useful functions regarding legato
+    @param logread: fixture to check log on the target
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -1816,18 +1773,17 @@ def L_MDEF_0046(legato, logread):
 
 
 def L_MDEF_0047(legato, logread):
-    """Verify relative path could be taken by specifying moduleSearch.
+    """!Verify relative path could be taken by specifying moduleSearch.
 
     This script will
-        1. Create an update package (load: auto)
-        2. Verify loading of the module
-        3. Stop Legato
-        4. Start Legato
+        1. Create an update package (load: auto) <br>
+        2. Verify loading of the module <br>
+        3. Stop Legato <br>
+        4. Start Legato <br>
         5. Compile the default package and update the target with it
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        logread: fixture to check log on the target
+    @param legato: fixture to call useful functions regarding legato
+    @param logread: fixture to check log on the target
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -1907,14 +1863,13 @@ def L_MDEF_0047(legato, logread):
 
 
 def L_MDEF_0048(legato):
-    """Verify mksys should be able to handle non existence path and file.
+    """!Verify mksys should be able to handle non existence path and file.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in pathing
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Sdef file management
     sdef_file = "L_MDEF_0048.sdef"
@@ -1934,14 +1889,13 @@ def L_MDEF_0048(legato):
 
 
 def L_MDEF_0049(legato):
-    """Verify mksys should be able to handle non existence path and file.
+    """!Verify mksys should be able to handle non existence path and file.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in pathing
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -1968,11 +1922,10 @@ def L_MDEF_0050(legato):
     under preBuilt section.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in pathing
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Sdef file management
     sdef_file = "L_MDEF_0050.sdef"
@@ -1990,14 +1943,13 @@ def L_MDEF_0050(legato):
 
 
 def L_MDEF_0051(legato):
-    """Invalid path in  bundles section.
+    """!Invalid path in  bundles section.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in pathing
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Sdef file management
     sdef_file = "L_MDEF_0051.sdef"
@@ -2015,15 +1967,14 @@ def L_MDEF_0051(legato):
 
 
 def L_MDEF_0052(legato):
-    """Test to load more than one kernelModule with scripts.
+    """!Test to load more than one kernelModule with scripts.
 
     This script will
         1. Create an update package with multiple prebuilt packages in it
-        (load: auto)
+        (load: auto) <br>
         2. Verify loading of the module
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -2050,15 +2001,14 @@ def L_MDEF_0052(legato):
 
 
 def L_MDEF_0053(legato):
-    """Test to load more than one kernelModule with scripts.
+    """!Test to load more than one kernelModule with scripts.
 
     This script will
         1. Create an update package with multiple prebuilt packages in it
-        (load: auto)
+        (load: auto) <br>
         2. Verify loading of the module
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -2085,16 +2035,15 @@ def L_MDEF_0053(legato):
 
 
 def L_MDEF_0054(target, legato):
-    """Load kernel module manual with script.
+    """!Load kernel module manual with script.
 
     This script will
-        1. Create an update package (load: manual)
-        2. Verify loading of the module
+        1. Create an update package (load: manual) <br>
+        2. Verify loading of the module <br>
         3. Check insertion and removing of modules mechanism
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -2138,14 +2087,13 @@ def L_MDEF_0054(target, legato):
 
 
 def L_MDEF_0055(legato):
-    """Specify install and remove in your script section.
+    """!Specify install and remove in your script section.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in mdef
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Sdef file management
     sdef_file = "L_MDEF_0055.sdef"
@@ -2161,15 +2109,14 @@ def L_MDEF_0055(legato):
 
 
 def L_MDEF_0056(legato):
-    """Specify install and remove in your script section.
+    """!Specify install and remove in your script section.
 
     This script will
-        1. Create an update package (load: auto)
-        2. Verify loading of the module
+        1. Create an update package (load: auto) <br>
+        2. Verify loading of the module <br>
         5. Compile the default package and update the target with it
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -2196,15 +2143,14 @@ def L_MDEF_0056(legato):
 
 
 def L_MDEF_0057(legato):
-    """Specify install and remove in your script section.
+    """!Specify install and remove in your script section.
 
     This script will
-        1. Create an update package (load: auto)
-        2. Verify loading of the module
+        1. Create an update package (load: auto) <br>
+        2. Verify loading of the module <br>
         5. Compile the default package and update the target with it
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -2231,15 +2177,14 @@ def L_MDEF_0057(legato):
 
 
 def L_MDEF_0058(legato):
-    """Relative path in script section of mdef.
+    """!Relative path in script section of mdef.
 
     This script will
         1. Create an update package with relative path (load: auto)
-        2. Verify loading of the module
-        5. Compile the default package and update the target with it
+        2. Verify loading of the module <br>
+        5. Compile the default package and update the target with it <br>
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -2270,16 +2215,15 @@ def L_MDEF_0058(legato):
 
 
 def L_MDEF_0059(legato):
-    """Put more than one scripts path in install.
+    """!Put more than one scripts path in install.
 
     or remove section script section.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in mdef
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Sdef file management
     sdef_file = "L_MDEF_0059.sdef"
@@ -2297,14 +2241,13 @@ def L_MDEF_0059(legato):
 
 
 def L_MDEF_0060(legato):
-    """Put more than one scripts section in mdef file.
+    """!Put more than one scripts section in mdef file.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in mdef
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -2323,14 +2266,13 @@ def L_MDEF_0060(legato):
 
 
 def L_MDEF_0061(legato):
-    """Invalid path in scripts section.
+    """!Invalid path in scripts section.
 
     This script will
-        1. Create an update package (load: auto)
+        1. Create an update package (load: auto) <br>
         2. Try to compile a module with error in pathing
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -2349,18 +2291,17 @@ def L_MDEF_0061(legato):
 
 
 def L_MDEF_0062(legato):
-    """Verify that files, bin and scripts directory is bundled.
+    """!Verify that files, bin and scripts directory is bundled.
 
     under system module directory.
 
     This script will
-        1. Create an update package (load: auto)
-        2. Verify loading of the module
-        3. Verify presence of the module file
+        1. Create an update package (load: auto) <br>
+        2. Verify loading of the module <br>
+        3. Verify presence of the module file <br>
         5. Verify presence of the bundled files
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation

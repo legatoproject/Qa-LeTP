@@ -1,6 +1,10 @@
-"""@package atomicFileCloseModule atomicFile operation try close test.
+r"""!atomicFile operation try close test.
 
 Set of functions to test the le_atomFile_Close
+
+@package atomicFileCloseModule
+@file
+\ingroup runtimeTests
 """
 import os
 
@@ -24,7 +28,7 @@ APP_PATH = os.path.join(os.path.join(TEST_RESOURCES, "atomClose"), "atomClose.ad
 # ======================================================================================
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0029(target, legato, init_atomicFile):
-    """Purpose: Verify that le_atomFile_Close commits all changes.
+    """!Purpose: Verify that le_atomFile_Close commits all changes.
 
     closes the file descriptor
     and returns LE_OK for
@@ -33,10 +37,12 @@ def L_AtomicFile_Operation_0029(target, legato, init_atomicFile):
 
     Initial condition:
         1. Test app is unsandboxed
+
     Verification:
         This test case will mark as "failed" when
             1. le_atomFile_Close doesn't commits all changes
             2. le_atomFile_Close doesn't return LE_OK
+
     This script will
         1. Make and install the test app
         2. Run the test app
@@ -46,11 +52,10 @@ def L_AtomicFile_Operation_0029(target, legato, init_atomicFile):
         le_atomFile_Close is called == 0:
         5. Repeat above for different test scenarios
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture regarding to build, install and remove app
+    @param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomClose"
     test_app_proc_name = "atomCloseProc"
@@ -95,7 +100,7 @@ def L_AtomicFile_Operation_0029(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0030(target, legato, init_atomicFile):
-    """Purpose: Verify that le_atomFile_Close commits all changes.
+    """!Purpose: Verify that le_atomFile_Close commits all changes.
 
     closes the file descriptor
     and returns LE_OK for le_atomFile_Open(,
@@ -104,10 +109,12 @@ def L_AtomicFile_Operation_0030(target, legato, init_atomicFile):
 
     Initial condition:
         1. Test app is unsandboxed
+
     Verification:
         This test case will mark as "failed" when
             1. File's contents being modified
             2. le_atomFile_Close doesn't return LE_OK
+
     This script will
        1. Make and install the test app
        2. Run the test app
@@ -116,11 +123,10 @@ def L_AtomicFile_Operation_0030(target, legato, init_atomicFile):
        4. Check  file's contents remain unchanged == 0:
        5. Repeat above for different test scenarios
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture regarding to build, install and remove app
+    @param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomClose"
     test_app_proc_name = "atomCloseProc"

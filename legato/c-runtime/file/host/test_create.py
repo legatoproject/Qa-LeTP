@@ -1,6 +1,10 @@
-"""@package atomicFileOperationCreateModule atomicFile operation create test.
+r"""!atomicFile operation create test.
 
 Set of functions to test the le_atomFile_Createy
+
+@package atomicFileOperationCreateModule
+@file
+\ingroup runtimeTests
 """
 import os
 import time
@@ -25,16 +29,18 @@ APP_PATH = os.path.join(os.path.join(TEST_RESOURCES, "atomCreate"), "atomCreate.
 # ======================================================================================
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0008(target, legato, init_atomicFile):
-    """Purpose: Verify that le_atomFile_Create returns LE_DUPLICATE.
+    """!Purpose: Verify that le_atomFile_Create returns LE_DUPLICATE.
 
     if the target file already existed and
     LE_FLOCK_FAIL_IF_EXIST is specified in createMode
 
     Initial condition:
         1. Test app is unsandboxed
+
     Verification:
         This test case will mark as "failed" when
             1. le_atomFile_Create doesn't return LE_DUPLICATE
+
     This script will
         1. Transfer a file to the target
         2. Make and install the test app
@@ -42,11 +48,10 @@ def L_AtomicFile_Operation_0008(target, legato, init_atomicFile):
         4. Check if "le_atomFile_Create returns LE_DUPLICATE ..."
         can be captured from the target's log
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture regarding to build, install and remove app
+    @param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomCreate"
     test_app_proc_name = "atomCreateProc"
@@ -77,28 +82,29 @@ def L_AtomicFile_Operation_0008(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0010(target, legato, init_atomicFile):
-    """Purpose: Verify that le_atomFile_Create can create and.
+    """!Purpose: Verify that le_atomFile_Create can create and.
 
     open file with specified file permission if the
     target file wasn't existed before
 
     Initial condition:
         1. Test app is unsandboxed
+
     Verification:
         This test case will mark as "failed" when
             1. le_atomFile_Create can't create and open a file
             with specified file permission
+
     This script will
         1. Make and install the test app
         2. Run the test app
         3. Check if "le_atomFile_Create can create ..." can be
         captured from the target's log
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture regarding to build, install and remove app
+    @param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomCreate"
     test_app_proc_name = "atomCreateProc"
@@ -124,12 +130,13 @@ def L_AtomicFile_Operation_0010(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0018(target, legato, init_atomicFile):
-    """Purpose: Verify the atomicity of le_atomFile_Create is guaranteed.
+    """!Purpose: Verify the atomicity of le_atomFile_Create is guaranteed.
 
     once the process acquires the file lock if the target file wasn't existed
 
     Initial condition:
         1. Test app is unsandboxed
+
     Verification:
         This test case will mark as "failed" when
             1. The second process who calls le_atomFile_Create does not
@@ -140,6 +147,7 @@ def L_AtomicFile_Operation_0018(target, legato, init_atomicFile):
             the file lock
             3. The data written by the first process are not preserved
             after the interruption of the second process's write operation
+
     This script will
         1. Transfer a file to the target
         2. Make and install the test app
@@ -152,11 +160,10 @@ def L_AtomicFile_Operation_0018(target, legato, init_atomicFile):
         the test app
         7. Check if the data of the file have been changed after interruption
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture regarding to build, install and remove app
+    @param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomCreate"
     test_app_proc_name = "atomCreateProc"

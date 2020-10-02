@@ -1,6 +1,10 @@
-"""@package updateControlModule The update control API test.
+r"""!The update control API test.
 
 Set of functions to test the le_updateCtrl_Defer
+
+@package updateControlModule
+@file
+\ingroup updateTests
 """
 import os
 import time
@@ -31,11 +35,10 @@ HELLO_WORLD_PATH = os.path.join(APP_PATH, "helloWorldApp")
 # ======================================================================================
 @pytest.fixture()
 def init_UpdateCrtl(legato, clean_test):
-    """Clean up environment & build app.
+    """!Clean up environment & build app.
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        clean_test: fixture to clean up environment
+    @param legato: fixture to call useful functions regarding legato
+    @param clean_test: fixture to clean up environment
     """
     assert clean_test
     if legato.get_current_system_index() != 0:
@@ -50,7 +53,7 @@ def init_UpdateCrtl(legato, clean_test):
 # ======================================================================================
 @pytest.mark.usefixtures("init_UpdateCrtl")
 def L_UpdateCtrl_Defer_0001(target):
-    """Verify that le_updateCtrl_Defer() prevents all updates.
+    """!Verify that le_updateCtrl_Defer() prevents all updates.
 
     (remove an app)
 
@@ -71,10 +74,9 @@ def L_UpdateCtrl_Defer_0001(target):
     the current system status can be verified by
     the command line "legato status")
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        init_UpdateCrtl: fixture to clean up environment and build app
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param init_UpdateCrtl: fixture to clean up environment and build app
     """
     swilog.step("Test L_UpdateCtrl_Defer_0001")
 
@@ -115,7 +117,7 @@ attempting to remove an app."
 
 @pytest.mark.usefixtures("init_UpdateCrtl")
 def L_UpdateCtrl_Defer_0002(target, legato):
-    """Verify that le_updateCtrl_Defer() prevents all updates.
+    """!Verify that le_updateCtrl_Defer() prevents all updates.
 
     (install an app)
 
@@ -136,10 +138,9 @@ def L_UpdateCtrl_Defer_0002(target, legato):
     the current system status can be verified by
     the command line "legato status")
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        init_UpdateCrtl: fixture to clean up environment and build app
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param init_UpdateCrtl: fixture to clean up environment and build app
     """
     swilog.step("Test L_UpdateCtrl_Defer_0002")
 
@@ -175,7 +176,7 @@ def L_UpdateCtrl_Defer_0002(target, legato):
 
 @pytest.mark.usefixtures("init_UpdateCrtl")
 def L_UpdateCtrl_Defer_0003(target, legato):
-    """Verify that le_updateCtrl_Defer() prevents all updates.
+    """!Verify that le_updateCtrl_Defer() prevents all updates.
 
     (install a system)
 
@@ -194,10 +195,9 @@ def L_UpdateCtrl_Defer_0003(target, legato):
     the current system status can be verified by
     the command line "legato status")
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        init_UpdateCrtl: fixture to clean up environment and build app
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param init_UpdateCrtl: fixture to clean up environment and build app
     """
     swilog.step("Test L_UpdateCtrl_Defer_0003")
 
@@ -247,7 +247,7 @@ def L_UpdateCtrl_Defer_0003(target, legato):
 
 @pytest.mark.usefixtures("init_UpdateCrtl")
 def L_UpdateCtrl_Defer_0004(target, legato):
-    """Verify that the deferral will be released after the client.
+    """!Verify that the deferral will be released after the client.
 
     (process) who called le_updateCtrl_Defer() is dead
 
@@ -258,10 +258,9 @@ def L_UpdateCtrl_Defer_0004(target, legato):
         3. Install the helloWorld app
         4. Check 3. is successful
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        init_UpdateCrtl: fixture to clean up environment and build app
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param init_UpdateCrtl: fixture to clean up environment and build app
     """
     swilog.step("Test L_UpdateCtrl_Defer_0004")
 
@@ -297,7 +296,7 @@ def L_UpdateCtrl_Defer_0004(target, legato):
 
 @pytest.mark.usefixtures("clean_test")
 def L_UpdateCtrl_Defer_0005(target, legato):
-    """Verify that le_updateCtrl_Defer() prevents rollbacks.
+    """!Verify that le_updateCtrl_Defer() prevents rollbacks.
 
     Initial Conditions:
         1. Current system index is "N"
@@ -313,10 +312,9 @@ def L_UpdateCtrl_Defer_0005(target, legato):
         the current system status can be verified by
         the command line "legato status")
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        clean_test: fixture to clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param clean_test: fixture to clean up environment
     """
     swilog.step("Test L_UpdateCtrl_Defer_0005")
     old_sys_index = 0
@@ -406,7 +404,7 @@ def L_UpdateCtrl_Defer_0005(target, legato):
 
 @pytest.mark.usefixtures("init_UpdateCrtl")
 def L_UpdateCtrl_Defer_0006(target, legato):
-    """Verify that the deferral will be released after.
+    """!Verify that the deferral will be released after.
 
     stopping the client (process) who called le_updateCtrl_Defer()
 
@@ -418,10 +416,9 @@ def L_UpdateCtrl_Defer_0006(target, legato):
         4. Install the helloWorld app
         5. Check 4. is successful
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        init_UpdateCrtl: fixture to clean up environment and build app
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param init_UpdateCrtl: fixture to clean up environment and build app
     """
     swilog.step("Test L_UpdateCtrl_Defer_0006")
     # Begin of the this TC

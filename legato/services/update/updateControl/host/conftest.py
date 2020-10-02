@@ -9,12 +9,11 @@ __copyright__ = "Copyright (C) Sierra Wireless Inc."
 
 @pytest.fixture()
 def clean_test(legato, tmpdir):
-    """Fixture to clean up legato after the test.
+    """!Fixture to clean up legato after the test.
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        tmpdir: fixture to provide a temporary directory
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
     """
     os.chdir(str(tmpdir))
@@ -24,11 +23,10 @@ def clean_test(legato, tmpdir):
 
 @pytest.fixture()
 def init_update(read_config):
-    """Get values from upgrade.xml.
+    """!Get values from upgrade.xml.
 
-    Args:
-        target: fixture to communicate with the target
-        read_config: fixture to get value from .xml file
+    @param target: fixture to communicate with the target
+    @param read_config: fixture to get value from .xml file
     """
     update_cfg = {}
 

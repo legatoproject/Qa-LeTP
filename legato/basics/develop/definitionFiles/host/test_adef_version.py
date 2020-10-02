@@ -1,6 +1,10 @@
-"""@package applicationModule Application Definition Files test.
+r"""!Application Definition Files test.
 
 Set of functions to test the Legato application definition files.
+
+@package applicationModule
+@file
+\ingroup definitionFileTests
 """
 import os
 
@@ -24,15 +28,14 @@ VERSION_APPEND = "Beta.rc1"
 # ====================================================================================
 @pytest.fixture(params=["", VERSION_APPEND])
 def init_cleanup_app_version(request, legato, tmpdir):
-    """Make application with append version Install application.
+    """!Make application with append version Install application.
 
     Clean up after the test.
 
-    Args:
-        request: object to access data
-        legato: fixture to call useful functions regarding legato
-        tmpdir: fixture to provide a temporary directory
-                unique to the test invocation
+    @param request: object to access data
+    @param legato: fixture to call useful functions regarding legato
+    @param tmpdir: fixture to provide a temporary directory
+                   unique to the test invocation
     """
     version_append = request.param
 
@@ -56,11 +59,10 @@ def init_cleanup_app_version(request, legato, tmpdir):
 # Test functions
 # ====================================================================================
 def L_ADEF_0004(legato, init_cleanup_app_version):
-    """Test append version in application definition files.
+    """!Test append version in application definition files.
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        init_cleanup_app_version: fixture to initial and cleanup the test
+    @param legato: fixture to call useful functions regarding legato
+    @param init_cleanup_app_version: fixture to initial and cleanup the test
     """
     version_append = init_cleanup_app_version["version_append"]
     extra = "no" if version_append == "" else ""

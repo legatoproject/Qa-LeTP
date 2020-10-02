@@ -1,6 +1,10 @@
-"""@package updateControlModule The update control API test.
+r"""!The update control API test.
 
 Set of functions to test the le_updateCtrl_FailProbation
+
+@package updateControlModule
+@file
+\ingroup updateTests
 """
 import os
 import time
@@ -26,12 +30,11 @@ APP_PATH_01 = os.path.join(APP_PATH_00, "testUpdateCtrlApp")
 # ======================================================================================
 @pytest.fixture()
 def init_UpdateCrtl(request, legato, clean_test):
-    """Initialize and build app.
+    """!Initialize and build app.
 
-    Args:
-        request: object to access data
-        legato: fixture to call useful functions regarding legato
-        clean_test: fixture to clean up environment
+    @param request: object to access data
+    @param legato: fixture to call useful functions regarding legato
+    @param clean_test: fixture to clean up environment
     """
     assert clean_test
     test_name = request.node.name.split("[")[0]
@@ -67,7 +70,7 @@ def init_UpdateCrtl(request, legato, clean_test):
 # Test Functions
 # ======================================================================================
 def L_UpdateCtrl_FailProbation_0002(target, legato, init_UpdateCrtl):
-    """Verify that le_updateCtrl_FailProbation() is ignored if the probation.
+    """!Verify that le_updateCtrl_FailProbation() is ignored if the probation.
 
     period has already ended.
 
@@ -87,10 +90,9 @@ def L_UpdateCtrl_FailProbation_0002(target, legato, init_UpdateCrtl):
     the current system status can be verified by
     the command line "legato status")
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        init_UpdateCrtl: initial and build app
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param init_UpdateCrtl: initial and build app
     """
     swilog.step("Test L_UpdateCtrl_FailProbation_0002")
     old_sys_index = 0

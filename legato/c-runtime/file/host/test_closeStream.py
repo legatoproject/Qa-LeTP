@@ -1,6 +1,10 @@
-"""@package atomicFileStreamCloseModule atomicFile Stream close test.
+r"""!atomicFile Stream close test.
 
 Set of functions to test the le_atomFile_CloseStream
+
+@package atomicFileStreamCloseModule
+@file
+\ingroup runtimeTests
 """
 import os
 
@@ -27,7 +31,7 @@ APP_PATH = os.path.join(
 # ======================================================================================
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0029(target, legato, init_atomicFile):
-    """Purpose: Verify that le_atomFile_CloseStream commits all changes.
+    """!Purpose: Verify that le_atomFile_CloseStream commits all changes.
 
     closes the file pointer
     and returns LE_OK for le_atomFile_CloseStreamStream(,
@@ -36,10 +40,12 @@ def L_AtomicFile_Stream_0029(target, legato, init_atomicFile):
 
     Initial condition:
         1. Test app is unsandboxed
+
     Verification:
         This test case will mark as "failed" when
             1. le_atomFile_CloseStream doesn't commits all changes
             2. le_atomFile_CloseStream doesn't return LE_OK
+
     This script will
         1. Make and install the test app
         2. Run the test app
@@ -49,11 +55,10 @@ def L_AtomicFile_Stream_0029(target, legato, init_atomicFile):
         le_atomFile_CloseStream is called == 0:
         5. Repeat above for different test scenarios
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture regarding to build, install and remove app
+    @param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomCloseStream"
     test_app_proc_name = "atomCloseStreamProc"
@@ -99,7 +104,7 @@ def L_AtomicFile_Stream_0029(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0030(target, legato, init_atomicFile):
-    """Purpose: Verify that le_atomFile_CloseStream returns LE_OK.
+    """!Purpose: Verify that le_atomFile_CloseStream returns LE_OK.
 
     and closes the file pointer
     returned by le_atomFile_OpenStream, le_atomFile_TryOpenStream,
@@ -108,10 +113,12 @@ def L_AtomicFile_Stream_0030(target, legato, init_atomicFile):
 
     Initial condition:
         1. Test app is unsandboxed
+
     Verification:
         This test case will mark as "failed" when
             1. File's contents being modified
             2. le_atomFile_CloseStream doesn't return LE_OK
+
     This script will
         1. Make and install the test app
         2. Run the test app
@@ -120,11 +127,10 @@ def L_AtomicFile_Stream_0030(target, legato, init_atomicFile):
         4. Check  file's contents remain unchanged == 0:
         # 5. Repeat above for different test scenarios
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture regarding to build, install and remove app
+    @param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomCloseStream"
     test_app_proc_name = "atomCloseStreamProc"

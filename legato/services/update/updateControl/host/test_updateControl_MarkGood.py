@@ -1,6 +1,10 @@
-"""@package updateControlModule The update control API test.
+r"""!The update control API test.
 
 Set of functions to test the le_updateCtrl_MarkGood
+
+@package updateControlModule
+@file
+\ingroup updateTests
 """
 import os
 import time
@@ -26,12 +30,11 @@ APP_PATH_01 = os.path.join(APP_PATH_00, "testUpdateCtrlApp")
 # ======================================================================================
 @pytest.fixture()
 def init_UpdateCrtl(request, legato, clean_test):
-    """Initialize and build app for testing.
+    """!Initialize and build app for testing.
 
-    Args:
-        request: object to access data
-        legato: fixture to call useful functions regarding legato
-        clean_test: fixture to clean up environment
+    @param request: object to access data
+    @param legato: fixture to call useful functions regarding legato
+    @param clean_test: fixture to clean up environment
     """
     assert clean_test
     test_name = request.node.name.split("[")[0]
@@ -62,11 +65,10 @@ def init_UpdateCrtl(request, legato, clean_test):
 
 
 def end_test(is_tc_passed, request):
-    """Verify the result of test case.
+    """!Verify the result of test case.
 
-    Args:
-        is_tc_passed: status of test case
-        request: object to access data
+    @param is_tc_passed: status of test case
+    @param request: object to access data
     """
     test_name = request.node.name.split("[")[0]
     assert is_tc_passed, "[FAILED] %s" % test_name
@@ -77,7 +79,7 @@ def end_test(is_tc_passed, request):
 # Test functions
 # ======================================================================================
 def L_UpdateCtrl_MarkGood_0001(target, request, legato, init_UpdateCrtl):
-    """Verify that le_updateCtrl_MarkGood(True) returns LE_OK, marks current.
+    """!Verify that le_updateCtrl_MarkGood(True) returns LE_OK, marks current.
 
     system as 'good' and terminates probation period when the system is under
     probation.
@@ -99,11 +101,10 @@ def L_UpdateCtrl_MarkGood_0001(target, request, legato, init_UpdateCrtl):
     and the current system status can be verified by
     the command line "legato status")
 
-    Args:
-        target: fixture to communicate with the target
-        request: object to access data
-        legato: fixture to call useful functions regarding legato
-        init_UpdateCrtl: initial and build app for testing
+    @param target: fixture to communicate with the target
+    @param request: object to access data
+    @param legato: fixture to call useful functions regarding legato
+    @param init_UpdateCrtl: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0001")
     old_sys_index = 0
@@ -173,7 +174,7 @@ def L_UpdateCtrl_MarkGood_0001(target, request, legato, init_UpdateCrtl):
 
 
 def L_UpdateCtrl_MarkGood_0002(target, request, legato, init_UpdateCrtl):
-    """Verify that le_updateCtrl_MarkGood(False) returns LE_OK, marks current.
+    """!Verify that le_updateCtrl_MarkGood(False) returns LE_OK, marks current.
 
     system as 'good' and terminates probation period when the system is under
     probation.
@@ -196,11 +197,10 @@ def L_UpdateCtrl_MarkGood_0002(target, request, legato, init_UpdateCrtl):
     and the current system status can be verified by
     the command line "legato status")
 
-    Args:
-        target: fixture to communicate with the target
-        request: object to access data
-        legato: fixture to call useful functions regarding legato
-        init_UpdateCrtl: initial and build app for testing
+    @param target: fixture to communicate with the target
+    @param request: object to access data
+    @param legato: fixture to call useful functions regarding legato
+    @param init_UpdateCrtl: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0002")
     old_sys_index = 0
@@ -269,7 +269,7 @@ def L_UpdateCtrl_MarkGood_0002(target, request, legato, init_UpdateCrtl):
 
 
 def L_UpdateCtrl_MarkGood_0003(target, request, legato, init_UpdateCrtl):
-    """Verify that le_updateCtrl_MarkGood(True) returns LE_OK to set current.
+    """!Verify that le_updateCtrl_MarkGood(True) returns LE_OK to set current.
 
     system 'good' even if someone holds a probation lock.
 
@@ -290,11 +290,10 @@ def L_UpdateCtrl_MarkGood_0003(target, request, legato, init_UpdateCrtl):
     and the current system status can be verified by
     the command line "legato status")
 
-    Args:
-        target: fixture to communicate with the target
-        request: object to access data
-        legato: fixture to call useful functions regarding legato
-        init_UpdateCrtl: initial and build app for testing
+    @param target: fixture to communicate with the target
+    @param request: object to access data
+    @param legato: fixture to call useful functions regarding legato
+    @param init_UpdateCrtl: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0003")
     old_sys_index = 0
@@ -370,7 +369,7 @@ def L_UpdateCtrl_MarkGood_0003(target, request, legato, init_UpdateCrtl):
 
 
 def L_UpdateCtrl_MarkGood_0004(target, request, legato, init_UpdateCrtl):
-    """Verify that le_updateCtrl_MarkGood(False) returns LE_BUSY if someone.
+    """!Verify that le_updateCtrl_MarkGood(False) returns LE_BUSY if someone.
 
     holds a probation lock.
 
@@ -391,11 +390,10 @@ def L_UpdateCtrl_MarkGood_0004(target, request, legato, init_UpdateCrtl):
     and the current system status can be verified by
     the command line "legato status")
 
-    Args:
-        target: fixture to communicate with the target
-        request: object to access data
-        legato: fixture to call useful functions regarding legato
-        init_UpdateCrtl: initial and build app for testing
+    @param target: fixture to communicate with the target
+    @param request: object to access data
+    @param legato: fixture to call useful functions regarding legato
+    @param init_UpdateCrtl: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0004")
     old_sys_index = 0
@@ -470,7 +468,7 @@ def L_UpdateCtrl_MarkGood_0004(target, request, legato, init_UpdateCrtl):
 
 
 def L_UpdateCtrl_MarkGood_0005(target, request, legato, init_UpdateCrtl):
-    """Verify that le_updateCtrl_MarkGood(True) returns LE_DUPLICATE when the.
+    """!Verify that le_updateCtrl_MarkGood(True) returns LE_DUPLICATE when the.
 
     system is already marked as "good".
 
@@ -489,11 +487,10 @@ def L_UpdateCtrl_MarkGood_0005(target, request, legato, init_UpdateCrtl):
     the current system status can be verified by
     the command line "legato status")
 
-    Args:
-        target: fixture to communicate with the target
-        request: object to access data
-        legato: fixture to call useful functions regarding legato
-        init_UpdateCrtl: initial and build app for testing
+    @param target: fixture to communicate with the target
+    @param request: object to access data
+    @param legato: fixture to call useful functions regarding legato
+    @param init_UpdateCrtl: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0005")
     old_sys_index = 0
@@ -578,7 +575,7 @@ def L_UpdateCtrl_MarkGood_0005(target, request, legato, init_UpdateCrtl):
 
 
 def L_UpdateCtrl_MarkGood_0006(target, request, legato, init_UpdateCrtl):
-    """Verify that  le_updateCtrl_MarkGood(False) returns LE_DUPLICATE when.
+    """!Verify that  le_updateCtrl_MarkGood(False) returns LE_DUPLICATE when.
 
     the system is already marked as "good".
 
@@ -597,11 +594,10 @@ def L_UpdateCtrl_MarkGood_0006(target, request, legato, init_UpdateCrtl):
     (Notes: the current system index, the current system state and the current
     system status can be verified by the command line "legato status")
 
-    Args:
-        target: fixture to communicate with the target
-        request: object to access data
-        legato: fixture to call useful functions regarding legato
-        init_UpdateCrtl: initial and build app for testing
+    @param target: fixture to communicate with the target
+    @param request: object to access data
+    @param legato: fixture to call useful functions regarding legato
+    @param init_UpdateCrtl: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0006")
     old_sys_index = 0

@@ -1,6 +1,10 @@
-"""@package atomicFileStreamCancelModule atomicFile Stream cancel test.
+r"""!atomicFile Stream cancel test.
 
 Set of functions to test the le_atomFile_CancelStream
+
+@package atomicFileStreamCancelModule
+@file
+\ingroup runtimeTests
 """
 import os
 
@@ -26,7 +30,7 @@ APP_PATH = os.path.join(
 # ======================================================================================
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0031(target, legato, init_atomicFile):
-    """Purpose: Verify that le_atomFile_CancelStream cancels.
+    """!Purpose: Verify that le_atomFile_CancelStream cancels.
 
     all changes and close the file
     pointer returned by le_atomFile_OpenStream,
@@ -36,9 +40,11 @@ def L_AtomicFile_Stream_0031(target, legato, init_atomicFile):
 
     Initial condition:
        1. Test app is unsandboxed
+
     Verification:
         This test case will mark as "failed" when
             1. le_atomFile_CancelStream commits all changes
+
     This script will
         1. Make and install the test app
         2. Run the test app
@@ -46,11 +52,10 @@ def L_AtomicFile_Stream_0031(target, legato, init_atomicFile):
         le_atomFile_CancelStream is called == 0:
         4. Repeat above for different test scenarios
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture regarding to build, install and remove app
+    @param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomCancelStream"
     test_app_proc_name = "atomCancelStreamProc"
@@ -84,7 +89,7 @@ def L_AtomicFile_Stream_0031(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0032(target, legato, init_atomicFile):
-    """Purpose: Verify that le_atomFile_CancelStream cancels.
+    """!Purpose: Verify that le_atomFile_CancelStream cancels.
 
     all changes and close the file
     pointer returned by le_atomFile_OpenStream,
@@ -94,20 +99,21 @@ def L_AtomicFile_Stream_0032(target, legato, init_atomicFile):
 
     Initial condition:
         1. Test app is unsandboxed
+
     Verification:
         This test case will mark as "failed" when
             1. File's contents being modified
+
     This script will
        1. Make and install the test app
        2. Run the test app
        3. Check  file's contents remain unchanged == 0:
        4. Repeat above for different test scenarios
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture regarding to build, install and remove app
+    @param init_atomicFile: fixture to initialize and clean up environment
 
     """
     test_app_name = "atomCancelStream"

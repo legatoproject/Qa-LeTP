@@ -1,6 +1,10 @@
-"""@package cflagsAndcxxflagsComponentModule Component Definition Files test.
+r"""!Component Definition Files test.
 
 Set of functions to test the Legato component definition files.
+
+@package cflagsAndcxxflagsComponentModule
+@file
+\ingroup definitionFileTests
 """
 import os
 import re
@@ -22,11 +26,10 @@ APP_NAME3 = "overrideCxx"
 # Local fixtures
 # ====================================================================================
 def init_test(legato, tmpdir):
-    """Init the test.
+    """!Init the test.
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        tmpdir: fixture to provide a temporary directory
+    @param legato: fixture to call useful functions regarding legato
+    @param tmpdir: fixture to provide a temporary directory
                 unique to the test invocation
     """
     legato.clear_target_log()
@@ -42,12 +45,11 @@ def init_test(legato, tmpdir):
 # Test functions
 # ====================================================================================
 def L_CDEF_0002(legato):
-    """Verify the core functionality of the cflags.
+    """!Verify the core functionality of the cflags.
 
     And cxxflags (c++) sections of cdef files.
 
-    Args:
-        legato: fixture to call useful functions regarding legato
+    @param legato: fixture to call useful functions regarding legato
     """
     swilog.step("Test 1: Generic cflag/cppflag test")
 

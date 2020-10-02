@@ -1,6 +1,12 @@
-"""@package swUpdateFlashModule The flash APIs test.
+r"""!The flash APIs test.
 
 Set of functions to test flash APIs.
+
+@package swUpdateFlashModule
+@defgroup updateTests Update Tests
+
+@file
+\ingroup updateTests
 """
 import os
 import time
@@ -57,15 +63,14 @@ PARTITIONS_UBILIST = [
 # ======================================================================================
 @pytest.mark.usefixtures("app_leg")
 def L_SwUpdate_Flash_UbiInfo_0001(target, legato):
-    """Get information from Ubi volume system/system 2.
+    """!Get information from Ubi volume system/system 2.
 
     Check that can access ubi partitions and getting its info:
     system,rootfs...
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture to make, install and remove application
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture to make, install and remove application
     """
     for i, value in enumerate(PARTITIONS_UBILIST):
         swilog.step("Test case %s Ubi INFO partition:" % str(i + 1))
@@ -92,16 +97,15 @@ def L_SwUpdate_Flash_UbiInfo_0001(target, legato):
 
 @pytest.mark.usefixtures("app_leg")
 def L_SwUpdate_Flash_MtdInfo_0009(target, legato):
-    """Get info from partition: tz,rpm aboot boot system lefwkro customer.
+    """!Get info from partition: tz,rpm aboot boot system lefwkro customer.
 
     Check that can access customer partitions:
         ssdata, lefwkro2 and a classic mtd partition lefwkro_2
         Getting info, dump the partition
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture to make, install and remove application
+    @param target: fixture to communicate with the target
+    @param legato: fixture to call useful functions regarding legato
+    @param app_leg: fixture to make, install and remove application
     """
     legato.ssh_to_target("app runProc flashApp flashApp -- info ssdata")
     pattern = "flashApp* has exited with exit code 0"
