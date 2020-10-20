@@ -8,9 +8,7 @@ Set of functions to test the le_updateCtrl_LockProbation
 """
 import os
 import time
-
 import pytest
-
 import swilog
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
@@ -29,15 +27,15 @@ APP_PATH_01 = os.path.join(APP_PATH_00, "testUpdateCtrlApp")
 # Local fixtures
 # ======================================================================================
 @pytest.fixture()
-def init_UpdateCrtl(request, legato, clean_test):
-    """!Initialize and build app.
+def install_and_clean_app(request, legato, clean_test):
+    """Clean up environment and install app.
 
     @param request: object to access data
     @param legato: fixture to call useful functions regarding legato
     @param clean_test: fixture to clean up environment
     """
     assert clean_test
-    test_name = request.node.name.split("[")[0]
+    test_name = request.node.name
     if test_name != "L_UpdateCtrl_LockProbation_0002":
         # Since the test framework would change the probation period to 1ms,
         # it is necessary to change it
@@ -48,16 +46,20 @@ def init_UpdateCrtl(request, legato, clean_test):
     # Make install application
     legato.make_install(APP_NAME_01, APP_PATH_01)
     swilog.info("[PASSED] Make and install the test app successfully.")
+    yield
+    if legato.is_app_running(APP_NAME_01):
+        legato.stop(APP_NAME_01)
+    legato.clean(APP_NAME_01)
 
 
 # ======================================================================================
 # Test functions
 # ======================================================================================
-@pytest.mark.usefixtures("init_UpdateCrtl")
+@pytest.mark.usefixtures("install_and_clean_app")
 def L_UpdateCtrl_LockProbation_0001(target, legato):
-    """!Verify that le_updateCtrl_LockProbation() prevents the probation period.
+    """!Verify that le_updateCtrl_LockProbation().
 
-    from ending.
+    prevents the probation period from ending.
 
     Initial Condition:
         1. Probation period is 20 seconds
@@ -74,7 +76,7 @@ def L_UpdateCtrl_LockProbation_0001(target, legato):
 
     @param target: fixture to communicate with the target
     @param legato: fixture to call useful functions regarding legato
-    @param init_UpdateCrtl: fixture to initial and build app
+    @param install_and_clean_app: fixture to initial and build app
     """
     swilog.step("Test L_UpdateCtrl_LockProbation_0001")
 
@@ -121,7 +123,7 @@ def L_UpdateCtrl_LockProbation_0001(target, legato):
     # End of this TC
 
 
-@pytest.mark.usefixtures("init_UpdateCrtl")
+@pytest.mark.usefixtures("install_and_clean_app")
 def L_UpdateCtrl_LockProbation_0002(target, legato):
     """!Verify that le_updateCtrl_LockProbation() is ignored if the probation.
 
@@ -146,7 +148,7 @@ def L_UpdateCtrl_LockProbation_0002(target, legato):
 
     @param target: fixture to communicate with the target
     @param legato: fixture to call useful functions regarding legato
-    @param init_UpdateCrtl: fixture to initial and build app
+    @param install_and_clean_app: fixture to initial and build app
     """
     swilog.step("Test L_UpdateCtrl_LockProbation_0002")
 
@@ -211,7 +213,7 @@ def L_UpdateCtrl_LockProbation_0002(target, legato):
     swilog.info("[PASSED] L_UpdateCtrl_LockProbation_0002")
 
 
-@pytest.mark.usefixtures("init_UpdateCrtl")
+@pytest.mark.usefixtures("install_and_clean_app")
 def L_UpdateCtrl_LockProbation_0003(target):
     """!Verify that the target device will reboot after the client (process).
 
@@ -232,7 +234,7 @@ def L_UpdateCtrl_LockProbation_0003(target):
 
     @param target: fixture to communicate with the target
     @param legato: fixture to call useful functions regarding legato
-    @param init_UpdateCrtl: fixture to initial and build app
+    @param install_and_clean_app: fixture to initial and build app
     """
     swilog.step("Test L_UpdateCtrl_LockProbation_0003")
 
@@ -282,7 +284,7 @@ def L_UpdateCtrl_LockProbation_0003(target):
     swilog.info("[PASSED] L_UpdateCtrl_LockProbation_0003")
 
 
-@pytest.mark.usefixtures("init_UpdateCrtl")
+@pytest.mark.usefixtures("install_and_clean_app")
 def L_UpdateCtrl_LockProbation_0004(target):
     """!Verify that the target device will reboot after stopping the client.
 
@@ -304,7 +306,7 @@ def L_UpdateCtrl_LockProbation_0004(target):
 
     @param target: fixture to communicate with the target
     @param legato: fixture to call useful functions regarding legato
-    @param init_UpdateCrtl: fixture to initial and build app
+    @param install_and_clean_app: fixture to initial and build app
     """
     swilog.step("Test L_UpdateCtrl_LockProbation_0004")
 

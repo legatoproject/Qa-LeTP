@@ -8,9 +8,7 @@ Set of functions to test the le_updateCtrl_MarkGood
 """
 import os
 import time
-
 import pytest
-
 import swilog
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
@@ -29,15 +27,15 @@ APP_PATH_01 = os.path.join(APP_PATH_00, "testUpdateCtrlApp")
 # Functions
 # ======================================================================================
 @pytest.fixture()
-def init_UpdateCrtl(request, legato, clean_test):
-    """!Initialize and build app for testing.
+def install_and_clean_app(request, legato, clean_test):
+    """Set up the environment, install apps and clean up.
 
     @param request: object to access data
     @param legato: fixture to call useful functions regarding legato
     @param clean_test: fixture to clean up environment
     """
     assert clean_test
-    test_name = request.node.name.split("[")[0]
+    test_name = request.node.name
     if legato.get_current_system_index() != 0:
         legato.restore_golden_legato()
     old_sys_index = 0
@@ -62,6 +60,9 @@ def init_UpdateCrtl(request, legato, clean_test):
     swilog.info("[PASSED] Make and install the test app successfully.")
 
     yield old_sys_index
+    if legato.is_app_running(APP_NAME_01):
+        legato.stop(APP_NAME_01)
+    legato.clean(APP_NAME_01)
 
 
 def end_test(is_tc_passed, request):
@@ -70,7 +71,7 @@ def end_test(is_tc_passed, request):
     @param is_tc_passed: status of test case
     @param request: object to access data
     """
-    test_name = request.node.name.split("[")[0]
+    test_name = request.node.name
     assert is_tc_passed, "[FAILED] %s" % test_name
     swilog.info("[PASSED] Test %s" % test_name)
 
@@ -78,7 +79,7 @@ def end_test(is_tc_passed, request):
 # ======================================================================================
 # Test functions
 # ======================================================================================
-def L_UpdateCtrl_MarkGood_0001(target, request, legato, init_UpdateCrtl):
+def L_UpdateCtrl_MarkGood_0001(target, request, legato, install_and_clean_app):
     """!Verify that le_updateCtrl_MarkGood(True) returns LE_OK, marks current.
 
     system as 'good' and terminates probation period when the system is under
@@ -104,7 +105,7 @@ def L_UpdateCtrl_MarkGood_0001(target, request, legato, init_UpdateCrtl):
     @param target: fixture to communicate with the target
     @param request: object to access data
     @param legato: fixture to call useful functions regarding legato
-    @param init_UpdateCrtl: initial and build app for testing
+    @param install_and_clean_app: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0001")
     old_sys_index = 0
@@ -112,7 +113,7 @@ def L_UpdateCtrl_MarkGood_0001(target, request, legato, init_UpdateCrtl):
     is_leok_return = False
     is_tc_passed = False
 
-    old_sys_index = init_UpdateCrtl
+    old_sys_index = install_and_clean_app
 
     # Store the current system index which refers to the index
     # after the testUpdateCtrl app has installed onto the target
@@ -173,7 +174,7 @@ def L_UpdateCtrl_MarkGood_0001(target, request, legato, init_UpdateCrtl):
     end_test(is_tc_passed, request)
 
 
-def L_UpdateCtrl_MarkGood_0002(target, request, legato, init_UpdateCrtl):
+def L_UpdateCtrl_MarkGood_0002(target, request, legato, install_and_clean_app):
     """!Verify that le_updateCtrl_MarkGood(False) returns LE_OK, marks current.
 
     system as 'good' and terminates probation period when the system is under
@@ -200,14 +201,14 @@ def L_UpdateCtrl_MarkGood_0002(target, request, legato, init_UpdateCrtl):
     @param target: fixture to communicate with the target
     @param request: object to access data
     @param legato: fixture to call useful functions regarding legato
-    @param init_UpdateCrtl: initial and build app for testing
+    @param install_and_clean_app: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0002")
     old_sys_index = 0
     new_sys_index = 0
     is_leok_return = False
     is_tc_passed = False
-    old_sys_index = init_UpdateCrtl
+    old_sys_index = install_and_clean_app
 
     # Store the current system index which refers to the index
     # after the testUpdateCtrl app has installed onto the target
@@ -268,7 +269,7 @@ def L_UpdateCtrl_MarkGood_0002(target, request, legato, init_UpdateCrtl):
     end_test(is_tc_passed, request)
 
 
-def L_UpdateCtrl_MarkGood_0003(target, request, legato, init_UpdateCrtl):
+def L_UpdateCtrl_MarkGood_0003(target, request, legato, install_and_clean_app):
     """!Verify that le_updateCtrl_MarkGood(True) returns LE_OK to set current.
 
     system 'good' even if someone holds a probation lock.
@@ -293,7 +294,7 @@ def L_UpdateCtrl_MarkGood_0003(target, request, legato, init_UpdateCrtl):
     @param target: fixture to communicate with the target
     @param request: object to access data
     @param legato: fixture to call useful functions regarding legato
-    @param init_UpdateCrtl: initial and build app for testing
+    @param install_and_clean_app: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0003")
     old_sys_index = 0
@@ -301,7 +302,7 @@ def L_UpdateCtrl_MarkGood_0003(target, request, legato, init_UpdateCrtl):
     is_leok_return = False
     is_tc_passed = False
 
-    old_sys_index = init_UpdateCrtl
+    old_sys_index = install_and_clean_app
 
     # Set the parameter of the testUpdateCtrl app to "markGood"
     # "3" to run this test case
@@ -368,7 +369,7 @@ def L_UpdateCtrl_MarkGood_0003(target, request, legato, init_UpdateCrtl):
     end_test(is_tc_passed, request)
 
 
-def L_UpdateCtrl_MarkGood_0004(target, request, legato, init_UpdateCrtl):
+def L_UpdateCtrl_MarkGood_0004(target, request, legato, install_and_clean_app):
     """!Verify that le_updateCtrl_MarkGood(False) returns LE_BUSY if someone.
 
     holds a probation lock.
@@ -393,7 +394,7 @@ def L_UpdateCtrl_MarkGood_0004(target, request, legato, init_UpdateCrtl):
     @param target: fixture to communicate with the target
     @param request: object to access data
     @param legato: fixture to call useful functions regarding legato
-    @param init_UpdateCrtl: initial and build app for testing
+    @param install_and_clean_app: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0004")
     old_sys_index = 0
@@ -401,7 +402,7 @@ def L_UpdateCtrl_MarkGood_0004(target, request, legato, init_UpdateCrtl):
     is_lebusy_return = False
     is_tc_passed = False
 
-    old_sys_index = init_UpdateCrtl
+    old_sys_index = install_and_clean_app
 
     # Set the parameter of the testUpdateCtrl app
     # to "markGood" "4" to run this testcase
@@ -467,7 +468,7 @@ def L_UpdateCtrl_MarkGood_0004(target, request, legato, init_UpdateCrtl):
     end_test(is_tc_passed, request)
 
 
-def L_UpdateCtrl_MarkGood_0005(target, request, legato, init_UpdateCrtl):
+def L_UpdateCtrl_MarkGood_0005(target, request, legato, install_and_clean_app):
     """!Verify that le_updateCtrl_MarkGood(True) returns LE_DUPLICATE when the.
 
     system is already marked as "good".
@@ -490,14 +491,14 @@ def L_UpdateCtrl_MarkGood_0005(target, request, legato, init_UpdateCrtl):
     @param target: fixture to communicate with the target
     @param request: object to access data
     @param legato: fixture to call useful functions regarding legato
-    @param init_UpdateCrtl: initial and build app for testing
+    @param install_and_clean_app: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0005")
     old_sys_index = 0
     new_sys_index = 0
     is_leduplicate_return = False
     is_tc_passed = False
-    swilog.debug(init_UpdateCrtl)
+    swilog.debug(install_and_clean_app)
 
     # Set the probation period to 1s to turn the system into "good" status
     legato.set_probation_timer(1)
@@ -574,7 +575,7 @@ def L_UpdateCtrl_MarkGood_0005(target, request, legato, init_UpdateCrtl):
     end_test(is_tc_passed, request)
 
 
-def L_UpdateCtrl_MarkGood_0006(target, request, legato, init_UpdateCrtl):
+def L_UpdateCtrl_MarkGood_0006(target, request, legato, install_and_clean_app):
     """!Verify that  le_updateCtrl_MarkGood(False) returns LE_DUPLICATE when.
 
     the system is already marked as "good".
@@ -597,14 +598,14 @@ def L_UpdateCtrl_MarkGood_0006(target, request, legato, init_UpdateCrtl):
     @param target: fixture to communicate with the target
     @param request: object to access data
     @param legato: fixture to call useful functions regarding legato
-    @param init_UpdateCrtl: initial and build app for testing
+    @param install_and_clean_app: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0006")
     old_sys_index = 0
     new_sys_index = 0
     is_leduplicate_return = False
     is_tc_passed = False
-    swilog.debug(init_UpdateCrtl)
+    swilog.debug(install_and_clean_app)
 
     # Set the probation period to 1s to turn the system into "good" status
     legato.set_probation_timer(1)

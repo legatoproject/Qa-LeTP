@@ -8,9 +8,7 @@ Set of functions to test the le_updateCtrl_FailProbation
 """
 import os
 import time
-
 import pytest
-
 import swilog
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
@@ -29,15 +27,15 @@ APP_PATH_01 = os.path.join(APP_PATH_00, "testUpdateCtrlApp")
 # Local fixtures
 # ======================================================================================
 @pytest.fixture()
-def init_UpdateCrtl(request, legato, clean_test):
-    """!Initialize and build app.
+def install_and_clean_app(request, legato, clean_test):
+    """Set up the environment, install apps and clean up.
 
     @param request: object to access data
     @param legato: fixture to call useful functions regarding legato
     @param clean_test: fixture to clean up environment
     """
     assert clean_test
-    test_name = request.node.name.split("[")[0]
+    test_name = request.node.name
     if legato.get_current_system_status() != "good":
         legato.restore_golden_legato()
 
@@ -64,12 +62,15 @@ def init_UpdateCrtl(request, legato, clean_test):
     swilog.info("[PASSED] Make and install the test app successfully.")
 
     yield old_sys_index
+    if legato.is_app_running(APP_NAME_01):
+        legato.stop(APP_NAME_01)
+    legato.clean(APP_NAME_01)
 
 
 # ======================================================================================
 # Test Functions
 # ======================================================================================
-def L_UpdateCtrl_FailProbation_0002(target, legato, init_UpdateCrtl):
+def L_UpdateCtrl_FailProbation_0002(target, legato, install_and_clean_app):
     """!Verify that le_updateCtrl_FailProbation() is ignored if the probation.
 
     period has already ended.
@@ -92,7 +93,7 @@ def L_UpdateCtrl_FailProbation_0002(target, legato, init_UpdateCrtl):
 
     @param target: fixture to communicate with the target
     @param legato: fixture to call useful functions regarding legato
-    @param init_UpdateCrtl: initial and build app
+    @param install_and_clean_app: initial and build app
     """
     swilog.step("Test L_UpdateCtrl_FailProbation_0002")
     old_sys_index = 0
@@ -100,7 +101,7 @@ def L_UpdateCtrl_FailProbation_0002(target, legato, init_UpdateCrtl):
     system_status = ""
     is_tc_passed = False
     is_target_reboot = False
-    swilog.debug(init_UpdateCrtl)
+    swilog.debug(install_and_clean_app)
 
     # Start TC2(target)
     # Set the probation period to 1s so that

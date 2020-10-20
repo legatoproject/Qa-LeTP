@@ -8,9 +8,7 @@ Set of functions to test the le_updateCtrl_Allow
 """
 import os
 import time
-
 import pytest
-
 import swilog
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
@@ -31,9 +29,9 @@ APP_PATH_02 = os.path.join(APP_PATH_00, "helloWorldApp")
 # ======================================================================================
 # Local fixtures
 # ======================================================================================
-@pytest.fixture()
-def init_UpdateCrtl(legato, clean_test):
-    """!Clean up environment and build app.
+@pytest.fixture(autouse=True)
+def install_and_clean_app(legato, clean_test):
+    """!Clean up environment and install app.
 
     @param legato: fixture to call useful functions regarding legato
     @param clean_test: fixture to clean up environment
@@ -44,12 +42,18 @@ def init_UpdateCrtl(legato, clean_test):
     # Make install application
     legato.make_install(APP_NAME_01, APP_PATH_01)
     swilog.info("[PASSED] Make and install the test app successfully.")
+    yield
+    # Clean environment
+    for app_name in [APP_NAME_01, APP_NAME_02]:
+        # Stop the app if it is running
+        if legato.is_app_running(app_name):
+            legato.stop(app_name)
+        legato.clean(app_name)
 
 
 # ======================================================================================
 # Test Functions
 # ======================================================================================
-@pytest.mark.usefixtures("init_UpdateCrtl")
 def L_UpdateCtrl_Allow_0001(target, legato):
     """!Verify that le_updateCtrl_Allow() will not allow updates to.
 
@@ -113,7 +117,6 @@ def L_UpdateCtrl_Allow_0001(target, legato):
     swilog.info("[PASSED] Test L_UpdateCtrl_Allow_0001")
 
 
-@pytest.mark.usefixtures("init_UpdateCrtl")
 def L_UpdateCtrl_Allow_0002(target, legato):
     """!Verify that le_updateCtrl_Allow() will not allow updates to.
 

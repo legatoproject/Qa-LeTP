@@ -8,9 +8,7 @@ Set of functions to test the le_updateCtrl_UnLockProbation
 """
 import os
 import time
-
 import pytest
-
 import swilog
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
@@ -33,15 +31,15 @@ new_sys_index = 0
 # Local fixtures
 # ======================================================================================
 @pytest.fixture()
-def init_UpdateCrtl(request, legato, clean_test):
-    """!Initialize environment and build app.
+def install_and_clean_app(request, legato, clean_test):
+    """Set up the environment, install apps and clean up.
 
     @param request: object to access data
     @param legato: fixture to call useful functions regarding legato
     @param clean_test: fixture to clean up environment
     """
     assert clean_test
-    test_name = request.node.name.split("[")[0]
+    test_name = request.node.name
     if legato.get_current_system_status() != "good":
         legato.restore_golden_legato()
 
@@ -54,15 +52,20 @@ def init_UpdateCrtl(request, legato, clean_test):
     # Make install application
     legato.make_install(APP_NAME_01, APP_PATH_01)
     swilog.info("[PASSED] Make and install the test app successfully.")
+    yield
+    if legato.is_app_running(APP_NAME_01):
+        legato.stop(APP_NAME_01)
+    legato.clean(APP_NAME_01)
 
 
 # ======================================================================================
 # Test functions
 # ======================================================================================
-@pytest.mark.usefixtures("init_UpdateCrtl")
+@pytest.mark.usefixtures("install_and_clean_app")
 def L_UpdateCtrl_UnlockProbation_0001(target, legato):
-    """!Verify that le_updateCtrl_UnLockProbation() is ignored if the probation.
+    """!Verify that le_updateCtrl_UnLockProbation().
 
+    is ignored if the probation.
     period has already ended and the process who called
     le_updateCtrl_UnLockProbation() is terminated.
 
@@ -85,7 +88,7 @@ def L_UpdateCtrl_UnlockProbation_0001(target, legato):
 
     @param target: fixture to communicate with the target
     @param legato: fixture to call useful functions regarding legato
-    @param init_UpdateCrtl: initial environment and build app
+    @param install_and_clean_app: initial environment and build app
     """
     swilog.step("Test L_UpdateCtrl_UnlockProbation_0001")
     is_tc_passed = False
@@ -144,7 +147,7 @@ def L_UpdateCtrl_UnlockProbation_0001(target, legato):
     swilog.info("[PASSED] L_UpdateCtrl_UnlockProbation_0001")
 
 
-@pytest.mark.usefixtures("init_UpdateCrtl")
+@pytest.mark.usefixtures("install_and_clean_app")
 def L_UpdateCtrl_UnlockProbation_0002(target, legato):
     """!Verify that each call to le_updateCtrl_LockProbation() must be matched.
 
@@ -169,7 +172,7 @@ def L_UpdateCtrl_UnlockProbation_0002(target, legato):
 
     @param target: fixture to communicate with the target
     @param legato: fixture to call useful functions regarding legato
-    @param init_UpdateCrtl: initial environment and build app
+    @param install_and_clean_app: initial environment and build app
     """
     swilog.step("Test L_UpdateCtrl_UnlockProbation_0002")
     is_first_unlock_success = False
@@ -250,7 +253,7 @@ def L_UpdateCtrl_UnlockProbation_0002(target, legato):
     swilog.info("[PASSED] L_UpdateCtrl_UnlockProbation_0002")
 
 
-@pytest.mark.usefixtures("init_UpdateCrtl")
+@pytest.mark.usefixtures("install_and_clean_app")
 def L_UpdateCtrl_UnlockProbation_0003(target, legato):
     """!Verify that each call to "le_updateCtrl_LockProbation()" must be.
 
@@ -276,7 +279,7 @@ def L_UpdateCtrl_UnlockProbation_0003(target, legato):
 
     @param target: fixture to communicate with the target
     @param legato: fixture to call useful functions regarding legato
-    @param init_UpdateCrtl: initial environment and build app
+    @param install_and_clean_app: initial environment and build app
     """
     swilog.step("Test L_UpdateCtrl_UnlockProbation_0003")
     is_first_unlock_success = False
