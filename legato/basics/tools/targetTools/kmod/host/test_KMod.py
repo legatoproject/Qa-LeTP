@@ -884,6 +884,7 @@ def L_Tools_Kmod_0020(target, legato, create_temp_workspace):
     assert test_passed, display_errors()
 
 
+@pytest.mark.usefixtures("check_environment", "environment_setting")
 def L_Tools_Kmod_0021(target, legato, create_temp_workspace):
     """!Verify kmod cmd unable to load/unload with manual start.
 
@@ -902,6 +903,7 @@ def L_Tools_Kmod_0021(target, legato, create_temp_workspace):
     @param create_temp_workspace: fixture to create a temporary folder
     """
     test_name = "L_Tools_Kmod_0021"
+    test_passed = True
 
     # Compile and update target
     swilog.step("Step 1: Compiling...")
