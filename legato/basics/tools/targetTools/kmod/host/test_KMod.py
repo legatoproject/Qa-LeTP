@@ -132,6 +132,7 @@ def install_system(target, legato, dir_path, test_name):
     @param dir_path: a temporary directory unique to the test invocation
     @param test_name: test case name
     """
+    swilog.debug(dir_path)
     # Sdef file
     sdef_file = test_name + ".sdef"
     source_file_path = os.path.join(TEST_RESOURCES, sdef_file)
@@ -364,8 +365,8 @@ def L_Tools_Kmod_0004(target, legato, create_temp_workspace):
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
-    swilog.debug(create_temp_workspace)
     test_name = "L_Tools_Kmod_0004"
+    test_passed = True
 
     # Compile and update target
     swilog.step("Step 1: Compiling...")
@@ -410,9 +411,8 @@ def L_Tools_Kmod_0005(target, legato, create_temp_workspace):
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
-    swilog.debug(create_temp_workspace)
     test_name = "L_Tools_Kmod_0005"
-
+    test_passed = True
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
@@ -457,9 +457,8 @@ def L_Tools_Kmod_0006(target, legato, create_temp_workspace):
     # Initialisation:
     # Verify existence of environment variables and files needed.
     # Prepare compilation
-    swilog.debug(create_temp_workspace)
     test_name = "L_Tools_Kmod_0004"
-
+    test_passed = True
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
@@ -500,9 +499,8 @@ def L_Tools_Kmod_0007(target, legato, create_temp_workspace):
     # Initialisation:
     # Verify existence of environment variables and files needed.
     # Prepare compilation
-    swilog.debug(create_temp_workspace)
     test_name = "L_Tools_Kmod_0007"
-
+    test_passed = True
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
@@ -553,9 +551,8 @@ def L_Tools_Kmod_0008(target, legato, create_temp_workspace):
     # Initialisation:
     # Verify existence of environment variables and files needed.
     # Prepare compilation
-    swilog.debug(create_temp_workspace)
     test_name = "L_Tools_Kmod_0008"
-
+    test_passed = True
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
@@ -603,9 +600,8 @@ def L_Tools_Kmod_0009(target, legato, create_temp_workspace):
     # Initialization:
     # Verify existence of environment variables and files needed
     # Prepare compilation
-    swilog.debug(create_temp_workspace)
     test_name = "L_Tools_Kmod_0009"
-
+    test_passed = True
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
@@ -692,9 +688,8 @@ def L_Tools_Kmod_0010(target, legato, create_temp_workspace):
     # Initialisation:
     # Verify existence of environment variables and files needed.
     # Prepare compilation
-    swilog.debug(create_temp_workspace)
     test_name = "L_Tools_Kmod_0009"
-
+    test_passed = True
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
@@ -767,7 +762,7 @@ def L_Tools_Kmod_0011(target, legato, create_temp_workspace):
     # Verify existence of environment variables and files needed.
     # Prepare compilation
     test_name = "L_Tools_Kmod_0011"
-
+    test_passed = True
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
@@ -842,7 +837,7 @@ def L_Tools_Kmod_0020(target, legato, create_temp_workspace):
         "L_Tools_Kmod_0020_3",
         "L_Tools_Kmod_0020_common",
     ]
-
+    test_passed = True
     # Compile and update target
     swilog.step("Step 1: Compiling...")
     install_system(target, legato, create_temp_workspace, test_name)
