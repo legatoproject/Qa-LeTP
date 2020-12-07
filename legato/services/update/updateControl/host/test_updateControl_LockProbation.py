@@ -285,8 +285,8 @@ def L_UpdateCtrl_LockProbation_0003(target):
 
 
 @pytest.mark.usefixtures("install_and_clean_app")
-def L_UpdateCtrl_LockProbation_0004(target):
-    """!Verify that the target device will reboot after stopping the client.
+def L_UpdateCtrl_LockProbation_0004(target, legato):
+    """!Verify that the target device will not reboot after stopping the client.
 
     (process) who called le_updateCtrl_LockProbation()
 
@@ -298,7 +298,9 @@ def L_UpdateCtrl_LockProbation_0004(target):
         onto the target device
         2. Run the app
         3. Stop the app
-        4. Check the target device is rebooting
+        4. Check the app is stopped device and does not reboot
+        5. Stop Legato
+        6. Check the Legato is stopped and device does not reboot
 
     (Notes: the current system index, the current system state
     and the current system status can be verified by
@@ -317,41 +319,57 @@ def L_UpdateCtrl_LockProbation_0004(target):
 
     target.run("config set apps/%s/procs/%s/args/2 4" % (APP_NAME_01, APP_NAME_01))
     target.run("app start %s" % APP_NAME_01, withexitstatus=True)
+    is_tc_passed = True
 
     # Stop the testUpdateCtrl app who called le_updateCtrl_LockProbation()
     # when the system is under probation
+    swilog.info("Stop app %s" % APP_NAME_01)
     target.run("app stop %s" % APP_NAME_01, withexitstatus=True)
-    time.sleep(5)
-    # Wait 10s to check whether the device is shutting down
-    is_device_shutdown = False
-    if target.wait_for_device_down(10) == 0:
-        is_device_shutdown = True
+    if legato.is_app_running(APP_NAME_01) == 1:
+        swilog.error("[FAILED] The app is running")
+        is_tc_passed = False
+    else:
+        swilog.info("[PASSED] The app is stopped")
 
     # After the process who called le_updateCtrl_LockProbation()is terminated,
-    # if the target device is not shutting down then,
-    # the target device it is not rebooting.
+    # if the target device is shutting down then,
+    # the target device it is rebooting.
     # Marked this test case failed
-    is_tc_passed = False
-    if is_device_shutdown is False:
+    swilog.info("Wait 60s to check whether the device is rebooting")
+    if target.wait_for_device_down(60) == 0:
         swilog.error(
-            "[FAILED] the target device is not rebooting"
+            "[FAILED] the target device is shutting down"
             " after stopping a process who called LockProbation()"
         )
+        is_tc_passed = False
     else:
         swilog.info(
-            "[PASSED] the target device is rebooting"
+            "[PASSED] the target device is not shutting down"
             " after stopping a process who called LockProbation()"
         )
-        is_tc_passed = True
 
-    # If TC is not passed, reboot the system to
-    # clear the probation lock counter
+    swilog.info("Stop Legato")
+    legato.legato_stop()
+    swilog.info("Wait 60s to check whether the device is rebooting")
+    if target.wait_for_device_down(60) == 0:
+        swilog.error(
+            "[FAILED] the target device is shutting down"
+            " after stopping the Legato"
+        )
+        is_tc_passed = False
+    else:
+        swilog.info(
+            "[PASSED] the target device is not shutting down"
+            " after stopping the Legato"
+        )
+
+    # If TC is not passed, wait for target to finish reboot
     # before performing the clean up on the target
     if is_tc_passed is False:
-        target.reboot()
-    else:
-        # Wait for target to finish reboot
         target.wait_for_reboot(120)
+    else:
+        # Start the Legato
+        legato.legato_start()
 
     assert is_tc_passed, "[FAILED] L_UpdateCtrl_LockProbation_0004"
     swilog.info("[PASSED] L_UpdateCtrl_LockProbation_0004")
