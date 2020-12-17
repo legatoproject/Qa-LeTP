@@ -92,7 +92,7 @@ def L_UpdateCtrl_Allow_0001(target, legato):
     # If the installtion was successful then,
     # the first update attempt is proceed
     legato.make(APP_NAME_02, APP_PATH_02)
-    legato.install(APP_NAME_02, APP_PATH_02, should_fail=True)
+    legato.install(APP_NAME_02, should_fail=True)
 
     # Wait for 20s so that the last le_updateCtrl_Allow() will be called
     time.sleep(20)
@@ -169,7 +169,7 @@ def L_UpdateCtrl_Allow_0002(target, legato):
     # if the installation was successful,
     # the first update attempt is proceed
     legato.make(APP_NAME_02, APP_PATH_02)
-    legato.install(APP_NAME_02, APP_PATH_02, should_fail=True)
+    legato.install(APP_NAME_02, should_fail=True)
 
     # Wait for 20s so that the last le_updateCtrl_Allow()
     # call in the testUpdateCtrl process
