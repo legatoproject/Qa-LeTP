@@ -11,8 +11,7 @@ import time
 
 import pytest
 
-import files
-import swilog
+from pytest_letp.lib import swilog, files
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
 # ======================================================================================

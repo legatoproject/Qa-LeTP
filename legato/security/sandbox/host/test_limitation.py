@@ -12,7 +12,7 @@ import re
 import time
 import pytest
 import pexpect
-import swilog
+from pytest_letp.lib import swilog
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
 # ====================================================================================

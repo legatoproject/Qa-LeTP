@@ -9,7 +9,7 @@ Set of functions to test the le_updateCtrl_MarkGood
 import os
 import time
 import pytest
-import swilog
+from pytest_letp.lib import swilog
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
 # ======================================================================================

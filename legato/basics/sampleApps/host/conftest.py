@@ -6,9 +6,7 @@ import time
 
 import pexpect
 import pytest
-
-import sim_lib
-import swilog
+from pytest_letp.lib import swilog, sim_lib
 
 __copyright__ = "Copyright (C) Sierra Wireless Inc."
 

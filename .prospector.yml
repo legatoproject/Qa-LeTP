@@ -40,6 +40,7 @@ pylint: # Just a example. This will be overwritten if .pylintrc exists.
       - import-error
       # Conflicts with black formatter sometimes.
       - bad-continuation
+      - bad-option-value
     options:
       # Even the variables are boolean, we can have power(2, n) possibilities
       # in the logic.
