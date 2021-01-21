@@ -1,10 +1,6 @@
-r"""HelloIpc Sample apps test.
+"""HelloIpc Sample apps test.
 
 Set of functions to test the HelloIpc sample apps.
-
-@package helloIpcAppsModule
-@file
-\ingroup sampleAppTests
 """
 import os
 import pytest
@@ -24,14 +20,14 @@ APP_PATH_L_SampleApps_HelloIpc_0001 = "%s/apps/sample/helloIpc/" % LEGATO_ROOT
 # ====================================================================================
 @pytest.mark.usefixtures("installapp_cleanup")
 def L_SampleApps_HelloIpc_0001(legato):
-    """!Script will.
+    """Script will.
 
-        1. Make and install the test app <br>
-        2. Run the test app <br>
+        1. Make and install the test app
+        2. Run the test app
         3. Check if expected messages appears in log
 
-    @param legato: fixture to call useful functions regarding legato
-    @param installapp_cleanup: fixture to make, install and remove application
+    :param legato: fixture to call useful functions regarding legato
+    :param installapp_cleanup: fixture to make, install and remove application
     """
     swilog.step("Execute L_SampleApps_HelloIpc_0001")
 

@@ -1,10 +1,6 @@
-r"""!Gpio Sample apps test.
+"""Gpio Sample apps test.
 
 Set of functions to test the gpioCf3Demo sample apps.
-
-@package gpioAppsModule
-@file
-\ingroup sampleAppTests
 """
 import os
 import re
@@ -27,10 +23,10 @@ APP_PATH = "%s/apps/sample/%s/" % (LEGATO_ROOT, APP_NAME)
 # Functions
 # ====================================================================================
 def read_wiocfg(target, gpio_num):
-    """!Read gpio for linux (16).
+    """Read gpio for linux (16).
 
-    @param target: fixture to communicate with the target
-    @param gpio_num: fixture to provide gpio number
+    :param target: fixture to communicate with the target
+    :param gpio_num: fixture to provide gpio number
     """
     rsp_wiocfg = target.run_at_cmd("at+wiocfg?", 5, ["OK"])
     swilog.info(rsp_wiocfg)
@@ -48,10 +44,10 @@ def read_wiocfg(target, gpio_num):
 
 
 def set_and_check_wiocfg(target, gpio_num):
-    """!Set and check gpio for linux (16).
+    """Set and check gpio for linux (16).
 
-    @param target: fixture to communicate with the target
-    @param gpio_num: fixture to provide gpio number
+    :param target: fixture to communicate with the target
+    :param gpio_num: fixture to provide gpio number
     """
     wiocfg_func = read_wiocfg(target, gpio_num)
 
@@ -71,10 +67,10 @@ def set_and_check_wiocfg(target, gpio_num):
 
 
 def check_log(legato, text_log):
-    """!Check a text in the target logs.
+    """Check a text in the target logs.
 
-    @param legato: fixture to call useful functions regarding legato
-    @param text_log: fixture to provide a necessary text
+    :param legato: fixture to call useful functions regarding legato
+    :param text_log: fixture to provide a necessary text
     """
     error_msg = "[FAILED] Could not find '%s'" % text_log
     assert legato.find_in_target_log(text_log), error_msg
@@ -86,9 +82,9 @@ def check_log(legato, text_log):
 # ====================================================================================
 @pytest.fixture()
 def init_gpio(target):
-    """!Set, check and restore GPIO.
+    """Set, check and restore GPIO.
 
-    @param target: fixture to communicate with the target
+    :param target: fixture to communicate with the target
     """
     if target.target_name.startswith("ar"):
         pytest.skip("AR devices are not CF3, skipping.")
@@ -122,17 +118,18 @@ def init_gpio(target):
 # ====================================================================================
 @pytest.mark.usefixtures("app_leg", "init_gpio")
 def L_SampleApps_Gpio_0001(legato):
-    """!Validate that the sample app gpioCf3Demo works well.
+    """Validate that the sample app gpioCf3Demo works well.
 
     and validate LE-10420.
+
     This script will
-        1. Make and install the test app <br>
-        2. Run the test app <br>
+        1. Make and install the test app
+        2. Run the test app
         3. Check if expected messages appears in log
 
-    @param legato: fixture to call useful functions regarding legato
-    @param init_gpio: fixture to set, check and restore GPIO.
-    @param app_leg: fixture to make, install and remove application
+    :param legato: fixture to call useful functions regarding legato
+    :param init_gpio: fixture to set, check and restore GPIO.
+    :param app_leg: fixture to make, install and remove application
     """
     time.sleep(5)
     swilog.step("Execute L_SampleApps_Gpio_0001")

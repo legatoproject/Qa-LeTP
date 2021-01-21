@@ -1,10 +1,6 @@
-r"""!atomicFile Stream create test.
+"""Stream create test.
 
 Set of functions to test the le_atomFile_CreateStream
-
-@package atomicFileStreamCreateModule
-@file
-\ingroup runtimeTests
 """
 import os
 import time
@@ -31,7 +27,7 @@ APP_PATH = os.path.join(
 # ======================================================================================
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0008(target, legato, init_atomicFile):
-    """!Purpose: Verify that resultPtr of le_atomFile_CreateStream.
+    """Purpose: Verify that resultPtr of le_atomFile_CreateStream.
 
     returns LE_DUPLICATE  the target file already:
     existed and LE_FLOCK_FAIL_IF_EXIST is specified in createMode
@@ -47,13 +43,13 @@ def L_AtomicFile_Stream_0008(target, legato, init_atomicFile):
         1. Transfer a file to the target
         2. Make and install the test app
         3. Run the test app
-        4. Check  "resultPtr of le_atomFile_CreateStream returns
-        LE_DUPLICATE ..." can be captured from the target's log:
+        4. Check  "resultPtr of le_atomFile_CreateStream returns \
+           LE_DUPLICATE ..." can be captured from the target's log:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomCreateStream"
     test_app_proc_name = "atomCreateStreamProc"
@@ -80,7 +76,7 @@ def L_AtomicFile_Stream_0008(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0009(target, legato, init_atomicFile):
-    """!Purpose: Verify that tresultPtr of le_atomFile_CreateStream.
+    """Purpose: Verify that tresultPtr of le_atomFile_CreateStream.
 
     returns LE_FAULT  there was an error:
     (accesses to a non-existed dir
@@ -95,13 +91,13 @@ def L_AtomicFile_Stream_0009(target, legato, init_atomicFile):
     This script will
         1. Make and install the test app
         2. Run the test app
-        3. Check  "le_atomFile_CreateStream returns LE_DUPLICATE ..."
-        can be captured from the target's log:
+        3. Check "le_atomFile_CreateStream returns LE_DUPLICATE ..." \
+           can be captured from the target's log:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomCreateStream"
     test_app_proc_name = "atomCreateStreamProc"
@@ -127,7 +123,7 @@ def L_AtomicFile_Stream_0009(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0010(target, legato, init_atomicFile):
-    """!Purpose: Verify that le_atomFile_CreateStream can create.
+    """Purpose: Verify that le_atomFile_CreateStream can create.
 
     and open file with specified file
     permission  the target file wasn't existed before.
@@ -143,13 +139,13 @@ def L_AtomicFile_Stream_0010(target, legato, init_atomicFile):
     This script will
         1. Make and install the test app
         2. Run the test app
-        3. Check  "le_atomFile_CreateStream can create ..."
-        can be captured from the target's log:
+        3. Check "le_atomFile_CreateStream can create ..." \
+           can be captured from the target's log:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomCreateStream"
     test_app_proc_name = "atomCreateStreamProc"
@@ -175,7 +171,7 @@ def L_AtomicFile_Stream_0010(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0018(target, legato, init_atomicFile):
-    """!Purpose: Verify the atomicity of le_atomFile_CreateStream.
+    """Purpose: Verify the atomicity of le_atomFile_CreateStream.
 
     is guaranteed once the process acquires
     the file lock  the target file wasn't existed
@@ -185,32 +181,32 @@ def L_AtomicFile_Stream_0018(target, legato, init_atomicFile):
 
     Verification:
         This test case will mark as "failed" when
-            1. The second process who calls le_atomFile_CreateStream
-            does not block after the first
-            process of the test app held the file lock
-            2. The second process who calls le_atomFile_CreateStream
-            does block after the first process
-            of the test app released the file lock
-            3. The data written by the first process are not preserved
-            after the interruption of
-            of the second process's write operation
+            1. The second process who calls le_atomFile_CreateStream \
+               does not block after the first \
+               process of the test app held the file lock
+            2. The second process who calls le_atomFile_CreateStream \
+               does block after the first process \
+               of the test app released the file lock
+            3. The data written by the first process are not preserved \
+               after the interruption of \
+               of the second process's write operation
 
     This script will
         1. Transfer a file to the target
         2. Make and install the test app
         3. Run the test app
-        4. Check  the second process does block after the
-        first process successfully acquired the lock:
-        5. Check  the second process doesn't block after the
-        first process successfully released the lock:
-        6. Interrupts the second process's write operation
-        by stopping the test app
+        4. Check  the second process does block after the \
+           first process successfully acquired the lock:
+        5. Check  the second process doesn't block after the \
+           first process successfully released the lock:
+        6. Interrupts the second process's write operation \
+           by stopping the test app
         7. Check  the data of the file have been changed after interruption:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomCreateStream"
     test_app_proc_name = "atomCreateStreamProc"

@@ -1,12 +1,6 @@
-r"""!secured storage test.
+"""secured storage test.
 
 Set of functions to test the secured storage.
-
-@package SecureStorageModule
-@defgroup secureStorageTests Secure Storage Tests
-
-@file
-\ingroup secureStorageTests
 """
 import os
 import time
@@ -29,10 +23,10 @@ TEST_APP_B = "appB"
 # Functions
 # ====================================================================================
 def set_test_app_test_type(target, test_type):
-    """!Set test type for test app.
+    """Set test type for test app.
 
-    @param target: fixture to communicate with the target
-    @param test_type: type of test is set in config tree
+    :param target: fixture to communicate with the target
+    :param test_type: type of test is set in config tree
             (read, write, delete, writeread, writedeleteread...)
     """
     cmd = 'config set "/apps/%s/procs/%s/args/1" %s' % (APP_NAME, APP_NAME, test_type)
@@ -42,10 +36,10 @@ def set_test_app_test_type(target, test_type):
 
 
 def set_test_app_repeat_cycle(target, test_cycle):
-    """!Set test cycle for test app.
+    """Set test cycle for test app.
 
-    @param target: fixture to communicate with the target
-    @param test_cycle: cycle of test is set in config tree
+    :param target: fixture to communicate with the target
+    :param test_cycle: cycle of test is set in config tree
     """
     cmd = 'config set "/apps/%s/procs/%s/args/2" %s' % (APP_NAME, APP_NAME, test_cycle)
     exit_status, rsp = target.run(cmd, withexitstatus=True)
@@ -54,13 +48,13 @@ def set_test_app_repeat_cycle(target, test_cycle):
 
 
 def check_log(legato, test_title):
-    """!Check log for test app.
+    """Check log for test app.
 
-    @param legato: fixture to call useful functions regarding legato
-    @param test_title: title of test
+    :param legato: fixture to call useful functions regarding legato
+    :param test_title: title of test
 
-    @return 1: Failed to check log
-    @return 2: Passed to check log
+    :returns 1: Failed to check log
+    :returns 2: Passed to check log
     """
     # Need to ensure app has started running and is active
     retry_count = 0
@@ -126,12 +120,12 @@ def check_log(legato, test_title):
 
 
 def restart_syslog(target, legato):
-    """!Restart syslog and try to re-mount the log socket.
+    """Restart syslog and try to re-mount the log socket.
 
     Since sandbox is persistent May 2016.
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
     """
     # Restart syslogd to have a clean slate of logs
     legato.clear_target_log()
@@ -160,13 +154,13 @@ def restart_syslog(target, legato):
 
 
 def secure_storage_test_post(target, legato, test_title, test_type, test_cycle):
-    """!Secure storage test post.
+    """Secure storage test post.
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param test_title: title of test
-    @param test_type: test type to be set in config tree
-    @param test_cycle: test cycle to be set in config tree
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param test_title: title of test
+    :param test_type: test type to be set in config tree
+    :param test_cycle: test cycle to be set in config tree
     """
     time.sleep(5)
     assert test_title != "", "[FAILED] Test title is empty."
@@ -184,10 +178,10 @@ def secure_storage_test_post(target, legato, test_title, test_type, test_cycle):
 # ====================================================================================
 @pytest.fixture(scope="function")
 def test_app(legato, tmpdir):
-    """!Fixture regarding to build, install and remove app.
+    """Fixture regarding to build, install and remove app.
 
-    @param legato: fixture to call useful functions regarding legato
-    @param tmpdir: fixture to provide a temporary directory
+    :param legato: fixture to call useful functions regarding legato
+    :param tmpdir: fixture to provide a temporary directory
                   unique to the test invocation
     """
     # Remove the test app if it is already existing
@@ -213,7 +207,7 @@ def test_app(legato, tmpdir):
 # ====================================================================================
 @pytest.mark.usefixtures("test_app")
 def L_SecureStorage_0004(legato):
-    """!Multiple apps have independent access to the secured storage.
+    """Multiple apps have independent access to the secured storage.
 
     Verification:
         This test case will mark as "failed" when
@@ -230,8 +224,8 @@ def L_SecureStorage_0004(legato):
            stored, by using the "read" API in both apps, and check that the
            data read are as per the originally written data in steps 1 and 2.
 
-    @param legato: fixture to call useful functions regarding legato
-    @param test_app: fixture regarding to build, install and remove app
+    :param legato: fixture to call useful functions regarding legato
+    :param test_app: fixture regarding to build, install and remove app
     """
     swilog.step("Execute L_SecureStorage_0004")
     legato.clear_target_log()
@@ -262,7 +256,7 @@ def L_SecureStorage_0004(legato):
 
 @pytest.mark.usefixtures("app_leg")
 def L_SecureStorage_0006(target, legato):
-    """!Secure Storage Read API can be repeatedly called many times reliably.
+    """Secure Storage Read API can be repeatedly called many times reliably.
 
     This script will
         1. Use the "Write" API to write an item.
@@ -270,9 +264,9 @@ def L_SecureStorage_0006(target, legato):
         3. Verify that every read is successful and the data read
            is the same as the data written.
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
     """
     swilog.step("Execute L_SecureStorage_0006")
     test_title = r"Read\ Test"
@@ -289,15 +283,15 @@ def L_SecureStorage_0006(target, legato):
 
 @pytest.mark.usefixtures("app_leg")
 def L_SecureStorage_0007(target, legato):
-    """!Secure Storage Write API can be repeatedly called many times reliably.
+    """Secure Storage Write API can be repeatedly called many times reliably.
 
     This script will
         1. Use the "Write" API to repeatedly write an item.
         2. Verify that every write is successful.
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
     """
     swilog.step("Execute L_SecureStorage_0007")
     test_title = r"Write\ Test"
@@ -314,7 +308,7 @@ def L_SecureStorage_0007(target, legato):
 
 @pytest.mark.usefixtures("app_leg")
 def L_SecureStorage_0011(target, legato):
-    """!Purpose: Verify that the Secure Storage Write and Read APIs.
+    """Purpose: Verify that the Secure Storage Write and Read APIs.
 
     Can be repeatedly called many times reliably.
 
@@ -325,9 +319,9 @@ def L_SecureStorage_0011(target, legato):
         4. Verify that for all operations both write and read are
            successful and the data read is the same as the data written.
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
     """
     swilog.step("Execute L_SecureStorage_0011")
     test_title = r"Write\ Read\ Test"

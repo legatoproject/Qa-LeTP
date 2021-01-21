@@ -1,10 +1,6 @@
-r"""!The update control API test.
+"""The update control API test.
 
 Set of functions to test the le_updateCtrl_UnLockProbation
-
-@package updateControlModule
-@file
-\ingroup updateTests
 """
 import os
 import time
@@ -34,9 +30,9 @@ new_sys_index = 0
 def install_and_clean_app(request, legato, clean_test):
     """Set up the environment, install apps and clean up.
 
-    @param request: object to access data
-    @param legato: fixture to call useful functions regarding legato
-    @param clean_test: fixture to clean up environment
+    :param request: object to access data
+    :param legato: fixture to call useful functions regarding legato
+    :param clean_test: fixture to clean up environment
     """
     assert clean_test
     test_name = request.node.name
@@ -63,7 +59,7 @@ def install_and_clean_app(request, legato, clean_test):
 # ======================================================================================
 @pytest.mark.usefixtures("install_and_clean_app")
 def L_UpdateCtrl_UnlockProbation_0001(target, legato):
-    """!Verify that le_updateCtrl_UnLockProbation().
+    """Verify that le_updateCtrl_UnLockProbation().
 
     is ignored if the probation.
     period has already ended and the process who called
@@ -86,9 +82,9 @@ def L_UpdateCtrl_UnlockProbation_0001(target, legato):
     (Notes: the current system index, the current system state and the current
     system status can be verified by the command line "legato status")
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param install_and_clean_app: initial environment and build app
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param install_and_clean_app: initial environment and build app
     """
     swilog.step("Test L_UpdateCtrl_UnlockProbation_0001")
     is_tc_passed = False
@@ -149,7 +145,7 @@ def L_UpdateCtrl_UnlockProbation_0001(target, legato):
 
 @pytest.mark.usefixtures("install_and_clean_app")
 def L_UpdateCtrl_UnlockProbation_0002(target, legato):
-    """!Verify that each call to le_updateCtrl_LockProbation() must be matched.
+    """Verify that each call to le_updateCtrl_LockProbation() must be matched.
 
     with a call to le_updateCtrl_UnLockProbation() in a single process to
     terminate the probation period.
@@ -170,9 +166,9 @@ def L_UpdateCtrl_UnlockProbation_0002(target, legato):
     (Notes: the current system index, the current system state and the current
     system status can be verified by the command line "legato status")
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param install_and_clean_app: initial environment and build app
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param install_and_clean_app: initial environment and build app
     """
     swilog.step("Test L_UpdateCtrl_UnlockProbation_0002")
     is_first_unlock_success = False
@@ -255,7 +251,7 @@ def L_UpdateCtrl_UnlockProbation_0002(target, legato):
 
 @pytest.mark.usefixtures("install_and_clean_app")
 def L_UpdateCtrl_UnlockProbation_0003(target, legato):
-    """!Verify that each call to "le_updateCtrl_LockProbation()" must be.
+    """Verify that each call to "le_updateCtrl_LockProbation()" must be.
 
     matched with a call to le_updateCtrl_UnLockProbation() in multiple processes to
     terminate the probation period.
@@ -277,9 +273,9 @@ def L_UpdateCtrl_UnlockProbation_0003(target, legato):
     (Notes: the current system index, the current system state and the current
     system status can be verified by the command line "legato status")
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param install_and_clean_app: initial environment and build app
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param install_and_clean_app: initial environment and build app
     """
     swilog.step("Test L_UpdateCtrl_UnlockProbation_0003")
     is_first_unlock_success = False

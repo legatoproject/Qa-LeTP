@@ -1,10 +1,6 @@
-r"""!Sample apps test.
+"""Sample apps test.
 
 Set of functions to test the Legato sample apps.
-
-@package sampleAppsModule
-@file
-\ingroup sampleAppTests
 """
 import os
 
@@ -29,15 +25,15 @@ APP_PATH_L_SampleApps_Karaoke_0001 = "%s/apps/sample/karaoke/" % (LEGATO_ROOT)
 # ====================================================================================
 @pytest.mark.usefixtures("installapp_cleanup")
 def L_SampleApps_Karaoke_0001(target, legato):
-    """!Script will.
+    """Script will.
 
-        1. Make and install the test app <br>
-        2. Run the test app <br>
+        1. Make and install the test app
+        2. Run the test app
         3. Check if expected messages appears in log
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param installapp_cleanup: fixture to make, install and remove application
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param installapp_cleanup: fixture to make, install and remove application
     """
     assert legato.is_app_exist(APP_NAME_L_SampleApps_Karaoke_0001)
 

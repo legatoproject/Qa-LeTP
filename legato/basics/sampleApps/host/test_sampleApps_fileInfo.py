@@ -1,10 +1,6 @@
-r"""!FileInfo Sample apps test.
+"""FileInfo Sample apps test.
 
 Set of functions to test the fileInfo sample apps.
-
-@package fileInfoAppsModule
-@file
-\ingroup sampleAppTests
 """
 import os
 
@@ -28,10 +24,11 @@ APP_SANDBOX_PATH = "/legato/systems/current/appsWriteable/%s" % APP_NAME
 # Functions
 # ====================================================================================
 def help_test(target, flag):
-    """!Check the 'help' command.
+    """Check the 'help' command.
 
-    @param target: fixture to communicate with the target
-    @param flag: fixture to provide option
+    Args:
+        target: fixture to communicate with the target
+        flag: fixture to provide option
     """
     stdout = target.run(
         "cd %s/bin/; ./%s %s" % (APP_SANDBOX_PATH, APP_NAME, flag), check=False
@@ -43,12 +40,13 @@ def help_test(target, flag):
 
 
 def permissions_test(target, owner_permissions, group_permissions, others_permissions):
-    """!Change the file permissions.
+    """Change the file permissions.
 
-    @param target: fixture to communicate with the target
-    @param owner_permissions: fixture to provide owner permissions
-    @param group_permissions: fixture to provide group permissions
-    @param others_permissions: fixture to provide others permissions
+    Args:
+        target: fixture to communicate with the target
+        owner_permissions: fixture to provide owner permissions
+        group_permissions: fixture to provide group permissions
+        others_permissions: fixture to provide others permissions
     """
     stdout = target.run(
         "cd %s/bin/; ./%s -mc 2 permissions %s/testFile1"
@@ -73,11 +71,11 @@ def permissions_test(target, owner_permissions, group_permissions, others_permis
 
 
 def type_test(target, path, type_test):
-    """!Check the 'type' command.
+    """Check the 'type' command.
 
-    @param target: fixture to communicate with the target
-    @param path: fixture to get path of sandbox app
-    @param type_test: fixture to provide type test
+    :param target: fixture to communicate with the target
+    :param path: fixture to get path of sandbox app
+    :param type_test: fixture to provide type test
     """
     stdout = target.run(
         "cd %s/bin/; ./%s -mc 2 type %s" % (APP_SANDBOX_PATH, APP_NAME, path),
@@ -90,10 +88,10 @@ def type_test(target, path, type_test):
 
 
 def extreme_test(target, flag):
-    """!Check the 'extreme' flag.
+    """Check the 'extreme' flag.
 
-    @param target: fixture to communicate with the target
-    @param flag: fixture to provide flag
+    :param target: fixture to communicate with the target
+    :param flag: fixture to provide flag
     """
     stdout = target.run(
         "cd %s/bin/; ./%s -mc 2 %s permissions %s/testFile1"
@@ -110,10 +108,10 @@ def extreme_test(target, flag):
 
 
 def max_count_test(target, flag):
-    """!Check the 'max count' flag.
+    """Check the 'max count' flag.
 
-    @param target: fixture to communicate with the target
-    @param flag: fixture to provide option
+    :param target: fixture to communicate with the target
+    :param flag: fixture to provide option
     """
     stdout = target.run(
         "cd %s/bin/; ./%s %s permissions %s/testFile1"
@@ -131,14 +129,14 @@ def max_count_test(target, flag):
 # ====================================================================================
 @pytest.mark.usefixtures("app_leg")
 def L_SampleApps_FileInfo_0001(target):
-    """!Script will.
+    """Script will.
 
-        1. Make and install the test app <br>
-        2. Run the test app <br>
+        1. Make and install the test app
+        2. Run the test app
         3. Check if expected messages appears in log
 
-    @param target: fixture to communicate with the target
-    @param app_leg: fixture to make, install and remove application
+    :param target: fixture to communicate with the target
+    :param app_leg: fixture to make, install and remove application
     """
     swilog.step("Execute L_SampleApps_FileInfo_0001")
 

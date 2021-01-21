@@ -1,12 +1,6 @@
-r"""!atomicFile operation try cancel test.
+"""operation try cancel test.
 
 Set of functions to test the le_atomFile_Cancel
-
-@package atomicFilecancelModule
-@defgroup runtimeTests Runtime Tests
-
-@file
-\ingroup runtimeTests
 """
 import os
 
@@ -28,7 +22,7 @@ APP_PATH = os.path.join(os.path.join(TEST_RESOURCES, "atomCancel"), "atomCancel.
 # ======================================================================================
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0031(target, legato, init_atomicFile):
-    """!Purpose: Verify that le_atomFile_Cancel cancels all changes.
+    """Purpose: Verify that le_atomFile_Cancel cancels all changes.
 
     and closes the file descriptor for
     le_atomFile_Open(, le_atomFile_TryOpen(,le_atomFile_Create(
@@ -42,16 +36,17 @@ def L_AtomicFile_Operation_0031(target, legato, init_atomicFile):
             1. le_atomFile_Cancel commits all changes
 
     This script will
-        1. Make and install the test app <br>
-        2. Run the test app <br>
-        3. Check  latest changes weren't committed after
-        le_atomFile_Cancel is called == 0: <br>
+
+        1. Make and install the test app
+        2. Run the test app
+        3. Check latest changes weren't committed after \
+           le_atomFile_Cancel is called == 0:
         4. Repeat above for different test scenarios
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomCancel"
     test_app_proc_name = "atomCancelProc"
@@ -84,7 +79,7 @@ def L_AtomicFile_Operation_0031(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0032(target, legato, init_atomicFile):
-    """!Purpose: Verify that le_atomFile_Cancel cancels all changes.
+    """Purpose: Verify that le_atomFile_Cancel cancels all changes.
 
     and closes the file descriptor for
     le_atomFile_Open(, le_atomFile_TryOpen(, le_atomFile_Create( and
@@ -98,15 +93,15 @@ def L_AtomicFile_Operation_0032(target, legato, init_atomicFile):
             1. File's contents being modified
 
     This script will
-        1. Make and install the test app <br>
-        2. Run the test app <br>
-        3. Check  file's contents remain unchanged == 0: <br>
+        1. Make and install the test app
+        2. Run the test app
+        3. Check  file's contents remain unchanged == 0:
         4. Repeat above for different test scenarios
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomCancel"
     test_app_proc_name = "atomCancelProc"

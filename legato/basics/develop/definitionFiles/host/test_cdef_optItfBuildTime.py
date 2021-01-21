@@ -1,10 +1,6 @@
-r"""!Component Definition Files test.
+"""Component Definition Files test.
 
 Set of functions to test the Legato component definition files.
-
-@package componentModule
-@file
-\ingroup definitionFileTests
 """
 import os
 
@@ -26,24 +22,25 @@ TEST_RESOURCES = os.path.join(os.path.abspath(os.path.dirname(__file__)), "resou
 def verify_when_build_successful(
     ipc_type_str, interface_opts_str, build_cmd_str, is_binded_str, api_type_str
 ):
-    """!Verify if the building is successful.
+    """Verify if the building is successful.
 
-    @param ipc_type_str: ipc type
-                      client-side IPC
-                      server-side IPC
-    @param interface_opts_str: interface optionals
-                            [optional]
-                            [optional] [manual-start]
-                            [optional] [types-only]
-    @param build_cmd_str: build command
-                        mkapp: command to make application
-                        mksys: command to make system
-    @param is_binded_str: binding string
-                        bound
-                        not bound
-    @param api_type_str: directory name of API type
-                      legato API
-                      customized API
+    Args:
+        ipc_type_str: ipc type
+                   client-side IPC
+                   server-side IPC
+        interface_opts_str: interface optionals
+                         [optional]
+                         [optional] [manual-start]
+                         [optional] [types-only]
+        build_cmd_str: build command
+                     mkapp: command to make application
+                     mksys: command to make system
+        is_binded_str: binding string
+                     bound
+                     not bound
+        api_type_str: directory name of API type
+                   legato API
+                   customized API
     """
     if ipc_type_str in "client-side IPC":
         if (interface_opts_str in "[optional]") or (
@@ -89,24 +86,25 @@ def verify_when_build_successful(
 def verify_when_build_fail(
     ipc_type_str, interface_opts_str, build_cmd_str, is_binded_str, api_type_str
 ):
-    """!Verify if the building is failed.
+    """Verify if the building is failed.
 
-    @param ipc_type_str: ipc type
-                      client-side IPC
-                      server-side IPC
-    @param interface_opts_str: interface optionals
-                            [optional]
-                            [optional] [manual-start]
-                            [optional] [types-only]
-    @param build_cmd_str: build command
-                        mkapp: command to make application
-                        mksys: command to make system
-    @param is_binded_str: binding string
-                        bound
-                        not bound
-    @param api_type_str: directory name of API type
-                        legato API
-                        customized API
+    Args:
+        ipc_type_str: ipc type
+                   client-side IPC
+                   server-side IPC
+        interface_opts_str: interface optionals
+                         [optional]
+                         [optional] [manual-start]
+                         [optional] [types-only]
+        build_cmd_str: build command
+                     mkapp: command to make application
+                     mksys: command to make system
+        is_binded_str: binding string
+                     bound
+                     not bound
+        api_type_str: directory name of API type
+                     legato API
+                     customized API
     """
     if ipc_type_str == "client-side IPC":
         if interface_opts_str == "[optional] [types-only]":
@@ -156,26 +154,27 @@ def build_sys(
     binding_str,
     build_status=False,
 ):
-    """!Build system and verify that it's built successfully or not.
+    """Build system and verify that it's built successfully or not.
 
-    @param legato: fixture to call useful functions regarding legato
-    @param api_type_dir_name: directory name of API type
-                           legatoAPI: legato API
-                           customizedAPI: customized API
-    @param ipc_type_dir_name: directory name of IPC type
-                           clientIPC: client-side IPC
-                           serverIPC: server-side IPC
-    @param build_cmd_dir_name: building command (mksys)
-    @param interface_opts: interface optionals
-                        optional: [optional]
-                        optional_manualStart: [optional] [manual-start]
-                        optional_typesOnly: [optional] [types-only]
-    @param binding_str: binding string
-                     withBindings: bound
-                     withoutBindings: not bound
-    @param build_status: build status
-                      False: it's built successfully (default value)
-                      True: it's built failed
+    Args:
+        legato: fixture to call useful functions regarding legato
+        api_type_dir_name: directory name of API type
+                        legatoAPI: legato API
+                        customizedAPI: customized API
+        ipc_type_dir_name: directory name of IPC type
+                        clientIPC: client-side IPC
+                        serverIPC: server-side IPC
+        build_cmd_dir_name: building command (mksys)
+        interface_opts: interface optionals
+                     optional: [optional]
+                     optional_manualStart: [optional] [manual-start]
+                     optional_typesOnly: [optional] [types-only]
+        binding_str: binding string
+                  withBindings: bound
+                  withoutBindings: not bound
+        build_status: build status
+                   False: it's built successfully (default value)
+                   True: it's built failed
     """
     system_file_path = "%s/%s/%s" % (
         api_type_dir_name,
@@ -242,24 +241,24 @@ def build_app(
     binding_str,
     build_status=False,
 ):
-    """!Build application and verify that it's built successfully or not.
+    """Build application and verify that it's built successfully or not.
 
-    @param legato: fixture to call useful functions regarding legato
-    @param api_type_dir_name: directory name of API type
-                           legatoAPI: legato API
-                           customizedAPI: customized API
-    @param ipc_type_dir_name: directory name of IPC type
-                           clientIPC: client-side IPC
-                           serverIPC: server-side IPC
-    @param build_cmd_dir_name: building command (mkapp)
-    @param interface_opts: interface optionals
+    :param legato: fixture to call useful functions regarding legato
+    :param api_type_dir_name: directory name of API type
+                        legatoAPI: legato API
+                        customizedAPI: customized API
+    :param ipc_type_dir_name: directory name of IPC type
+                          clientIPC: client-side IPC
+                          serverIPC: server-side IPC
+    :param build_cmd_dir_name: building command (mkapp)
+    :param interface_opts: interface optionals
                         optional: [optional]
                         optional_manualStart: [optional] [manual-start]
                         optional_typesOnly: [optional] [types-only]
-    @param binding_str: binding string
+    :param binding_str: binding string
                      withBindings: bound
                      withoutBindings: not bound
-    @param build_status: build status
+    :param build_status: build status
                       False: it's built successfully (default value)
                       True: it's built failed
     """
@@ -320,10 +319,11 @@ def build_app(
 # ====================================================================================
 @pytest.fixture(autouse=True)
 def init_test(tmpdir):
-    """!Init the test.
+    """Init the test.
 
-    @param tmpdir: fixture to provide a temporary directory
-                unique to the test invocation
+    Args:
+        tmpdir: fixture to provide a temporary directory
+             unique to the test invocation
     """
     # Go to temp directory
     os.chdir(str(tmpdir))
@@ -333,11 +333,12 @@ def init_test(tmpdir):
 # Test functions
 # ====================================================================================
 def L_CDEF_0006(legato):
-    """!Verify "mkapp" will not complain if there's no optional client-side.
+    """Verify "mkapp" will not complain if there's no optional client-side.
 
     IPC API to be bound with customized server-side interfaces.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_app(
         legato, "customizedAPI", "clientIPC", "mkapp", "optional", "withoutBindings"
@@ -349,11 +350,12 @@ def L_CDEF_0006(legato):
 
 
 def L_CDEF_0007(legato):
-    """!Verify "mkapp" will not complain if there's no optional client-side.
+    """Verify "mkapp" will not complain if there's no optional client-side.
 
     IPC API to be bound with Legato's server-side interfaces.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_app(legato, "legatoAPI", "clientIPC", "mkapp", "optional", "withoutBindings")
 
@@ -363,11 +365,12 @@ def L_CDEF_0007(legato):
 
 
 def L_CDEF_0008(legato):
-    """!Verify that "mkapp" will be successful if optional client-side IPC API.
+    """Verify that "mkapp" will be successful if optional client-side IPC API.
 
     is bound with Legato's server-side interfaces.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_app(legato, "legatoAPI", "clientIPC", "mkapp", "optional", "withBindings")
 
@@ -377,11 +380,12 @@ def L_CDEF_0008(legato):
 
 
 def L_CDEF_0009(legato):
-    """!Verify that "mkapp" will be successful if optional client-side IPC API.
+    """Verify that "mkapp" will be successful if optional client-side IPC API.
 
     is bound with customized server-side interfaces.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_app(legato, "customizedAPI", "clientIPC", "mkapp", "optional", "withBindings")
 
@@ -391,11 +395,12 @@ def L_CDEF_0009(legato):
 
 
 def L_CDEF_0010(legato):
-    """!Verify that "mkapp" will be unsuccessful if client-side IPC API options.
+    """Verify that "mkapp" will be unsuccessful if client-side IPC API options.
 
     are types-only and optional and to require Legato API.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_app(
         legato,
@@ -413,11 +418,12 @@ def L_CDEF_0010(legato):
 
 
 def L_CDEF_0011(legato):
-    """!Verify that "mkapp" will be successful if client-side IPC API options.
+    """Verify that "mkapp" will be successful if client-side IPC API options.
 
     are optional and manual start and to require Legato API.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_app(
         legato,
@@ -434,11 +440,12 @@ def L_CDEF_0011(legato):
 
 
 def L_CDEF_0012(legato):
-    """!Verify that "mkapp" will complain "[optional]" is only for client-side.
+    """Verify that "mkapp" will complain "[optional]" is only for client-side.
 
     IPC option when the server app provides Legato API.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_app(
         legato,
@@ -456,11 +463,12 @@ def L_CDEF_0012(legato):
 
 
 def L_CDEF_0013(legato):
-    """!Verify "mksys" will not complain if there's no optional client-side.
+    """Verify "mksys" will not complain if there's no optional client-side.
 
     IPC API to be bound with Legato's server-side interfaces.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_sys(legato, "legatoAPI", "clientIPC", "mksys", "optional", "withoutBindings")
 
@@ -470,11 +478,12 @@ def L_CDEF_0013(legato):
 
 
 def L_CDEF_0014(legato):
-    """!Verify "mksys" will not complain if there's no optional client-side.
+    """Verify "mksys" will not complain if there's no optional client-side.
 
     IPC API to be bound with customized server-side interfaces.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_sys(
         legato, "customizedAPI", "clientIPC", "mksys", "optional", "withoutBindings"
@@ -486,11 +495,12 @@ def L_CDEF_0014(legato):
 
 
 def L_CDEF_0015(legato):
-    """!Verify that "mksys" will be successful if optional client-side IPC API.
+    """Verify that "mksys" will be successful if optional client-side IPC API.
 
     is bound with Legato's server-side interfaces.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_sys(legato, "legatoAPI", "clientIPC", "mksys", "optional", "withBindings")
 
@@ -500,11 +510,12 @@ def L_CDEF_0015(legato):
 
 
 def L_CDEF_0016(legato):
-    """!Verify that "mksys" will be successful if optional client-side IPC API.
+    """Verify that "mksys" will be successful if optional client-side IPC API.
 
     is bound with customized server-side interfaces.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_sys(legato, "customizedAPI", "clientIPC", "mksys", "optional", "withBindings")
 
@@ -514,11 +525,12 @@ def L_CDEF_0016(legato):
 
 
 def L_CDEF_0017(legato):
-    """!Verify that "mksys" will be unsuccessful if client-side IPC API options.
+    """Verify that "mksys" will be unsuccessful if client-side IPC API options.
 
     are types-only and optional and to require Legato API.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_sys(
         legato,
@@ -536,11 +548,12 @@ def L_CDEF_0017(legato):
 
 
 def L_CDEF_0018(legato):
-    """!Verify that "mksys" will be successful if client-side IPC API options.
+    """Verify that "mksys" will be successful if client-side IPC API options.
 
     are optional and manual start and to require Legato API.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_sys(
         legato,
@@ -557,11 +570,12 @@ def L_CDEF_0018(legato):
 
 
 def L_CDEF_0019(legato):
-    """!Verify that "mksys" will complain "[optional]" is only for client-side.
+    """Verify that "mksys" will complain "[optional]" is only for client-side.
 
     IPC option when the server app provides Legato API.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_sys(
         legato,
@@ -579,11 +593,12 @@ def L_CDEF_0019(legato):
 
 
 def L_CDEF_0020(legato):
-    """!Verify that requires section can't have duplicated API.
+    """Verify that requires section can't have duplicated API.
 
     (without interface option)
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_app(
         legato,
@@ -601,11 +616,12 @@ def L_CDEF_0020(legato):
 
 
 def L_CDEF_0021(legato):
-    """!Verify that requires section can't have duplicated API.
+    """Verify that requires section can't have duplicated API.
 
     (with interface option)
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_app(
         legato,
@@ -623,11 +639,12 @@ def L_CDEF_0021(legato):
 
 
 def L_CDEF_0022(legato):
-    """!Verify that "mkapp" will be successful if client-side IPC API options.
+    """Verify that "mkapp" will be successful if client-side IPC API options.
 
     are optional and manual start and to require customized API.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_app(
         legato,
@@ -644,11 +661,12 @@ def L_CDEF_0022(legato):
 
 
 def L_CDEF_0023(legato):
-    """!Verify that "mkapp" will be unsuccessful if client-side IPC API options.
+    """Verify that "mkapp" will be unsuccessful if client-side IPC API options.
 
     are types-only and optional and to require customized API.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_app(
         legato,
@@ -666,11 +684,12 @@ def L_CDEF_0023(legato):
 
 
 def L_CDEF_0024(legato):
-    """!Verify that "mksys" will be successful if client-side IPC API options.
+    """Verify that "mksys" will be successful if client-side IPC API options.
 
     are optional and manual start and to require customized API.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_sys(
         legato,
@@ -687,11 +706,12 @@ def L_CDEF_0024(legato):
 
 
 def L_CDEF_0025(legato):
-    """!Verify that "mksys" will be unsuccessful if client-side IPC API options.
+    """Verify that "mksys" will be unsuccessful if client-side IPC API options.
 
     are types-only and optional and to require customized API.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_sys(
         legato,
@@ -709,11 +729,12 @@ def L_CDEF_0025(legato):
 
 
 def L_CDEF_0026(legato):
-    """!Verify that "mkapp" will complain "[optional]" is only for client-side.
+    """Verify that "mkapp" will complain "[optional]" is only for client-side.
 
     IPC option when the server app provides customized API.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_app(
         legato,
@@ -731,11 +752,12 @@ def L_CDEF_0026(legato):
 
 
 def L_CDEF_0027(legato):
-    """!Verify that "mksys" will complain "[optional]" is only for client-side.
+    """Verify that "mksys" will complain "[optional]" is only for client-side.
 
     IPC option when the server app provides customized API.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     build_sys(
         legato,

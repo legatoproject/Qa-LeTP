@@ -1,10 +1,6 @@
-r"""!atomicFile operation try delete test.
+"""operation try delete test.
 
 Set of functions to test the le_atomFile_TryDelete
-
-@package atomicFileTryDeleteModule
-@file
-\ingroup runtimeTests
 """
 import os
 
@@ -29,7 +25,7 @@ APP_PATH = os.path.join(
 # ======================================================================================
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0037(legato, init_atomicFile):
-    """!Purpose: Verify that le_atomFile_TryDelete returns LE_NOT_FOUND.
+    """Purpose: Verify that le_atomFile_TryDelete returns LE_NOT_FOUND.
 
     file doesn't exists == 0
 
@@ -44,12 +40,12 @@ def L_AtomicFile_Operation_0037(legato, init_atomicFile):
         1. Make and install the test app
         2. Run the test app
         3. Check  "le_atomFile_TryDelete returns LE_NOT_FOUND ..."
-        can be captured from the target's log == 0:
+           can be captured from the target's log == 0:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryDelete"
     test_app_proc_name = "atomTryDeleteProc"
@@ -73,7 +69,7 @@ def L_AtomicFile_Operation_0037(legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0038(legato, init_atomicFile):
-    """!Purpose: Verify that le_atomFile_TryDelete returns LE_FAULT.
+    """Purpose: Verify that le_atomFile_TryDelete returns LE_FAULT.
 
     there was an error (accesses to a non-existed dir == 0
 
@@ -88,12 +84,12 @@ def L_AtomicFile_Operation_0038(legato, init_atomicFile):
         1. Make and install the test app
         2. Run the test app
         3. Check  "le_atomFile_TryDelete returns LE_FAULT ..."
-        can be captured from the target's log == 0:
+           can be captured from the target's log == 0:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryDelete"
     test_app_proc_name = "atomTryDeleteProc"
@@ -118,7 +114,7 @@ def L_AtomicFile_Operation_0038(legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0039(target, legato, init_atomicFile):
-    """!Purpose: Verify that le_atomFile_TryDelete returns LE_OK successful == 0.
+    """Purpose: Verify that le_atomFile_TryDelete returns LE_OK successful == 0.
 
     Initial condition:
         1. Test app is unsandboxed
@@ -132,13 +128,13 @@ def L_AtomicFile_Operation_0039(target, legato, init_atomicFile):
         1. Make and install the test app
         2. Run the test app
         3. Check  "le_atomFile_TryDelete returns LE_OK ..."
-        can be captured from the target's log == 0:
+           can be captured from the target's log == 0:
         4. Check  target file is deleted == 0:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryDelete"
     test_app_proc_name = "atomTryDeleteProc"
@@ -174,7 +170,7 @@ def L_AtomicFile_Operation_0039(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0040(target, legato, init_atomicFile):
-    """!Purpose: Verify that le_atomFile_TryDelete returns LE_WOULD_BLOCK.
+    """Purpose: Verify that le_atomFile_TryDelete returns LE_WOULD_BLOCK.
 
     file is already locked == 0
 
@@ -190,13 +186,13 @@ def L_AtomicFile_Operation_0040(target, legato, init_atomicFile):
         1. Make and install the test app
         2. Run the test app
         3. Check  "le_atomFile_TryDelete returns LE_WOULD_BLOCK ..."
-        can be captured from the target's log == 0:
+           can be captured from the target's log == 0:
         4. Check  target file isn't deleted == 0:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryDelete"
     test_app_proc_name = "atomTryDeleteProc"

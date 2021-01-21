@@ -1,12 +1,6 @@
-r"""!Application Definition Files test.
+"""Definition Files test.
 
 Set of functions to test the Legato application definition files.
-
-@package applicationModule
-@defgroup definitionFileTests Definition File Tests
-
-@file
-\ingroup definitionFileTests
 """
 import os
 import pytest
@@ -27,9 +21,10 @@ APP_PATH = "%s/adef/link" % TEST_RESOURCES
 # Functions
 # ====================================================================================
 def verify_run_correctly(legato):
-    """!Verify the application is run correctly.
+    """Verify the application is run correctly.
 
-    @param legato: Fixture to call useful functions regarding legato
+    Args:
+        legato: Fixture to call useful functions regarding legato
     """
     rsp = legato.find_in_target_log("Server started")
     if rsp:
@@ -55,10 +50,11 @@ def verify_run_correctly(legato):
 # ====================================================================================
 @pytest.mark.usefixtures("app_leg")
 def L_ADEF_0006(legato):
-    """!Check link (Validate defect #2472).
+    """Check link (Validate defect #2472).
 
-    @param legato fixture to call useful functions regarding legato
-    @param app_leg fixture to make install application
+    Args:
+        legato: fixture to call useful functions regarding legato
+        app_leg: fixture to make install application
                  and cleanup it after the test
     """
     verify_run_correctly(legato)

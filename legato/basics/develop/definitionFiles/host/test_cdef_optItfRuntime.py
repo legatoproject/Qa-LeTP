@@ -1,10 +1,6 @@
-r"""!Component Definition Files test.
+"""Component Definition Files test.
 
 Set of functions to test the Legato component definition files.
-
-@package componentModule
-@file
-\ingroup definitionFileTests
 """
 import os
 import re
@@ -28,11 +24,12 @@ APP_PATH = (
 # ====================================================================================
 @pytest.fixture(autouse=True)
 def init_cleanup_test(legato, tmpdir):
-    """!Init and clean up the test.
+    """Init and clean up the test.
 
-    @param legato: fixture to call useful functions regarding legato
-    @param tmpdir: fixture to provide a temporary directory
-                unique to the test invocation
+    Args:
+        legato: fixture to call useful functions regarding legato
+        tmpdir: fixture to provide a temporary directory
+             unique to the test invocation
     """
     # Go to temp directory
     os.chdir(str(tmpdir))
@@ -45,22 +42,24 @@ def init_cleanup_test(legato, tmpdir):
 # Test functions
 # ====================================================================================
 def L_CDEF_0028(target, legato):
-    """!Verify the binding is not existed after app's deployment.
+    """Verify the binding is not existed after app's deployment.
 
     when its client-side IPC API is not bounded to any server-side API
     with the interface option: [optional]
     Verification:
-        This test case will mark as "failed" when
-        1. Arbitrary binding is existed in the output of the command line
+    This test case will mark as "failed" when
+
+        1. Arbitrary binding is existed in the output of the command line \
         "sdir list"
 
     This script will
+
          1. Build and install the test app, optional_withoutBindings
          2. Run the command line in the target, "sdir list"
          3. Check the existence of the binding
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
     """
     cmd = "/legato/systems/current/bin/sdir list"
 

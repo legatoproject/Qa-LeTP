@@ -1,10 +1,6 @@
-r"""!atomicFile operation try open test.
+"""operation try open test.
 
 Set of functions to test the le_atomFile_TryOpen
-
-@package atomicFileTryOpenModule
-@file
-\ingroup runtimeTests
 """
 import os
 
@@ -27,9 +23,10 @@ APP_PATH = os.path.join(os.path.join(TEST_RESOURCES, "atomTryOpen"), "atomTryOpe
 # ======================================================================================
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0019(target, legato, init_atomicFile):
-    """!Purpose: Verify that le_atomFile_TryOpen returns LE_WOULD_BLOCK.
+    """Purpose: Verify that le_atomFile_TryOpen returns LE_WOULD_BLOCK.
 
     there is already == 0: an incompatible lock on the file
+
     Initial condition:
         1. Test app is unsandboxed
 
@@ -41,12 +38,12 @@ def L_AtomicFile_Operation_0019(target, legato, init_atomicFile):
         1. Make and install the test app
         2. Run the test app
         3. Check  "le_atomFile_TryOpen returns LE_WOULD_BLOCK ..."
-        can be captured from the target's log == 0:
+           can be captured from the target's log == 0:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryOpen"
     test_app_proc_name = "atomTryOpenProc"
@@ -74,7 +71,7 @@ def L_AtomicFile_Operation_0019(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0021(target, legato, init_atomicFile):
-    """!Purpose: Verify that le_atomFile_TryOpen returns a file descriptor.
+    """Purpose: Verify that le_atomFile_TryOpen returns a file descriptor.
 
     successful == 0:
 
@@ -89,12 +86,12 @@ def L_AtomicFile_Operation_0021(target, legato, init_atomicFile):
         1. Make and install the test app
         2. Run the test app
         3. Check  "le_atomFile_TryOpen returns a file descriptor ..." can be
-        captured from the target's log == 0:
+           captured from the target's log == 0:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryOpen"
     test_app_proc_name = "atomTryOpenProc"
@@ -120,7 +117,7 @@ def L_AtomicFile_Operation_0021(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0022(legato, init_atomicFile):
-    """!Purpose: Verify that le_atomFile_TryOpen returns LE_FAULT.
+    """Purpose: Verify that le_atomFile_TryOpen returns LE_FAULT.
 
     there was an error (accesses to a non-existed dir == 0:
 
@@ -135,12 +132,12 @@ def L_AtomicFile_Operation_0022(legato, init_atomicFile):
         1. Make and install the test app
         2. Run the test app
         3. Check  "le_atomFile_TryOpen returns LE_FAULT ..." can be
-        captured from the target's log == 0:
+           captured from the target's log == 0:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryOpen"
     test_app_proc_name = "atomTryOpenProc"

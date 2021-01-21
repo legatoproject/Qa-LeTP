@@ -1,10 +1,6 @@
-r"""!atomicFile Stream try open test.
+"""Stream try open test.
 
 Set of functions to test the le_atomFile_TryOpenStream
-
-@package atomicFileStreamTryOpenModule
-@file
-\ingroup runtimeTests
 """
 import os
 
@@ -29,7 +25,7 @@ APP_PATH = os.path.join(
 # ======================================================================================
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0019(target, legato, init_atomicFile):
-    """!Purpose: Verify that resultPtr of le_atomFile_TryOpenStream returns.
+    """Purpose: Verify that resultPtr of le_atomFile_TryOpenStream returns.
 
     LE_WOULD_BLOCK  there is already == 0:
     an incompatible lock on the file
@@ -45,12 +41,12 @@ def L_AtomicFile_Stream_0019(target, legato, init_atomicFile):
         1. Make and install the test app
         2. Run the test app
         3. Check  "le_atomFile_TryOpenStream returns LE_WOULD_BLOCK ..."
-        can be captured from the target's log == 0:
+           can be captured from the target's log == 0:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryOpenStream"
     test_app_proc_name = "atomTryOpenStreamProc"
@@ -77,7 +73,7 @@ def L_AtomicFile_Stream_0019(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0020(legato, init_atomicFile):
-    """!Purpose: Verify resultPtr of that le_atomFile_TryOpenStream returns.
+    """Purpose: Verify resultPtr of that le_atomFile_TryOpenStream returns.
 
     LE_NOT_FOUND  the file does not exist == 0
 
@@ -92,12 +88,12 @@ def L_AtomicFile_Stream_0020(legato, init_atomicFile):
         1. Make and install the test app
         2. Run the test app
         3. Check  "le_atomFile_TryOpenStream returns LE_NOT_FOUND ..."
-        can be captured from the target's log == 0:
+           can be captured from the target's log == 0:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryOpenStream"
     test_app_proc_name = "atomTryOpenStreamProc"
@@ -122,7 +118,7 @@ def L_AtomicFile_Stream_0020(legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0021(target, legato, init_atomicFile):
-    """!Purpose: Verify that le_atomFile_TryOpenStream returns.
+    """Purpose: Verify that le_atomFile_TryOpenStream returns.
 
     a file pointer  successful == 0
 
@@ -137,12 +133,12 @@ def L_AtomicFile_Stream_0021(target, legato, init_atomicFile):
         1. Make and install the test app
         2. Run the test app
         3. Check  "le_atomFile_TryOpenStream returns a file pointer ..."
-        can be captured from the target's log == 0:
+           can be captured from the target's log == 0:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryOpenStream"
     test_app_proc_name = "atomTryOpenStreamProc"
@@ -169,7 +165,7 @@ def L_AtomicFile_Stream_0021(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0022(legato, init_atomicFile):
-    """!Purpose: Verify that resultPtr of le_atomFile_TryOpenStream returns.
+    """Purpose: Verify that resultPtr of le_atomFile_TryOpenStream returns.
 
     LE_FAULT  there was an error (accesses to a non-existed dir == 0
 
@@ -184,12 +180,12 @@ def L_AtomicFile_Stream_0022(legato, init_atomicFile):
         1. Make and install the test app
         2. Run the test app
         3. Check  "le_atomFile_TryOpenStream returns LE_FAULT ..."
-        can be captured from the target's log == 0:
+           can be captured from the target's log == 0:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryOpenStream"
     test_app_proc_name = "atomTryOpenStreamProc"
@@ -215,7 +211,7 @@ def L_AtomicFile_Stream_0022(legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Stream_0023(target, legato, init_atomicFile):
-    """!Purpose: Verify that le_atomFile_TryOpenStream can successfully.
+    """Purpose: Verify that le_atomFile_TryOpenStream can successfully.
 
     acquire a file lock to the target file
 
@@ -235,10 +231,10 @@ def L_AtomicFile_Stream_0023(target, legato, init_atomicFile):
         3. Check  the second process does block after the first process
         successfully acquired the lock == 0:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryOpenStream"
     test_app_proc_name = "atomTryOpenStreamProc"

@@ -1,11 +1,6 @@
-r"""!sandbox app limitation test.
+"""sandbox app limitation test.
 
 Set of functions to test the sandbox app limitation.
-
-@package sandboxModule
-
-@file
-\ingroup sandboxTests
 """
 import os
 import re
@@ -94,14 +89,14 @@ DEFAULT_VALUE_STR_TBL = {
 # Functions
 # ====================================================================================
 def sandbox_verification(val_under_test, expected_val, temp_output_file, test_title):
-    """!Verification sandbox limitation test.
+    """Verification sandbox limitation test.
 
-    @param val_under_test: value under test
-    @param expected_val: expected value from the test
-    @param temp_output_file: temporary output file
-    @param test_title: title of the test
+    :param val_under_test: value under test
+    :param expected_val: expected value from the test
+    :param temp_output_file: temporary output file
+    :param test_title: title of the test
 
-    @return exit_code: return value for verification sandbox
+    :returns exit_code: return value for verification sandbox
                     0: passed
                     1: failed
                     2: error
@@ -214,14 +209,14 @@ def sandbox_verification(val_under_test, expected_val, temp_output_file, test_ti
 
 
 def make_install_sandbox_app(legato, tmpdir, app_name, app_path, expect_tst):
-    """!Build and install sandbox test app.
+    """Build and install sandbox test app.
 
-    @param legato: fixture to call useful functions regarding legato
-    @param tmpdir: fixture to provide a temporary directory
+    :param legato: fixture to call useful functions regarding legato
+    :param tmpdir: fixture to provide a temporary directory
                  unique to the test invocation
-    @param app_name: name of the app
-    @param app_path: path to the adef file
-    @param expect_tst: expected value
+    :param app_name: name of the app
+    :param app_path: path to the adef file
+    :param expect_tst: expected value
     """
     rsp = pexpect.run("cat %s/%s.adef" % (app_path, app_name), encoding="utf-8")
     swilog.info(rsp)
@@ -250,20 +245,20 @@ def make_install_sandbox_app(legato, tmpdir, app_name, app_path, expect_tst):
 
 
 def sandbox(target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_sandbox):
-    """!General function for all test cases.
+    """General function for all test cases.
 
     This function will:
-        1. Update, build and install app <br>
+        1. Update, build and install app
         2. Test is passed if verification OK
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param tmpdir: fixture to provide a temporary directory
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param tmpdir: fixture to provide a temporary directory
                   unique to the test invocation
-    @param tpl_val: testing value
-    @param expect_tst: expected value
-    @param failed_reason: failed reason
-    @param init_sandbox: fixture to initation and cleanup the environment
+    :param tpl_val: testing value
+    :param expect_tst: expected value
+    :param failed_reason: failed reason
+    :param init_sandbox: fixture to initation and cleanup the environment
     """
     # list_obj[0] app_name
     # list_obj[1] app_path
@@ -309,10 +304,10 @@ def sandbox(target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_san
 # ====================================================================================
 @pytest.fixture()
 def init_sandbox(request, legato):
-    """!Init and cleanup environment.
+    """Init and cleanup environment.
 
-    @param request: object to access data
-    @param legato: fixture to call useful functions regarding legato
+    :param request: object to access data
+    :param legato: fixture to call useful functions regarding legato
     """
     app_name = getattr(request.module, "APP_NAME_%s" % request.node.name.split("[")[0])
     app_path = getattr(request.module, "APP_PATH_%s" % request.node.name.split("[")[0])
@@ -348,7 +343,7 @@ def init_sandbox(request, legato):
 def L_SandBox_0007(
     target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_sandbox
 ):
-    """!Max File Size.
+    """Max File Size.
 
     The FileSizeTest? app writes to a file until the configured fd limit,
     and also at limit+1.
@@ -358,14 +353,14 @@ def L_SandBox_0007(
 
     It also processes the output to determine pass/fail.
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param tmpdir: fixture to provide a temporary directory
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param tmpdir: fixture to provide a temporary directory
                   unique to the test invocation
-    @param init_sandbox: fixture to initation and cleanup the environment
-    @param tpl_val: testing value
-    @param expect_tst: expected value
-    @param failed_reason: failed reason
+    :param init_sandbox: fixture to initation and cleanup the environment
+    :param tpl_val: testing value
+    :param expect_tst: expected value
+    :param failed_reason: failed reason
     """
     sandbox(target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_sandbox)
 
@@ -386,7 +381,7 @@ def L_SandBox_0007(
 def L_SandBox_0010(
     target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_sandbox
 ):
-    """!Check the Number of Signals Queued.
+    """Check the Number of Signals Queued.
 
     The NumSigQueuedTest app queues signals right at the configured
     limit, and then queues one more signal.
@@ -397,14 +392,14 @@ def L_SandBox_0010(
 
     It also processes the output to determine pass/fail.
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param tmpdir: fixture to provide a temporary directory
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param tmpdir: fixture to provide a temporary directory
                   unique to the test invocation
-    @param init_sandbox: fixture to initation and cleanup the environment
-    @param tpl_val: testing value
-    @param expect_tst: expected value
-    @param failed_reason: failed reason
+    :param init_sandbox: fixture to initation and cleanup the environment
+    :param tpl_val: testing value
+    :param expect_tst: expected value
+    :param failed_reason: failed reason
     """
     sandbox(target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_sandbox)
 
@@ -439,7 +434,7 @@ def L_SandBox_0010(
 def L_SandBox_0012(
     target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_sandbox
 ):
-    """!Mem Lock Size.
+    """Mem Lock Size.
 
     The MemLockSizeTest app locks pages of memory right at the
     configured limit, and then attempts to lock one more page.
@@ -450,14 +445,14 @@ def L_SandBox_0012(
 
     It also processes the output to determine pass/fail.
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param tmpdir: fixture to provide a temporary directory
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param tmpdir: fixture to provide a temporary directory
                   unique to the test invocation
-    @param init_sandbox: fixture to initation and cleanup the environment
-    @param tpl_val: testing value
-    @param expect_tst: expected value
-    @param failed_reason: failed reason
+    :param init_sandbox: fixture to initation and cleanup the environment
+    :param tpl_val: testing value
+    :param expect_tst: expected value
+    :param failed_reason: failed reason
     """
     sandbox(target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_sandbox)
 
@@ -480,7 +475,7 @@ def L_SandBox_0012(
 def L_SandBox_0018(
     target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_sandbox
 ):
-    """!File Descriptor.
+    """File Descriptor.
 
     The FdTest app creates different file types (file/dir/pipe/socket)
     at the configured fd limit, and also at limit+1.
@@ -490,13 +485,13 @@ def L_SandBox_0018(
 
     It also processes the output to determine pass/fail.
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param tmpdir: fixture to provide a temporary directory
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param tmpdir: fixture to provide a temporary directory
                   unique to the test invocation
-    @param init_sandbox: fixture to initation and cleanup the environment
-    @param tpl_val: testing value
-    @param expect_tst: expected value
-    @param failed_reason: failed reason
+    :param init_sandbox: fixture to initation and cleanup the environment
+    :param tpl_val: testing value
+    :param expect_tst: expected value
+    :param failed_reason: failed reason
     """
     sandbox(target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_sandbox)

@@ -1,10 +1,6 @@
-r"""!Component Definition Files test.
+"""Component Definition Files test.
 
 Set of functions to test the Legato component definition files.
-
-@package componentModule
-@file
-\ingroup definitionFileTests
 """
 import os
 
@@ -28,11 +24,12 @@ CLIENT_APP_NAME = "printClient"
 # ====================================================================================
 @pytest.fixture(autouse=True)
 def init_cleanup_test(legato, tmpdir):
-    """!Init and clean up the test.
+    """Init and clean up the test.
 
-    @param legato: fixture to call useful functions regarding legato
-    @param tmpdir: fixture to provide a temporary directory
-                unique to the test invocation
+    Args:
+        legato: fixture to call useful functions regarding legato
+        tmpdir: fixture to provide a temporary directory
+             unique to the test invocation
     """
     legato.clear_target_log()
 
@@ -57,9 +54,10 @@ def init_cleanup_test(legato, tmpdir):
 # Test functions
 # ====================================================================================
 def L_CDEF_0004(legato):
-    """!Verify the provides and requires sections of cdef files.
+    """Verify the provides and requires sections of cdef files.
 
-    @param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     # Provide/Require Section:
     # Look for string to ensure apps are communicating using API

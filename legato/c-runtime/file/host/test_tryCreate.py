@@ -1,10 +1,6 @@
-r"""!atomicFile operation try create test.
+"""operation try create test.
 
 Set of functions to test the le_atomFile_TryCreate
-
-@package atomicFileTryCreateModule
-@file
-\ingroup runtimeTests
 """
 import os
 
@@ -29,7 +25,7 @@ APP_PATH = os.path.join(
 # ======================================================================================
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0024(target, legato, init_atomicFile):
-    """!Purpose: Verify that le_atomFile_TryCreate returns LE_DUPLICATE.
+    """Purpose: Verify that le_atomFile_TryCreate returns LE_DUPLICATE.
 
     the target file already == 0: existed and LE_FLOCK_FAIL_IF_EXIST
     is specified in createMode
@@ -46,12 +42,12 @@ def L_AtomicFile_Operation_0024(target, legato, init_atomicFile):
         2. Make and install the test app
         3. Run the test app
         4. Check  "le_atomFile_TryCreate returns LE_DUPLICATE ..."
-        can be captured from the target's log == 0:
+           can be captured from the target's log == 0:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryCreate"
     test_app_proc_name = "atomTryCreateProc"
@@ -78,7 +74,7 @@ def L_AtomicFile_Operation_0024(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0025(target, legato, init_atomicFile):
-    """!Purpose: Verify that le_atomFile_TryCreate returns LE_WOULD_BLOCK.
+    """Purpose: Verify that le_atomFile_TryCreate returns LE_WOULD_BLOCK.
 
     the target file already == 0: existed and LE_FLOCK_FAIL_IF_EXIST
     is specified in createMode
@@ -95,12 +91,12 @@ def L_AtomicFile_Operation_0025(target, legato, init_atomicFile):
         2. Make and install the test app
         3. Run the test app
         4. Check  "le_atomFile_TryCreate returns LE_WOULD_BLOCK ..."
-        can be captured from the target's log == 0:
+           can be captured from the target's log == 0:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryCreate"
     test_app_proc_name = "atomTryCreateProc"
@@ -126,7 +122,7 @@ def L_AtomicFile_Operation_0025(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0026(target, legato, init_atomicFile):
-    """!Purpose: Verify that le_atomFile_TryCreate returns a file descriptor.
+    """Purpose: Verify that le_atomFile_TryCreate returns a file descriptor.
 
     successful == 0:
 
@@ -142,12 +138,12 @@ def L_AtomicFile_Operation_0026(target, legato, init_atomicFile):
         2. Make and install the test app
         3. Run the test app
         4. Check  "le_atomFile_TryCreate returns a file descriptor ..."
-        can be captured from the target's log == 0:
+           can be captured from the target's log == 0:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryCreate"
     test_app_proc_name = "atomTryCreateProc"
@@ -172,7 +168,7 @@ def L_AtomicFile_Operation_0026(target, legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0027(legato, init_atomicFile):
-    """!Purpose: Verify that le_atomFile_TryCreate returns LE_FAULT.
+    """Purpose: Verify that le_atomFile_TryCreate returns LE_FAULT.
 
     there was an error (accesses to a non-existed dir == 0:
 
@@ -188,12 +184,12 @@ def L_AtomicFile_Operation_0027(legato, init_atomicFile):
         2. Make and install the test app
         3. Run the test app
         4. Check  "le_atomFile_TryCreate returns LE_FAULT ..."
-        can be captured from the target's log == 0:
+           can be captured from the target's log == 0:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryCreate"
     test_app_proc_name = "atomTryCreateProc"
@@ -218,7 +214,7 @@ def L_AtomicFile_Operation_0027(legato, init_atomicFile):
 
 @pytest.mark.usefixtures("app_leg")
 def L_AtomicFile_Operation_0028(legato, init_atomicFile):
-    """!Purpose: Verify that le_atomFile_TryCreate can successfully.
+    """Purpose: Verify that le_atomFile_TryCreate can successfully.
 
     acquire a file lock to the target file
 
@@ -238,10 +234,10 @@ def L_AtomicFile_Operation_0028(legato, init_atomicFile):
         3. Check  the second process does block after the
         first process successfully acquired the lock == 0:
 
-    @param target: fixture to communicate with the target
-    @param legato: fixture to call useful functions regarding legato
-    @param app_leg: fixture regarding to build, install and remove app
-    @param init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryCreate"
     test_app_proc_name = "atomTryCreateProc"
