@@ -28,12 +28,13 @@ is_first_execution = True
 def check_loading(target, module_name, expected_output_index):
     r"""Check the result of kmod load.
 
-    :param target: fixture to communicate with the target
-    :param module_name: name of kernel module (\*.ko)
-    :param expected_output_index:
-               | RESULT_OK         = 0 => Loading works fine
-               | RESULT_FAULT      = 1 => Loading didn't work due to error
-               | RESULT_DUPLICATE  = 2 => Loading didn't work due to duplicate
+    Args:
+        target: fixture to communicate with the target
+        module_name: name of kernel module (\*.ko)
+        expected_output_index:
+            | RESULT_OK         = 0 => Loading works fine
+            | RESULT_FAULT      = 1 => Loading didn't work due to error
+            | RESULT_DUPLICATE  = 2 => Loading didn't work due to duplicate
 
     :returns test_passed:
                True: loading result is as expected.
@@ -69,12 +70,13 @@ def check_loading(target, module_name, expected_output_index):
 def check_unloading(target, module_name, expected_output_index):
     r"""Check the result of kmod unload.
 
-    :param target: fixture to communicate with the target
-    :param module_name: name of kernel module (\*.ko)
-    :param expected_output_index:
-               | RESULT_OK         = 0 => Unloading works fine
-               | RESULT_FAULT      = 1 => Unloading didn't work
-               | RESULT_BUSY       = 2 => Current module is busy
+    Args:
+        target: fixture to communicate with the target
+        module_name: name of kernel module (\*.ko)
+        expected_output_index:
+            | RESULT_OK         = 0 => Unloading works fine
+            | RESULT_FAULT      = 1 => Unloading didn't work
+            | RESULT_BUSY       = 2 => Current module is busy
 
     :returns test_passed:
                 True: unloading result is as expected.
@@ -109,9 +111,10 @@ def check_unloading(target, module_name, expected_output_index):
 def check_presence(legato, module_name):
     r"""Check whether a module is loaded or not.
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param module_name: name of kernel module (\*.ko)
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        module_name: name of kernel module (\*.ko)
 
     :returns True: a module is loaded
     :returns False: a module is not loaded
@@ -123,10 +126,11 @@ def check_presence(legato, module_name):
 def install_system(target, legato, dir_path, test_name):
     """Compile the provided sdef and update the target with it.
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param dir_path: a temporary directory unique to the test invocation
-    :param test_name: test case name
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        dir_path: a temporary directory unique to the test invocation
+        test_name: test case name
     """
     swilog.debug(dir_path)
     # Sdef file
@@ -149,7 +153,8 @@ def install_system(target, legato, dir_path, test_name):
 def wait_for_cm_info(target):
     """Check target is available.
 
-    :param target: fixture to communicate with the target
+    Args:
+        target: fixture to communicate with the target
     """
     swilog.info("Checking legato is operational...")
     timer = 30
@@ -170,8 +175,9 @@ def wait_for_cm_info(target):
 def wait_for_app_presence(legato, app_name):
     """Check application is listed.
 
-    :param legato: fixture to call useful functions regarding legato
-    :param app_name: name of an application want to check
+    Args:
+        legato: fixture to call useful functions regarding legato
+        app_name: name of an application want to check
     """
     swilog.info("Checking application is listed...")
     timer = 30
@@ -186,8 +192,9 @@ def wait_for_app_presence(legato, app_name):
 def wait_for_app_running(legato, app_name):
     """Check application is running.
 
-    :param legato: fixture to call useful functions regarding legato
-    :param app_name: application name needs to be checked
+    Args:
+        legato: fixture to call useful functions regarding legato
+        app_name: application name needs to be checked
     """
     swilog.info("Checking application is running...")
     timer = 30
@@ -202,7 +209,8 @@ def wait_for_app_running(legato, app_name):
 def display_errors():
     """Display errors.
 
-    :param output: errors
+    Args:
+        output: errors
     """
     output = "\n"
     for err in swilog.get_error_list():
@@ -215,10 +223,11 @@ def make_sys_in_temporary_directory(
 ):
     """Compile the provided sdef and update the target.
 
-    :param legato: fixture to call useful functions regarding legato
-    :param temp_dir_path: a temporary directory unique to the test invocation
-    :param sys_name: name of the system definition file
-    :param definition_file_path: path of the  system definition file (.sdef)
+    Args:
+        legato: fixture to call useful functions regarding legato
+        temp_dir_path: a temporary directory unique to the test invocation
+        sys_name: name of the system definition file
+        definition_file_path: path of the  system definition file (.sdef)
     """
     old_path = os.getcwd()
     os.chdir(temp_dir_path)
@@ -236,10 +245,11 @@ def make_install_sys_in_temporary_directory(
 ):
     """Compile the provided sdef and update the target.
 
-    :param legato: fixture to call useful functions regarding legato
-    :param temp_dir_path: a temporary directory unique to the test invocation
-    :param sys_name: name of the system definition file
-    :param definition_file_path: path of the  system definition file (.sdef)
+    Args:
+        legato: fixture to call useful functions regarding legato
+        temp_dir_path: a temporary directory unique to the test invocation
+        sys_name: name of the system definition file
+        definition_file_path: path of the  system definition file (.sdef)
     """
     old_path = os.getcwd()
     os.chdir(temp_dir_path)
@@ -260,9 +270,10 @@ def make_install_sys_in_temporary_directory(
 def check_environment(target, legato, create_temp_workspace):
     """Check environment and clean up after each test.
 
-    :param legato: fixture to call useful functions regarding legato
-    :param target: fixture to communicate with the target
-    :param create_temp_workspace: fixture to create a temporary folder
+    Args:
+        legato: fixture to call useful functions regarding legato
+        target: fixture to communicate with the target
+        create_temp_workspace: fixture to create a temporary folder
                             at the emplacement of the module file
     """
     # Clear target log
@@ -291,10 +302,11 @@ def check_environment(target, legato, create_temp_workspace):
 def environment_setting(target, legato, create_temp_workspace):
     """Check every environment variable are defined. Define them otherwise.
 
-    :param legato: fixture to call useful functions regarding legato
-    :param target: fixture to communicate with the target
-    :param create_temp_workspace: fixture to create a temporary folder
-                            at the emplacement of the module file
+    Args:
+        legato: fixture to call useful functions regarding legato
+        target: fixture to communicate with the target
+        create_temp_workspace: fixture to create a temporary folder
+                         at the emplacement of the module file
     """
     global is_first_execution
 
@@ -333,7 +345,8 @@ def environment_setting(target, legato, create_temp_workspace):
 def create_temp_workspace(tmpdir_factory):
     """Create a temporary folder at the emplacement of the module file.
 
-    :param tmpdir_factory: a temporary directory unique to the test invocation
+    Args:
+        tmpdir_factory: a temporary directory unique to the test invocation
     """
     # Create temporary workspace. Convert to string
     temp_folder_path = str(tmpdir_factory.mktemp("output"))
@@ -355,9 +368,10 @@ def L_Tools_Kmod_0004(target, legato, create_temp_workspace):
         4. Load the module
         5. Compile the default package and update the target with it
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param create_temp_workspace: fixture to create a temporary folder
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        create_temp_workspace: fixture to create a temporary folder
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -401,9 +415,10 @@ def L_Tools_Kmod_0005(target, legato, create_temp_workspace):
         4. Unload the module
         5. Compile the default package and update the target with it
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param create_temp_workspace: fixture to create a temporary folder
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        create_temp_workspace: fixture to create a temporary folder
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -446,9 +461,10 @@ def L_Tools_Kmod_0006(target, legato, create_temp_workspace):
         4. It must fail
         5. Compile the default package and update the target with it
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param create_temp_workspace: fixture to create a temporary folder
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        create_temp_workspace: fixture to create a temporary folder
     """
     # Initialisation:
     # Verify existence of environment variables and files needed.
@@ -488,9 +504,10 @@ def L_Tools_Kmod_0007(target, legato, create_temp_workspace):
         4. Try to unload the primary module: it must fail
         5. Compile the default package and update the target with it
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param create_temp_workspace: fixture to create a temporary folder
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        create_temp_workspace: fixture to create a temporary folder
     """
     # Initialisation:
     # Verify existence of environment variables and files needed.
@@ -540,9 +557,10 @@ def L_Tools_Kmod_0008(target, legato, create_temp_workspace):
         4. Load back the module
         5. Compile the default package and update the target with it
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param create_temp_workspace: fixture to create a temporary folder
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        create_temp_workspace: fixture to create a temporary folder
     """
     # Initialisation:
     # Verify existence of environment variables and files needed.
@@ -589,9 +607,10 @@ def L_Tools_Kmod_0009(target, legato, create_temp_workspace):
         5. Unload module
         6. Compile the default package and update the target with it
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param create_temp_workspace: fixture to create a temporary folder
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        create_temp_workspace: fixture to create a temporary folder
     """
     # Initialization:
     # Verify existence of environment variables and files needed
@@ -677,9 +696,10 @@ def L_Tools_Kmod_0010(target, legato, create_temp_workspace):
         9. Verify mod is loaded
         10. Compile the default package and update the target with it
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param create_temp_workspace: fixture to create a temporary folder
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        create_temp_workspace: fixture to create a temporary folder
     """
     # Initialisation:
     # Verify existence of environment variables and files needed.
@@ -750,9 +770,10 @@ def L_Tools_Kmod_0011(target, legato, create_temp_workspace):
         4. Try to load the primary module: it should fail
         5. Compile the default package and update the target with it
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param create_temp_workspace: fixture to create a temporary folder
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        create_temp_workspace: fixture to create a temporary folder
     """
     # Initialisation:
     # Verify existence of environment variables and files needed.
@@ -820,9 +841,10 @@ def L_Tools_Kmod_0020(target, legato, create_temp_workspace):
     4. Unload the module
     5. Compile the default package and update the target with it
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param create_temp_workspace: fixture to create a temporary folder
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        create_temp_workspace: fixture to create a temporary folder
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -890,9 +912,10 @@ def L_Tools_Kmod_0021(target, legato, create_temp_workspace):
         8. Load the module
         9. Compile the default package and update the target with it
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param create_temp_workspace: fixture to create a temporary folder
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        create_temp_workspace: fixture to create a temporary folder
     """
     test_name = "L_Tools_Kmod_0021"
     test_passed = True

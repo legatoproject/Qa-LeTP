@@ -1,68 +1,68 @@
 [
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_Allow.py::L_UpdateCtrl_Allow_0001"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_Allow.py::L_UpdateCtrl_Allow_0001"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_Allow.py::L_UpdateCtrl_Allow_0002"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_Allow.py::L_UpdateCtrl_Allow_0002"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_Defer.py::L_UpdateCtrl_Defer_0001"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_Defer.py::L_UpdateCtrl_Defer_0001"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_Defer.py::L_UpdateCtrl_Defer_0002"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_Defer.py::L_UpdateCtrl_Defer_0002"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_Defer.py::L_UpdateCtrl_Defer_0003"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_Defer.py::L_UpdateCtrl_Defer_0003"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_Defer.py::L_UpdateCtrl_Defer_0004"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_Defer.py::L_UpdateCtrl_Defer_0004"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_Defer.py::L_UpdateCtrl_Defer_0005"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_Defer.py::L_UpdateCtrl_Defer_0005"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_Defer.py::L_UpdateCtrl_Defer_0006"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_Defer.py::L_UpdateCtrl_Defer_0006"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_MarkGood.py::L_UpdateCtrl_MarkGood_0001"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_MarkGood.py::L_UpdateCtrl_MarkGood_0001"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_MarkGood.py::L_UpdateCtrl_MarkGood_0002"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_MarkGood.py::L_UpdateCtrl_MarkGood_0002"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_MarkGood.py::L_UpdateCtrl_MarkGood_0003"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_MarkGood.py::L_UpdateCtrl_MarkGood_0003"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_MarkGood.py::L_UpdateCtrl_MarkGood_0004"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_MarkGood.py::L_UpdateCtrl_MarkGood_0004"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_MarkGood.py::L_UpdateCtrl_MarkGood_0005"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_MarkGood.py::L_UpdateCtrl_MarkGood_0005"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_MarkGood.py::L_UpdateCtrl_MarkGood_0006"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_MarkGood.py::L_UpdateCtrl_MarkGood_0006"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_FailProbation.py::L_UpdateCtrl_FailProbation_0002"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_FailProbation.py::L_UpdateCtrl_FailProbation_0002"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_UnlockProbation.py::L_UpdateCtrl_UnlockProbation_0001"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_UnlockProbation.py::L_UpdateCtrl_UnlockProbation_0001"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_UnlockProbation.py::L_UpdateCtrl_UnlockProbation_0002"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_UnlockProbation.py::L_UpdateCtrl_UnlockProbation_0002"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_UnlockProbation.py::L_UpdateCtrl_UnlockProbation_0003"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_UnlockProbation.py::L_UpdateCtrl_UnlockProbation_0003"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_LockProbation.py::L_UpdateCtrl_LockProbation_0001"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_LockProbation.py::L_UpdateCtrl_LockProbation_0001"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_LockProbation.py::L_UpdateCtrl_LockProbation_0002"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_LockProbation.py::L_UpdateCtrl_LockProbation_0002"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_LockProbation.py::L_UpdateCtrl_LockProbation_0003"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_LockProbation.py::L_UpdateCtrl_LockProbation_0003"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/update/updateControl/host/test_updateControl_LockProbation.py::L_UpdateCtrl_LockProbation_0004"
+        "name": "Qa-LeTP/legato/services/update/updateControl/host/test_updateControl_LockProbation.py::L_UpdateCtrl_LockProbation_0004"
     }
 ]

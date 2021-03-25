@@ -26,9 +26,10 @@ APP_PATH_01 = os.path.join(APP_PATH_00, "testUpdateCtrlApp")
 def install_and_clean_app(request, legato, clean_test):
     """Set up the environment, install apps and clean up.
 
-    :param request: object to access data
-    :param legato: fixture to call useful functions regarding legato
-    :param clean_test: fixture to clean up environment
+    Args:
+        request: object to access data
+        legato: fixture to call useful functions regarding legato
+        clean_test: fixture to clean up environment
     """
     assert clean_test
     test_name = request.node.name
@@ -87,9 +88,10 @@ def L_UpdateCtrl_FailProbation_0002(target, legato, install_and_clean_app):
     the current system status can be verified by
     the command line "legato status")
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param install_and_clean_app: initial and build app
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        install_and_clean_app: initial and build app
     """
     swilog.step("Test L_UpdateCtrl_FailProbation_0002")
     old_sys_index = 0

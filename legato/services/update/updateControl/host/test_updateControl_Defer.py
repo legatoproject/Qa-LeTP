@@ -31,8 +31,9 @@ HELLO_WORLD_PATH = os.path.join(APP_PATH, "helloWorldApp")
 def install_and_clean_app(legato, clean_test, request):
     """Clean up environment and install app.
 
-    :param legato: fixture to call useful functions regarding legato
-    :param clean_test: fixture to clean up environment
+    Args:
+        legato: fixture to call useful functions regarding legato
+        clean_test: fixture to clean up environment
     """
     assert clean_test
     if legato.get_current_system_index() != 0:
@@ -77,9 +78,10 @@ def L_UpdateCtrl_Defer_0001(target):
     the current system status can be verified by
     the command line "legato status")
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param install_and_clean_app: fixture to clean up environment and build app
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        install_and_clean_app: fixture to clean up environment and build app
     """
     swilog.step("Test L_UpdateCtrl_Defer_0001")
 
@@ -141,9 +143,10 @@ def L_UpdateCtrl_Defer_0002(target, legato):
     the current system status can be verified by
     the command line "legato status")
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param install_and_clean_app: fixture to clean up environment and build app
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        install_and_clean_app: fixture to clean up environment and build app
     """
     swilog.step("Test L_UpdateCtrl_Defer_0002")
 
@@ -198,9 +201,10 @@ def L_UpdateCtrl_Defer_0003(target, legato):
     the current system status can be verified by
     the command line "legato status")
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param install_and_clean_app: fixture to clean up environment and build app
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        install_and_clean_app: fixture to clean up environment and build app
     """
     swilog.step("Test L_UpdateCtrl_Defer_0003")
 
@@ -261,9 +265,10 @@ def L_UpdateCtrl_Defer_0004(target, legato):
         3. Install the helloWorld app
         4. Check 3. is successful
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param install_and_clean_app: fixture to clean up environment and build app
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        install_and_clean_app: fixture to clean up environment and build app
     """
     swilog.step("Test L_UpdateCtrl_Defer_0004")
 
@@ -317,9 +322,10 @@ def L_UpdateCtrl_Defer_0005(target, legato, clean_test):
         the current system status can be verified by
         the command line "legato status")
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param clean_test: fixture to clean up environment
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        clean_test: fixture to clean up environment
     """
     swilog.step("Test L_UpdateCtrl_Defer_0005")
     assert clean_test
@@ -422,9 +428,10 @@ def L_UpdateCtrl_Defer_0006(target, legato):
         4. Install the helloWorld app
         5. Check 4. is successful
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param install_and_clean_app: fixture to clean up environment and build app
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        install_and_clean_app: fixture to clean up environment and build app
     """
     swilog.step("Test L_UpdateCtrl_Defer_0006")
     # Begin of the this TC

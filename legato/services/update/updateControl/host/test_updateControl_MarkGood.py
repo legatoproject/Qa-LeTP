@@ -26,9 +26,10 @@ APP_PATH_01 = os.path.join(APP_PATH_00, "testUpdateCtrlApp")
 def install_and_clean_app(request, legato, clean_test):
     """Set up the environment, install apps and clean up.
 
-    :param request: object to access data
-    :param legato: fixture to call useful functions regarding legato
-    :param clean_test: fixture to clean up environment
+    Args:
+        request: object to access data
+        legato: fixture to call useful functions regarding legato
+        clean_test: fixture to clean up environment
     """
     assert clean_test
     test_name = request.node.name
@@ -64,8 +65,9 @@ def install_and_clean_app(request, legato, clean_test):
 def end_test(is_tc_passed, request):
     """Verify the result of test case.
 
-    :param is_tc_passed: status of test case
-    :param request: object to access data
+    Args:
+        is_tc_passed: status of test case
+        request: object to access data
     """
     test_name = request.node.name
     assert is_tc_passed, "[FAILED] %s" % test_name
@@ -98,10 +100,11 @@ def L_UpdateCtrl_MarkGood_0001(target, request, legato, install_and_clean_app):
     and the current system status can be verified by
     the command line "legato status")
 
-    :param target: fixture to communicate with the target
-    :param request: object to access data
-    :param legato: fixture to call useful functions regarding legato
-    :param install_and_clean_app: initial and build app for testing
+    Args:
+        target: fixture to communicate with the target
+        request: object to access data
+        legato: fixture to call useful functions regarding legato
+        install_and_clean_app: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0001")
     old_sys_index = 0
@@ -194,10 +197,11 @@ def L_UpdateCtrl_MarkGood_0002(target, request, legato, install_and_clean_app):
     and the current system status can be verified by
     the command line "legato status")
 
-    :param target: fixture to communicate with the target
-    :param request: object to access data
-    :param legato: fixture to call useful functions regarding legato
-    :param install_and_clean_app: initial and build app for testing
+    Args:
+        target: fixture to communicate with the target
+        request: object to access data
+        legato: fixture to call useful functions regarding legato
+        install_and_clean_app: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0002")
     old_sys_index = 0
@@ -287,10 +291,11 @@ def L_UpdateCtrl_MarkGood_0003(target, request, legato, install_and_clean_app):
     and the current system status can be verified by
     the command line "legato status")
 
-    :param target: fixture to communicate with the target
-    :param request: object to access data
-    :param legato: fixture to call useful functions regarding legato
-    :param install_and_clean_app: initial and build app for testing
+    Args:
+        target: fixture to communicate with the target
+        request: object to access data
+        legato: fixture to call useful functions regarding legato
+        install_and_clean_app: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0003")
     old_sys_index = 0
@@ -387,10 +392,11 @@ def L_UpdateCtrl_MarkGood_0004(target, request, legato, install_and_clean_app):
     and the current system status can be verified by
     the command line "legato status")
 
-    :param target: fixture to communicate with the target
-    :param request: object to access data
-    :param legato: fixture to call useful functions regarding legato
-    :param install_and_clean_app: initial and build app for testing
+    Args:
+        target: fixture to communicate with the target
+        request: object to access data
+        legato: fixture to call useful functions regarding legato
+        install_and_clean_app: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0004")
     old_sys_index = 0
@@ -484,10 +490,11 @@ def L_UpdateCtrl_MarkGood_0005(target, request, legato, install_and_clean_app):
     the current system status can be verified by
     the command line "legato status")
 
-    :param target: fixture to communicate with the target
-    :param request: object to access data
-    :param legato: fixture to call useful functions regarding legato
-    :param install_and_clean_app: initial and build app for testing
+    Args:
+        target: fixture to communicate with the target
+        request: object to access data
+        legato: fixture to call useful functions regarding legato
+        install_and_clean_app: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0005")
     old_sys_index = 0
@@ -591,10 +598,11 @@ def L_UpdateCtrl_MarkGood_0006(target, request, legato, install_and_clean_app):
     (Notes: the current system index, the current system state and the current
     system status can be verified by the command line "legato status")
 
-    :param target: fixture to communicate with the target
-    :param request: object to access data
-    :param legato: fixture to call useful functions regarding legato
-    :param install_and_clean_app: initial and build app for testing
+    Args:
+        target: fixture to communicate with the target
+        request: object to access data
+        legato: fixture to call useful functions regarding legato
+        install_and_clean_app: initial and build app for testing
     """
     swilog.step("Test L_UpdateCtrl_MarkGood_0006")
     old_sys_index = 0

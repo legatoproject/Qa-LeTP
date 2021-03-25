@@ -191,16 +191,17 @@ def check_order(logread, order, ordered_list):
 
     in ordered_list following order.
 
-    :param logread: fixture to check log on the target
-    :param order: order type
-                  ASCENDING_ORDER = 1
-                  DESCENDING_ORDER = -1
-    :param ordered_list: the list needs to be checked
+    Args:
+        logread: fixture to check log on the target
+        order: order type
+               ASCENDING_ORDER = 1
+               DESCENDING_ORDER = -1
+        ordered_list: the list needs to be checked
 
-    :returns A tuble: (test_result, observed_list)
-    :returns test_result: the result of checking
-                        True or False
-    :returns observed_list: the list after checked
+    Returns:
+        A tuble: (test_result, observed_list)
+        test_result: the result of checking. True or False
+        observed_list: the list after checked
     """
     list_checked = ordered_list
     test_result = True
@@ -1101,8 +1102,8 @@ def L_MDEF_0018(legato):
     3. Verify presence of the module file
     4. Verify presence of the bundled files
 
-
-    :param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -2165,8 +2166,8 @@ def L_MDEF_0056(legato):
     2. Verify loading of the module
     3. Compile the default package and update the target with it
 
-
-    :param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -2201,7 +2202,8 @@ def L_MDEF_0057(legato):
     2. Verify loading of the module
     3. Compile the default package and update the target with it
 
-    :param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -2236,7 +2238,8 @@ def L_MDEF_0058(legato):
         2. Verify loading of the module
         3. Compile the default package and update the target with it
 
-    :param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation
@@ -2357,7 +2360,8 @@ def L_MDEF_0062(legato):
         3. Verify presence of the module file
         4. Verify presence of the bundled files
 
-    :param legato: fixture to call useful functions regarding legato
+    Args:
+        legato: fixture to call useful functions regarding legato
     """
     # Verify existence of environment variables and files needed.
     # Prepare compilation

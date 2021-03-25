@@ -43,10 +43,11 @@ def L_AtomicFile_Operation_0031(target, legato, init_atomicFile):
            le_atomFile_Cancel is called == 0:
         4. Repeat above for different test scenarios
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param app_leg: fixture regarding to build, install and remove app
-    :param init_atomicFile: fixture to initialize and clean up environment
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        app_leg: fixture regarding to build, install and remove app
+        init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomCancel"
     test_app_proc_name = "atomCancelProc"
@@ -98,10 +99,11 @@ def L_AtomicFile_Operation_0032(target, legato, init_atomicFile):
         3. Check  file's contents remain unchanged == 0:
         4. Repeat above for different test scenarios
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param app_leg: fixture regarding to build, install and remove app
-    :param init_atomicFile: fixture to initialize and clean up environment
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        app_leg: fixture regarding to build, install and remove app
+        init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomCancel"
     test_app_proc_name = "atomCancelProc"
