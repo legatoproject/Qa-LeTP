@@ -196,7 +196,7 @@ def check_order(logread, order, ordered_list):
         order: order type
                ASCENDING_ORDER = 1
                DESCENDING_ORDER = -1
-        ordered_list: the list needs to be checked
+        ordered_list: the list that needs to be checked
 
     Returns:
         A tuple: (test_result, observed_list)
@@ -261,7 +261,7 @@ def check_unloading_order(logread, order, ordered_list):
         order: order type
              ASCENDING_ORDER = 1
              DESCENDING_ORDER = -1
-        ordered_list: the list needs to be checked
+        ordered_list: the list that needs to be checked
 
     Returns:
         The result of check_order function. \
