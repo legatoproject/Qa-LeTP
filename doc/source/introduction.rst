@@ -7,8 +7,8 @@ Introduction
 Qa-letp contains `Legato <https://github.com/legatoproject/legato-af>`_
 system testing scripts.
 
-Steps to installing and running the tests
-------------------------------------------
+Steps to installing LeTP and running the full system test campaign
+------------------------------------------------------------------
 
 1. Clone the LeTP repo if you haven't already done so::
 
@@ -31,9 +31,13 @@ Steps to installing and running the tests
 
            which letp
 
+   Make sure the environment variable $LEGATO_ROOT is set before moving on.
+   This is required for running some tests.
+   If you're unsure how to set it, please refer to "Getting Started" section in LeTP documentation.
+
 5. Navigate to the test directory::
 
-    cd LeTP/testing_target/Qa-LeTP/runtest
+    cd testing_target/Qa-LeTP/runtest
 
 6. Run the full system test campaign::
 

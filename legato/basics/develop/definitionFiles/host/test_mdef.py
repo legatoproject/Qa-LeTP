@@ -199,7 +199,7 @@ def check_order(logread, order, ordered_list):
         ordered_list: the list needs to be checked
 
     Returns:
-        A tuble: (test_result, observed_list)
+        A tuple: (test_result, observed_list)
         test_result: the result of checking. True or False
         observed_list: the list after checked
     """
@@ -241,7 +241,7 @@ def check_loading_order(logread, order, ordered_list):
         order: order type
                ASCENDING_ORDER = 1
                DESCENDING_ORDER = -1
-        ordered_list: the list needs to be checked
+        ordered_list: the list that needs to be checked
 
     Returns:
         The result of check_order function. \

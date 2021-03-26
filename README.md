@@ -3,7 +3,7 @@
 Qa-letp contains <A HREF="https://github.com/legatoproject/legato-af">
 Legato</A> system testing scripts.
 
-# Steps to installing and running the tests
+# Steps to installing LeTP and running the full system test campaign
 
 1. Clone <A HREF="https://github.com/legatoproject/LeTP">LeTP</A> repo if you haven't already done so. <br>
     ```
@@ -26,9 +26,12 @@ Legato</A> system testing scripts.
     ```
     which letp
     ```
+    Make sure the environment variable $LEGATO_ROOT is set before moving on.
+    This is required for running some tests.
+    If you're unsure how to set it, please refer to "Getting Started" section in LeTP documentation.
 5. Navigate to the test directory
     ```
-    cd LeTP/testing_target/Qa-LeTP/runtest
+    cd testing_target/Qa-LeTP/runtest
     ```
 6. Run the full system test campaign.
     ```
@@ -57,12 +60,12 @@ Below is the file tree for Qa-LeTP:
     ├── doc     // Documentation resources
     │   ├── Makefile    // Makefile for documentation generation
     |   ├── source      // Source files for documentation generation
-    │   ├── _sphinx     // Generated after "make html". Generated documentation folder.
+    │   ├── _sphinx     // Generated after "make html". Contains the documentation.
     │
     ├── legato
     │   ├── basics
     │   │   ├── develop
-    │   │   │   ├── definitionFiles     // Set of test for the Legato component and application definition files.
+    │   │   │   ├── definitionFiles     // Set of tests for the Legato component and application definition files.
     │   │   │       ├── host
     |   |   |       |   ├── resources
     |   |   |       |   ├── test_adef_link.py
@@ -83,9 +86,10 @@ Below is the file tree for Qa-LeTP:
     │   │       └── targetTools
     │   │           └── kmod        // Set of tests for the Legato kmod tools
     |   |               ├── host
-    |   |               ├── resources
-    |   |               ├── test_KMod_basic.py
-    |   |               └── test_KMod.py
+    |   |               |   ├── resources
+    |   |               |   ├── test_KMod_basic.py
+    |   |               |   └── test_KMod.py
+    |   |               └── runtest
     │   ├── c-runtime       // Set of tests for file operations in C files.
     │   │   └── file
     │   │       ├── host

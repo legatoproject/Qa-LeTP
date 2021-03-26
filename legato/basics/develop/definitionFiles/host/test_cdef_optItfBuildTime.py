@@ -260,8 +260,8 @@ def build_app(
                   withBindings: bound
                   withoutBindings: not bound
         build_status: build status
-                   False: it's built successfully (default value)
-                   True: it's built failed
+                   False: The build was successful (default value)
+                   True: The build failed
     """
     app_files_path = "%s/%s/%s" % (
         api_type_dir_name,

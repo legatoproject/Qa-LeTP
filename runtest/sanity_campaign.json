@@ -1,5 +1,5 @@
 [
     {
-        "name": "$LETP_TEST_SET/legato/c-runtime/file/runtest/file.json"
+        "name": "Qa-LeTP/legato/c-runtime/file/runtest/file.json"
     }
 ]

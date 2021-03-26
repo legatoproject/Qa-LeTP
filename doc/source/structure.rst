@@ -8,8 +8,7 @@ Further details on each test can be found in the documentations of each test.
 
 Below is the file tree for Qa-LeTP::
 
-    ├── config
-    │
+
     ├── doc     // Documentation resources
     │   ├── Makefile    // Makefile for documentation generation
     |   ├── source      // Source files for documentation generation
@@ -39,9 +38,10 @@ Below is the file tree for Qa-LeTP::
     │   │       └── targetTools
     │   │           └── kmod        // Set of tests for the Legato kmod tools
     |   |               ├── host
-    |   |               ├── resources
-    |   |               ├── test_KMod_basic.py
-    |   |               └── test_KMod.py
+    |   |               |   ├── resources
+    |   |               |   ├── test_KMod_basic.py
+    |   |               |   └── test_KMod.py
+    |   |               └── runtest
     │   ├── c-runtime       // Set of tests for file operations in C files.
     │   │   └── file
     │   │       ├── host

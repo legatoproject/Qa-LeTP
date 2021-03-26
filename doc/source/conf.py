@@ -25,9 +25,9 @@ sys.path.insert(0, os.path.abspath("../../legato/security/"))
 sys.path.insert(0, os.path.abspath("../../legato/services/"))
 
 
-project = 'Qa-LeTP'
-copyright = '2021, Sierra Wireless'
-author = 'Sierra Wireless'
+project = "Qa-LeTP"
+copyright = "2021, Sierra Wireless"
+author = "Sierra Wireless"
 
 # The short X.Y version.
 version = u"QA_LeTP_version"
@@ -48,7 +48,7 @@ extensions = [
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -65,11 +65,11 @@ html_show_sourcelink = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = "alabaster"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["_static"]
 
 html_theme_options = {"page_width": "auto"}
