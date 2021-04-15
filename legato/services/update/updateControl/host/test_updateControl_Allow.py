@@ -29,8 +29,9 @@ APP_PATH_02 = os.path.join(APP_PATH_00, "helloWorldApp")
 def install_and_clean_app(legato, clean_test):
     """Clean up environment and install app.
 
-    :param legato: fixture to call useful functions regarding legato
-    :param clean_test: fixture to clean up environment
+    Args:
+        legato: fixture to call useful functions regarding legato
+        clean_test: fixture to clean up environment
     """
     assert clean_test
     if legato.get_current_system_index() != 0:
@@ -68,9 +69,10 @@ def L_UpdateCtrl_Allow_0001(target, legato):
         4. After 20s, install the second app again
         5. Check 5. is successful
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param init_UpdateCrtl: fixture to clean up environment and build app
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        init_UpdateCrtl: fixture to clean up environment and build app
     """
     swilog.step("Test L_UpdateCtrl_Allow_0001")
 
@@ -133,9 +135,10 @@ def L_UpdateCtrl_Allow_0002(target, legato):
         7. After 20 seconds, install the second app again
         8. Check 7. is successful
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param init_UpdateCrtl: fixture to clean up environment and build app
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        init_UpdateCrtl: fixture to clean up environment and build app
     """
     swilog.step("Test L_UpdateCtrl_Allow_0002")
 

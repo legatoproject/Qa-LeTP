@@ -26,8 +26,9 @@ def L_SampleApps_HelloIpc_0001(legato):
         2. Run the test app
         3. Check if expected messages appears in log
 
-    :param legato: fixture to call useful functions regarding legato
-    :param installapp_cleanup: fixture to make, install and remove application
+    Args:
+        legato: fixture to call useful functions regarding legato
+        installapp_cleanup: fixture to make, install and remove application
     """
     swilog.step("Execute L_SampleApps_HelloIpc_0001")
 

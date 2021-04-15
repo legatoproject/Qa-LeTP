@@ -41,10 +41,11 @@ def L_AtomicFile_Operation_0001(target, legato, init_atomicFile):
         3. Check  "le_atomFile_Open returns LE_NOT_FOUND ..." \
            can be captured from the target's log == 0:
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param app_leg: fixture regarding to build, install and remove app
-    :param init_atomicFile: fixture to setup and cleanup environment
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        app_leg: fixture regarding to build, install and remove app
+        init_atomicFile: fixture to setup and cleanup environment
     """
     test_app_name = "atomOpen"
     test_app_proc_name = "atomOpenProc"
@@ -86,10 +87,11 @@ def L_AtomicFile_Operation_0002(target, legato, init_atomicFile):
         3. Check  "le_atomFile_Open returns LE_FAULT ..." \
            can be captured from the target's log == 0:
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param app_leg: fixture regarding to build, install and remove app
-    :param init_atomicFile: fixture to setup and cleanup environment
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        app_leg: fixture regarding to build, install and remove app
+        init_atomicFile: fixture to setup and cleanup environment
     """
     test_app_name = "atomOpen"
     test_app_proc_name = "atomOpenProc"
@@ -134,10 +136,11 @@ def L_AtomicFile_Operation_0003(target, legato, init_atomicFile):
         3. Check  "le_atomFile_Open returns a file descriptor ..." \
            can be captured from the target's log == 0:
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param app_leg: fixture regarding to build, install and remove app
-    :param init_atomicFile: fixture to setup and cleanup environment
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        app_leg: fixture regarding to build, install and remove app
+        init_atomicFile: fixture to setup and cleanup environment
     """
     test_app_name = "atomOpen"
     test_app_proc_name = "atomOpenProc"

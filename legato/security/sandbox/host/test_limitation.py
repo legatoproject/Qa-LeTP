@@ -91,10 +91,11 @@ DEFAULT_VALUE_STR_TBL = {
 def sandbox_verification(val_under_test, expected_val, temp_output_file, test_title):
     """Verification sandbox limitation test.
 
-    :param val_under_test: value under test
-    :param expected_val: expected value from the test
-    :param temp_output_file: temporary output file
-    :param test_title: title of the test
+    Args:
+        val_under_test: value under test
+        expected_val: expected value from the test
+        temp_output_file: temporary output file
+        test_title: title of the test
 
     :returns exit_code: return value for verification sandbox
                     0: passed
@@ -211,12 +212,13 @@ def sandbox_verification(val_under_test, expected_val, temp_output_file, test_ti
 def make_install_sandbox_app(legato, tmpdir, app_name, app_path, expect_tst):
     """Build and install sandbox test app.
 
-    :param legato: fixture to call useful functions regarding legato
-    :param tmpdir: fixture to provide a temporary directory
-                 unique to the test invocation
-    :param app_name: name of the app
-    :param app_path: path to the adef file
-    :param expect_tst: expected value
+    Args:
+        legato: fixture to call useful functions regarding legato
+        tmpdir: fixture to provide a temporary directory
+              unique to the test invocation
+        app_name: name of the app
+        app_path: path to the adef file
+        expect_tst: expected value
     """
     rsp = pexpect.run("cat %s/%s.adef" % (app_path, app_name), encoding="utf-8")
     swilog.info(rsp)
@@ -251,14 +253,15 @@ def sandbox(target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_san
         1. Update, build and install app
         2. Test is passed if verification OK
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param tmpdir: fixture to provide a temporary directory
-                  unique to the test invocation
-    :param tpl_val: testing value
-    :param expect_tst: expected value
-    :param failed_reason: failed reason
-    :param init_sandbox: fixture to initation and cleanup the environment
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        tmpdir: fixture to provide a temporary directory
+               unique to the test invocation
+        tpl_val: testing value
+        expect_tst: expected value
+        failed_reason: failed reason
+        init_sandbox: fixture to initation and cleanup the environment
     """
     # list_obj[0] app_name
     # list_obj[1] app_path
@@ -306,8 +309,9 @@ def sandbox(target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_san
 def init_sandbox(request, legato):
     """Init and cleanup environment.
 
-    :param request: object to access data
-    :param legato: fixture to call useful functions regarding legato
+    Args:
+        request: object to access data
+        legato: fixture to call useful functions regarding legato
     """
     app_name = getattr(request.module, "APP_NAME_%s" % request.node.name.split("[")[0])
     app_path = getattr(request.module, "APP_PATH_%s" % request.node.name.split("[")[0])
@@ -353,14 +357,15 @@ def L_SandBox_0007(
 
     It also processes the output to determine pass/fail.
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param tmpdir: fixture to provide a temporary directory
-                  unique to the test invocation
-    :param init_sandbox: fixture to initation and cleanup the environment
-    :param tpl_val: testing value
-    :param expect_tst: expected value
-    :param failed_reason: failed reason
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        tmpdir: fixture to provide a temporary directory
+               unique to the test invocation
+        init_sandbox: fixture to initation and cleanup the environment
+        tpl_val: testing value
+        expect_tst: expected value
+        failed_reason: failed reason
     """
     sandbox(target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_sandbox)
 
@@ -392,14 +397,15 @@ def L_SandBox_0010(
 
     It also processes the output to determine pass/fail.
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param tmpdir: fixture to provide a temporary directory
-                  unique to the test invocation
-    :param init_sandbox: fixture to initation and cleanup the environment
-    :param tpl_val: testing value
-    :param expect_tst: expected value
-    :param failed_reason: failed reason
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        tmpdir: fixture to provide a temporary directory
+               unique to the test invocation
+        init_sandbox: fixture to initation and cleanup the environment
+        tpl_val: testing value
+        expect_tst: expected value
+        failed_reason: failed reason
     """
     sandbox(target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_sandbox)
 
@@ -445,14 +451,15 @@ def L_SandBox_0012(
 
     It also processes the output to determine pass/fail.
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param tmpdir: fixture to provide a temporary directory
-                  unique to the test invocation
-    :param init_sandbox: fixture to initation and cleanup the environment
-    :param tpl_val: testing value
-    :param expect_tst: expected value
-    :param failed_reason: failed reason
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        tmpdir: fixture to provide a temporary directory
+               unique to the test invocation
+        init_sandbox: fixture to initation and cleanup the environment
+        tpl_val: testing value
+        expect_tst: expected value
+        failed_reason: failed reason
     """
     sandbox(target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_sandbox)
 
@@ -485,13 +492,14 @@ def L_SandBox_0018(
 
     It also processes the output to determine pass/fail.
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param tmpdir: fixture to provide a temporary directory
-                  unique to the test invocation
-    :param init_sandbox: fixture to initation and cleanup the environment
-    :param tpl_val: testing value
-    :param expect_tst: expected value
-    :param failed_reason: failed reason
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        tmpdir: fixture to provide a temporary directory
+               unique to the test invocation
+        init_sandbox: fixture to initation and cleanup the environment
+        tpl_val: testing value
+        expect_tst: expected value
+        failed_reason: failed reason
     """
     sandbox(target, legato, tmpdir, tpl_val, expect_tst, failed_reason, init_sandbox)

@@ -73,9 +73,10 @@ def permissions_test(target, owner_permissions, group_permissions, others_permis
 def type_test(target, path, type_test):
     """Check the 'type' command.
 
-    :param target: fixture to communicate with the target
-    :param path: fixture to get path of sandbox app
-    :param type_test: fixture to provide type test
+    Args:
+        target: fixture to communicate with the target
+        path: fixture to get path of sandbox app
+        type_test: fixture to provide type test
     """
     stdout = target.run(
         "cd %s/bin/; ./%s -mc 2 type %s" % (APP_SANDBOX_PATH, APP_NAME, path),
@@ -90,8 +91,9 @@ def type_test(target, path, type_test):
 def extreme_test(target, flag):
     """Check the 'extreme' flag.
 
-    :param target: fixture to communicate with the target
-    :param flag: fixture to provide flag
+    Args:
+        target: fixture to communicate with the target
+        flag: fixture to provide flag
     """
     stdout = target.run(
         "cd %s/bin/; ./%s -mc 2 %s permissions %s/testFile1"
@@ -110,8 +112,9 @@ def extreme_test(target, flag):
 def max_count_test(target, flag):
     """Check the 'max count' flag.
 
-    :param target: fixture to communicate with the target
-    :param flag: fixture to provide option
+    Args:
+        target: fixture to communicate with the target
+        flag: fixture to provide option
     """
     stdout = target.run(
         "cd %s/bin/; ./%s %s permissions %s/testFile1"
@@ -135,8 +138,9 @@ def L_SampleApps_FileInfo_0001(target):
         2. Run the test app
         3. Check if expected messages appears in log
 
-    :param target: fixture to communicate with the target
-    :param app_leg: fixture to make, install and remove application
+    Args:
+        target: fixture to communicate with the target
+        app_leg: fixture to make, install and remove application
     """
     swilog.step("Execute L_SampleApps_FileInfo_0001")
 

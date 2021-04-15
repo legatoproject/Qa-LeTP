@@ -1,26 +1,26 @@
 [
     {
-        "name": "$LETP_TEST_SET/legato/security/sandbox/host/test_limitation.py::L_SandBox_0007"
+        "name": "Qa-LeTP/legato/security/sandbox/host/test_limitation.py::L_SandBox_0007"
     },
     {
-        "name": "$LETP_TEST_SET/legato/security/sandbox/host/test_limitation.py::L_SandBox_0010"
+        "name": "Qa-LeTP/legato/security/sandbox/host/test_limitation.py::L_SandBox_0010"
     },
     {
-        "name": "$LETP_TEST_SET/legato/security/sandbox/host/test_limitation.py::L_SandBox_0012"
+        "name": "Qa-LeTP/legato/security/sandbox/host/test_limitation.py::L_SandBox_0012"
     },
     {
-        "name": "$LETP_TEST_SET/legato/security/sandbox/host/test_limitation.py::L_SandBox_0018"
+        "name": "Qa-LeTP/legato/security/sandbox/host/test_limitation.py::L_SandBox_0018"
     },
     {
-        "name": "$LETP_TEST_SET/legato/security/sandbox/host/test_basic.py::L_SandBox_0001"
+        "name": "Qa-LeTP/legato/security/sandbox/host/test_basic.py::L_SandBox_0001"
     },
     {
-        "name": "$LETP_TEST_SET/legato/security/sandbox/host/test_basic.py::L_SandBox_0004"
+        "name": "Qa-LeTP/legato/security/sandbox/host/test_basic.py::L_SandBox_0004"
     },
     {
-        "name": "$LETP_TEST_SET/legato/security/sandbox/host/test_basic.py::L_SandBox_0005"
+        "name": "Qa-LeTP/legato/security/sandbox/host/test_basic.py::L_SandBox_0005"
     },
     {
-        "name": "$LETP_TEST_SET/legato/security/sandbox/host/test_basic.py::L_SandBox_0006"
+        "name": "Qa-LeTP/legato/security/sandbox/host/test_basic.py::L_SandBox_0006"
     }
 ]

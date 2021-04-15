@@ -25,9 +25,10 @@ TEST_APP_B = "appB"
 def set_test_app_test_type(target, test_type):
     """Set test type for test app.
 
-    :param target: fixture to communicate with the target
-    :param test_type: type of test is set in config tree
-            (read, write, delete, writeread, writedeleteread...)
+    Args:
+        target: fixture to communicate with the target
+        test_type: type of test is set in config tree
+                (read, write, delete, writeread, writedeleteread...)
     """
     cmd = 'config set "/apps/%s/procs/%s/args/1" %s' % (APP_NAME, APP_NAME, test_type)
     exit_status, rsp = target.run(cmd, withexitstatus=True)
@@ -38,8 +39,9 @@ def set_test_app_test_type(target, test_type):
 def set_test_app_repeat_cycle(target, test_cycle):
     """Set test cycle for test app.
 
-    :param target: fixture to communicate with the target
-    :param test_cycle: cycle of test is set in config tree
+    Args:
+        target: fixture to communicate with the target
+        test_cycle: cycle of test is set in config tree
     """
     cmd = 'config set "/apps/%s/procs/%s/args/2" %s' % (APP_NAME, APP_NAME, test_cycle)
     exit_status, rsp = target.run(cmd, withexitstatus=True)
@@ -50,11 +52,12 @@ def set_test_app_repeat_cycle(target, test_cycle):
 def check_log(legato, test_title):
     """Check log for test app.
 
-    :param legato: fixture to call useful functions regarding legato
-    :param test_title: title of test
+    Args:
+        legato: fixture to call useful functions regarding legato
+        test_title: title of test
 
-    :returns 1: Failed to check log
-    :returns 2: Passed to check log
+    Returns:
+        1 if failed to check log. 2 if passed checking log
     """
     # Need to ensure app has started running and is active
     retry_count = 0
@@ -124,8 +127,9 @@ def restart_syslog(target, legato):
 
     Since sandbox is persistent May 2016.
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
     """
     # Restart syslogd to have a clean slate of logs
     legato.clear_target_log()
@@ -156,11 +160,12 @@ def restart_syslog(target, legato):
 def secure_storage_test_post(target, legato, test_title, test_type, test_cycle):
     """Secure storage test post.
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param test_title: title of test
-    :param test_type: test type to be set in config tree
-    :param test_cycle: test cycle to be set in config tree
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        test_title: title of test
+        test_type: test type to be set in config tree
+        test_cycle: test cycle to be set in config tree
     """
     time.sleep(5)
     assert test_title != "", "[FAILED] Test title is empty."
@@ -180,8 +185,9 @@ def secure_storage_test_post(target, legato, test_title, test_type, test_cycle):
 def test_app(legato, tmpdir):
     """Fixture regarding to build, install and remove app.
 
-    :param legato: fixture to call useful functions regarding legato
-    :param tmpdir: fixture to provide a temporary directory
+    Args:
+        legato: fixture to call useful functions regarding legato
+        tmpdir: fixture to provide a temporary directory
                   unique to the test invocation
     """
     # Remove the test app if it is already existing
@@ -224,8 +230,9 @@ def L_SecureStorage_0004(legato):
            stored, by using the "read" API in both apps, and check that the
            data read are as per the originally written data in steps 1 and 2.
 
-    :param legato: fixture to call useful functions regarding legato
-    :param test_app: fixture regarding to build, install and remove app
+    Args:
+        legato: fixture to call useful functions regarding legato
+        test_app: fixture regarding to build, install and remove app
     """
     swilog.step("Execute L_SecureStorage_0004")
     legato.clear_target_log()
@@ -264,9 +271,10 @@ def L_SecureStorage_0006(target, legato):
         3. Verify that every read is successful and the data read
            is the same as the data written.
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param app_leg: fixture regarding to build, install and remove app
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        app_leg: fixture regarding to build, install and remove app
     """
     swilog.step("Execute L_SecureStorage_0006")
     test_title = r"Read\ Test"
@@ -289,9 +297,10 @@ def L_SecureStorage_0007(target, legato):
         1. Use the "Write" API to repeatedly write an item.
         2. Verify that every write is successful.
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param app_leg: fixture regarding to build, install and remove app
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        app_leg: fixture regarding to build, install and remove app
     """
     swilog.step("Execute L_SecureStorage_0007")
     test_title = r"Write\ Test"
@@ -319,9 +328,10 @@ def L_SecureStorage_0011(target, legato):
         4. Verify that for all operations both write and read are
            successful and the data read is the same as the data written.
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param app_leg: fixture regarding to build, install and remove app
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        app_leg: fixture regarding to build, install and remove app
     """
     swilog.step("Execute L_SecureStorage_0011")
     test_title = r"Write\ Read\ Test"

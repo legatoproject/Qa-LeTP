@@ -40,10 +40,11 @@ def L_AtomicFile_Operation_0019(target, legato, init_atomicFile):
         3. Check  "le_atomFile_TryOpen returns LE_WOULD_BLOCK ..."
            can be captured from the target's log == 0:
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param app_leg: fixture regarding to build, install and remove app
-    :param init_atomicFile: fixture to initialize and clean up environment
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        app_leg: fixture regarding to build, install and remove app
+        init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryOpen"
     test_app_proc_name = "atomTryOpenProc"
@@ -88,10 +89,11 @@ def L_AtomicFile_Operation_0021(target, legato, init_atomicFile):
         3. Check  "le_atomFile_TryOpen returns a file descriptor ..." can be
            captured from the target's log == 0:
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param app_leg: fixture regarding to build, install and remove app
-    :param init_atomicFile: fixture to initialize and clean up environment
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        app_leg: fixture regarding to build, install and remove app
+        init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryOpen"
     test_app_proc_name = "atomTryOpenProc"
@@ -134,10 +136,11 @@ def L_AtomicFile_Operation_0022(legato, init_atomicFile):
         3. Check  "le_atomFile_TryOpen returns LE_FAULT ..." can be
            captured from the target's log == 0:
 
-    :param target: fixture to communicate with the target
-    :param legato: fixture to call useful functions regarding legato
-    :param app_leg: fixture regarding to build, install and remove app
-    :param init_atomicFile: fixture to initialize and clean up environment
+    Args:
+        target: fixture to communicate with the target
+        legato: fixture to call useful functions regarding legato
+        app_leg: fixture regarding to build, install and remove app
+        init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryOpen"
     test_app_proc_name = "atomTryOpenProc"
