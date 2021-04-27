@@ -30,10 +30,9 @@ new_sys_index = 0
 def install_and_clean_app(request, legato, clean_test):
     """Set up the environment, install apps and clean up.
 
-    Args:
-        request: object to access data
-        legato: fixture to call useful functions regarding legato
-        clean_test: fixture to clean up environment
+    :param request: object to access data
+    :param legato: fixture to call useful functions regarding legato
+    :param clean_test: fixture to clean up environment
     """
     assert clean_test
     test_name = request.node.name
@@ -83,10 +82,9 @@ def L_UpdateCtrl_UnlockProbation_0001(target, legato):
     (Notes: the current system index, the current system state and the current
     system status can be verified by the command line "legato status")
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        install_and_clean_app: initial environment and build app
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param install_and_clean_app: initial environment and build app
     """
     swilog.step("Test L_UpdateCtrl_UnlockProbation_0001")
     is_tc_passed = False
@@ -168,10 +166,9 @@ def L_UpdateCtrl_UnlockProbation_0002(target, legato):
     (Notes: the current system index, the current system state and the current
     system status can be verified by the command line "legato status")
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        install_and_clean_app: initial environment and build app
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param install_and_clean_app: initial environment and build app
     """
     swilog.step("Test L_UpdateCtrl_UnlockProbation_0002")
     is_first_unlock_success = False
@@ -276,10 +273,9 @@ def L_UpdateCtrl_UnlockProbation_0003(target, legato):
     (Notes: the current system index, the current system state and the current
     system status can be verified by the command line "legato status")
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        install_and_clean_app: initial environment and build app
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param install_and_clean_app: initial environment and build app
     """
     swilog.step("Test L_UpdateCtrl_UnlockProbation_0003")
     is_first_unlock_success = False

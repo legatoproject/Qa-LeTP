@@ -43,11 +43,10 @@ def L_AtomicFile_Operation_0008(target, legato, init_atomicFile):
         4. Check if "le_atomFile_Create returns LE_DUPLICATE ..." \
            can be captured from the target's log
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomCreate"
     test_app_proc_name = "atomCreateProc"
@@ -97,11 +96,10 @@ def L_AtomicFile_Operation_0010(target, legato, init_atomicFile):
         3. Check if "le_atomFile_Create can create ..." can be \
            captured from the target's log
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomCreate"
     test_app_proc_name = "atomCreateProc"
@@ -157,11 +155,10 @@ def L_AtomicFile_Operation_0018(target, legato, init_atomicFile):
            the test app
         7. Check if the data of the file have been changed after interruption
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomCreate"
     test_app_proc_name = "atomCreateProc"

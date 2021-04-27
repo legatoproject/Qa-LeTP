@@ -40,10 +40,9 @@ def L_AtomicFile_Operation_0033(legato, init_atomicFile):
         3. Check  "le_atomFile_Delete returns LE_NOT_FOUND ..." \
            can be captured from the target's log == 0:
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomDelete"
     test_app_proc_name = "atomDeleteProc"
@@ -86,10 +85,9 @@ def L_AtomicFile_Operation_0034(legato, init_atomicFile):
         3. Check  "le_atomFile_Delete returns LE_FAULT ..." \
            can be captured from the target's log == 0:
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomDelete"
     test_app_proc_name = "atomDeleteProc"
@@ -131,11 +129,10 @@ def L_AtomicFile_Operation_0035(target, legato, init_atomicFile):
            can be captured from the target's log == 0:
         4. Check  target file is deleted == 0:
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomDelete"
     test_app_proc_name = "atomDeleteProc"

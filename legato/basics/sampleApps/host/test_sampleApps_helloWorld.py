@@ -28,9 +28,8 @@ def L_SampleApps_HelloWorld_0002(legato):
         2. Run the test app
         3. Check if expected messages appears in log
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture to make, install and remove application
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture to make, install and remove application
     """
     text_log = "Hello, world."
     swilog.step("Execute L_SampleApps_ HelloWorld_0002")

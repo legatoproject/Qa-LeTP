@@ -43,11 +43,10 @@ def L_AtomicFile_Stream_0019(target, legato, init_atomicFile):
         3. Check  "le_atomFile_TryOpenStream returns LE_WOULD_BLOCK ..."
            can be captured from the target's log == 0:
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryOpenStream"
     test_app_proc_name = "atomTryOpenStreamProc"
@@ -91,11 +90,10 @@ def L_AtomicFile_Stream_0020(legato, init_atomicFile):
         3. Check  "le_atomFile_TryOpenStream returns LE_NOT_FOUND ..."
            can be captured from the target's log == 0:
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryOpenStream"
     test_app_proc_name = "atomTryOpenStreamProc"
@@ -137,11 +135,10 @@ def L_AtomicFile_Stream_0021(target, legato, init_atomicFile):
         3. Check  "le_atomFile_TryOpenStream returns a file pointer ..."
            can be captured from the target's log == 0:
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryOpenStream"
     test_app_proc_name = "atomTryOpenStreamProc"
@@ -185,11 +182,10 @@ def L_AtomicFile_Stream_0022(legato, init_atomicFile):
         3. Check  "le_atomFile_TryOpenStream returns LE_FAULT ..."
            can be captured from the target's log == 0:
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryOpenStream"
     test_app_proc_name = "atomTryOpenStreamProc"
@@ -235,11 +231,10 @@ def L_AtomicFile_Stream_0023(target, legato, init_atomicFile):
         3. Check  the second process does block after the first process
         successfully acquired the lock == 0:
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        app_leg: fixture regarding to build, install and remove app
-        init_atomicFile: fixture to initialize and clean up environment
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param app_leg: fixture regarding to build, install and remove app
+    :param init_atomicFile: fixture to initialize and clean up environment
     """
     test_app_name = "atomTryOpenStream"
     test_app_proc_name = "atomTryOpenStreamProc"

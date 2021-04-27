@@ -1,34 +1,27 @@
-{
-    "letp": {
-        "qa": {
-            "root": "../../letp",
-            "tests": [
-                {
-                    "name": "Qa-LeTP/legato/c-runtime/file/runtest/file.json"
-                },
-                {
-                    "name": "Qa-LeTP/legato/services/update/flash/runtest/swUpdateFlash.json"
-                },
-                {
-                    "name": "Qa-LeTP/legato/basics/sampleApps/runtest/sampleApps.json"
-                },
-                {
-                    "name": "Qa-LeTP/legato/security/sandbox/runtest/sandbox.json"
-                },
-                {
-                    "name": "Qa-LeTP/legato/services/update/updateControl/runtest/updateControl.json"
-                },
-                {
-                    "name": "Qa-LeTP/legato/services/secureStorage/runtest/secureStorage.json"
-                },
-                {
-                    "name": "Qa-LeTP/legato/basics/tools/targetTools/kmod/runtest/kmod.json"
-                },
-                {
-                    "name": "Qa-LeTP/legato/basics/develop/definitionFiles/runtest/def_files.json"
-                }
-            ]
-        }
+[
+    {
+        "name": "$LETP_TEST_SET/legato/c-runtime/file/runtest/file.json"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/services/update/flash/runtest/swUpdateFlash.json"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/basics/sampleApps/runtest/sampleApps.json"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/security/sandbox/runtest/sandbox.json"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/services/update/updateControl/runtest/updateControl.json"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/services/secureStorage/runtest/secureStorage.json"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/basics/tools/targetTools/kmod/runtest/kmod.json"
+    },
+    {
+        "name": "$LETP_TEST_SET/legato/basics/develop/definitionFiles/runtest/def_files.json"
     }
-}
+]
 

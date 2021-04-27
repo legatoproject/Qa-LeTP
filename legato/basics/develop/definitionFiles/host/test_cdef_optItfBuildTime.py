@@ -243,25 +243,24 @@ def build_app(
 ):
     """Build application and verify that it's built successfully or not.
 
-    Args:
-        legato: fixture to call useful functions regarding legato
-        api_type_dir_name: directory name of API type
-                     legatoAPI: legato API
-                     customizedAPI: customized API
-        ipc_type_dir_name: directory name of IPC type
-                       clientIPC: client-side IPC
-                       serverIPC: server-side IPC
-        build_cmd_dir_name: building command (mkapp)
-        interface_opts: interface optionals
-                     optional: [optional]
-                     optional_manualStart: [optional] [manual-start]
-                     optional_typesOnly: [optional] [types-only]
-        binding_str: binding string
-                  withBindings: bound
-                  withoutBindings: not bound
-        build_status: build status
-                   False: The build was successful (default value)
-                   True: The build failed
+    :param legato: fixture to call useful functions regarding legato
+    :param api_type_dir_name: directory name of API type
+                        legatoAPI: legato API
+                        customizedAPI: customized API
+    :param ipc_type_dir_name: directory name of IPC type
+                          clientIPC: client-side IPC
+                          serverIPC: server-side IPC
+    :param build_cmd_dir_name: building command (mkapp)
+    :param interface_opts: interface optionals
+                        optional: [optional]
+                        optional_manualStart: [optional] [manual-start]
+                        optional_typesOnly: [optional] [types-only]
+    :param binding_str: binding string
+                     withBindings: bound
+                     withoutBindings: not bound
+    :param build_status: build status
+                      False: it's built successfully (default value)
+                      True: it's built failed
     """
     app_files_path = "%s/%s/%s" % (
         api_type_dir_name,

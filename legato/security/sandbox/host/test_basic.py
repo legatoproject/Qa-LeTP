@@ -29,12 +29,11 @@ LEGATO_CONFIG_TREE_DIR = "/legato/systems/current/config"
 def sandbox_basic(target, act_name, param2="", param3="", timeout=30):
     """Run the test app with options.
 
-    Args:
-        target: fixture to communicate with the target
-        act_name: action name (changdir, getdir, createdir, getpid, killpid)
-        param2: directory name/path in case changedir/createdir
-        param3: loop number/new dir name in case changedir/createdir
-        timeout: timeout for the command
+    :param target: fixture to communicate with the target
+    :param act_name: action name (changdir, getdir, createdir, getpid, killpid)
+    :param param2: directory name/path in case changedir/createdir
+    :param param3: loop number/new dir name in case changedir/createdir
+    :param timeout: timeout for the command
     """
     proc_name = "test_ctrl"
     cmd = "app runProc %s --exe=%s -- %s %s %s" % (
@@ -52,10 +51,9 @@ def sandbox_basic(target, act_name, param2="", param3="", timeout=30):
 def check_message_in_log(logread, msg_1, msg_2):
     """Check directory message in logread.
 
-    Args:
-        logread: fixture to check logread on the target
-        msg_1: first message displays on the target
-        msg_2: second message displays on the target
+    :param logread: fixture to check logread on the target
+    :param msg_1: first message displays on the target
+    :param msg_2: second message displays on the target
     """
     assert logread.expect([pexpect.TIMEOUT, msg_1], 30) == 1, (
         "[FAILED] Cannot find out: %s" % msg_1
@@ -68,9 +66,8 @@ def check_message_in_log(logread, msg_1, msg_2):
 def get_pid_from_log(reg_expression, log_msg):
     """Get pid form log message.
 
-    Args:
-        reg_expression: regular expression to get to correct pid in the message
-        log_msg: log message that contains pid
+    :param reg_expression: regular expression to get to correct pid in the message
+    :param log_msg: log message that contains pid
 
     :returns pid: process id
     """
@@ -100,10 +97,9 @@ def L_SandBox_0001(target, logread):
     5) Move to legato directory (/opt/legato/)
     6) Move to legato config tree (/tmp/LegatoConfigTree)
 
-    Args:
-        target: fixture to communicate with the target
-        logread: fixture to check the logread on the target
-        app_leg: fixture regarding to build, install and remove app
+    :param target: fixture to communicate with the target
+    :param logread: fixture to check the logread on the target
+    :param app_leg: fixture regarding to build, install and remove app
     """
     # NEED TO: since home dir is no longer "/home/appAPPNAME",
     # This section is kinda moot.
@@ -154,10 +150,9 @@ def L_SandBox_0005(target, logread):
     4) chroot temp directory
     5) cd ..
 
-    Args:
-        target: fixture to communicate with the target
-        logread: fixture to check the logread on the target
-        app_leg: fixture regarding to build, install and remove app
+    :param target: fixture to communicate with the target
+    :param logread: fixture to check the logread on the target
+    :param app_leg: fixture regarding to build, install and remove app
     """
     # Create new directory
     act_name = "createdir"
@@ -188,10 +183,9 @@ def L_SandBox_0006(target, logread):
     2) Go to home directory of sandbox app
     3) chdir many many times (10000x)
 
-    Args:
-        target: fixture to communicate with the target
-        logread: fixture to check logread on the target
-        app_leg: fixture regarding to build, install and remove app
+    :param target: fixture to communicate with the target
+    :param logread: fixture to check logread on the target
+    :param app_leg: fixture regarding to build, install and remove app
     """
     # Try to move to top level of sandbox -> "/"
     # It does not go beyond. The current dir is still ROOT_DIR of sandbox
@@ -228,11 +222,10 @@ def L_SandBox_0004(target, legato, logread):
     3) Kill arbitrary pids since we have no knowledge of existing pids
     4) Kill itself
 
-    Args:
-        target: fixture to communicate with the target
-        legato: fixture to call useful functions regarding legato
-        logread: fixture to check logread on the target
-        app_leg: fixture regarding to build, install and remove app
+    :param target: fixture to communicate with the target
+    :param legato: fixture to call useful functions regarding legato
+    :param logread: fixture to check logread on the target
+    :param app_leg: fixture regarding to build, install and remove app
     """
     # Set the parameter of the testSandBoxBasic app to "getpid"
     # Get current PID and parent PID of the application
