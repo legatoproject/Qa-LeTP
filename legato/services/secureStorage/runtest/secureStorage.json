@@ -1,14 +1,14 @@
 [
     {
-        "name": "$LETP_TEST_SET/legato/services/secureStorage/host/test_secureStorage.py::L_SecureStorage_0004"
+        "name": "Qa-LeTP/legato/services/secureStorage/host/test_secureStorage.py::L_SecureStorage_0004"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/secureStorage/host/test_secureStorage.py::L_SecureStorage_0006"
+        "name": "Qa-LeTP/legato/services/secureStorage/host/test_secureStorage.py::L_SecureStorage_0006"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/secureStorage/host/test_secureStorage.py::L_SecureStorage_0007"
+        "name": "Qa-LeTP/legato/services/secureStorage/host/test_secureStorage.py::L_SecureStorage_0007"
     },
     {
-        "name": "$LETP_TEST_SET/legato/services/secureStorage/host/test_secureStorage.py::L_SecureStorage_0011"
+        "name": "Qa-LeTP/legato/services/secureStorage/host/test_secureStorage.py::L_SecureStorage_0011"
     }
 ]

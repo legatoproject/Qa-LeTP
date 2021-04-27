@@ -1,17 +1,17 @@
 [
     {
-        "name": "$LETP_TEST_SET/legato/basics/tools/targetTools/kmod/host/test_KMod_basic.py::L_Tools_Kmod_0002"
+        "name": "Qa-LeTP/legato/basics/tools/targetTools/kmod/host/test_KMod_basic.py::L_Tools_Kmod_0002"
     },
     {
-        "name": "$LETP_TEST_SET/legato/basics/tools/targetTools/kmod/host/test_KMod_basic.py::L_Tools_Kmod_0003"
+        "name": "Qa-LeTP/legato/basics/tools/targetTools/kmod/host/test_KMod_basic.py::L_Tools_Kmod_0003"
     },
     {
-        "name": "$LETP_TEST_SET/legato/basics/tools/targetTools/kmod/host/test_KMod_basic.py::L_Tools_Kmod_0017"
+        "name": "Qa-LeTP/legato/basics/tools/targetTools/kmod/host/test_KMod_basic.py::L_Tools_Kmod_0017"
     },
     {
-        "name": "$LETP_TEST_SET/legato/basics/tools/targetTools/kmod/host/test_KMod_basic.py::L_Tools_Kmod_0018"
+        "name": "Qa-LeTP/legato/basics/tools/targetTools/kmod/host/test_KMod_basic.py::L_Tools_Kmod_0018"
     },
     {
-        "name": "$LETP_TEST_SET/legato/basics/tools/targetTools/kmod/host/test_KMod_basic.py::L_Tools_Kmod_0019"
+        "name": "Qa-LeTP/legato/basics/tools/targetTools/kmod/host/test_KMod_basic.py::L_Tools_Kmod_0019"
     }
 ]
