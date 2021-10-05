@@ -141,7 +141,7 @@ def install_system(target, legato, dir_path, test_name):
     )
 
     # Waiting for legato to be ready
-    time.sleep(5)
+    time.sleep(30)
     wait_for_cm_info(target)
     time.sleep(5)
 
@@ -280,6 +280,7 @@ def check_environment(target, legato, create_temp_workspace):
     legato.install_sys("default", sys_path=create_temp_workspace)
 
     # Waiting for legato to be ready
+    time.sleep(30)
     wait_for_cm_info(target)
 
     # Rebooting target
