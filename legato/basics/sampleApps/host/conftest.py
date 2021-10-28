@@ -91,6 +91,8 @@ def installapp_cleanup(target, legato, request, tmpdir):
 
         # Read the phone number in simdb.xml
         siminfo = sim_lib.get_sim_info(target)
+        assert siminfo is not None, "[FAILED] Unable to retrieve sim information"
+
         phone_num = siminfo.Tel
         # If the phone number is not set in xml
         if not phone_num:
