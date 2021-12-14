@@ -22,7 +22,7 @@
         <!--  -->
         <feature_sim_slot2_present>0</feature_sim_slot2_present>
         <feature_sim_fplmn>0</feature_sim_fplmn>
-        <feature_sar_backoff>0</feature_sar_backoff>
+        <feature_sar_backoff>1</feature_sar_backoff>
         <feature_pci_scan>0</feature_pci_scan>
         <feature_ecall>0</feature_ecall>
         <feature_boot_count>1</feature_boot_count>
