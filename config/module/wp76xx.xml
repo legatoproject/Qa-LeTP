@@ -27,7 +27,7 @@
         <feature_ecall>0</feature_ecall>
         <feature_boot_count>1</feature_boot_count>
         <feature_info_get_rf_device>1</feature_info_get_rf_device>
-        <target_default_rat>UMTS</target_default_rat>
+        <target_default_rat>LTE</target_default_rat>
         <feature_voice_call>1</feature_voice_call>
         <adc_channels_supported_list>ADC0,ADC1,ADC2,ADC3</adc_channels_supported_list>
     </module>
